@@ -3,7 +3,7 @@
 
 #define TAM_DADO2 1000
 #define TAM_DADO3 5000
-#define ITENS_PAGINA 47
+#define ITENS_PAGINA 50
 
 // Estrutura de dados dos registros
 typedef struct {

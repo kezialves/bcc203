@@ -4,4 +4,7 @@
 
 bool pesquisaSequencial(Registro *registro, int *argumentos, char* nomeArquivoBinario){
 
+    // a
+
+    return true;
 }
