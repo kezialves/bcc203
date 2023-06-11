@@ -3,10 +3,7 @@
 
 #include <stdio.h>
 
-
 // Abre um arquivo
-bool abreArquivo(FILE * arquivoBinario, char *nomeArquivoBinario);
-
-
+bool abreArquivo(FILE *arquivoBinario, char *nomeArquivoBinario);
 
 #endif

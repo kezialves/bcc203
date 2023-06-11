@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-#define numeroRegistros 1000000
+#define QTD_REGISTROS 100
 
 #define ORDENACAO 1
 // 1 - CRESCENTE
@@ -13,6 +13,6 @@ using namespace std;
 
 // Gera registros aleatórios em um arquivo texto para teste
 void criaArquivoTexto(string nomeArquivoTexto);
-char RandomStr(const char* array, int arraySize);
+char RandomStr(const char *array, int arraySize);
 
 #endif

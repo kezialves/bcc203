@@ -12,7 +12,7 @@ void criaArquivoTexto(string nomeArquivoTexto) {
 
     srand((unsigned) time(NULL));
 
-    Registro *arrayRegistros = (Registro*) malloc(numeroRegistros * sizeof(Registro));
+    Registro *arrayRegistros = (Registro*) malloc(QTD_REGISTROS * sizeof(Registro));
 
     static const char AlphaNumeric[] = "0123456789"
                                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ "
@@ -26,15 +26,15 @@ void criaArquivoTexto(string nomeArquivoTexto) {
     int *randomIntArray;
 
     if(ORDENACAO == 3){
-        randomIntArray = (int*) malloc (numeroRegistros * sizeof(int));
+        randomIntArray = (int*) malloc (QTD_REGISTROS * sizeof(int));
 
-        for(int i = 0 ; i < numeroRegistros; i++)
+        for(int i = 0 ; i < QTD_REGISTROS; i++)
             randomIntArray[i] = i + 1;
 
-        random_shuffle(&randomIntArray[0], &randomIntArray[numeroRegistros]);
+        random_shuffle(&randomIntArray[0], &randomIntArray[QTD_REGISTROS]);
     }
 
-    for(int i = 0; i < numeroRegistros; i++) {
+    for(int i = 0; i < QTD_REGISTROS; i++) {
 
         switch(ORDENACAO) {
 
@@ -43,7 +43,7 @@ void criaArquivoTexto(string nomeArquivoTexto) {
                 break;
                 
             case 2:
-                arrayRegistros[i].chave = numeroRegistros - i;
+                arrayRegistros[i].chave = QTD_REGISTROS - i;
                 break;
             
             case 3:
@@ -56,25 +56,33 @@ void criaArquivoTexto(string nomeArquivoTexto) {
 
         arrayRegistros[i].dado1 = rand();
 
-        int repeticaoDado2 = random() %  (TAM_DADO2 - 1) + 1;
+        // int repeticaoDado2 = random() %  (TAM_DADO2 - 1) + 1;
         
-        for(int j = 0; j < repeticaoDado2; j++) {
+        for(int j = 0; j < TAM_DADO2 - 1 ; j++) {
             arrayRegistros[i].dado2[j] = RandomStr(AlphaNumeric, charArrayLen);
         }
 
-        int repeticaoDado3 = random() %  (TAM_DADO3 - 1) + 1;
+        arrayRegistros[i].dado2[TAM_DADO2 - 1] = '\0';
+
+        // int repeticaoDado3 = random() %  (TAM_DADO3 - 1) + 1;
         
-        for(int j = 0; j < repeticaoDado3; j++) {
+        for(int j = 0; j < TAM_DADO3 - 1; j++) {
             arrayRegistros[i].dado3[j] = RandomStr(AlphaNumeric, charArrayLen);
         }
+
+        arrayRegistros[i].dado3[TAM_DADO3 - 1] = '\0';
     }
 
-    for(int i = 0; i < numeroRegistros; i++) {
+    for(int i = 0; i < QTD_REGISTROS; i++) {
         arquivoTexto << arrayRegistros[i].chave << " " << 
         arrayRegistros[i].dado1 << " " << 
         arrayRegistros[i].dado2 << "|" <<
         arrayRegistros[i].dado3 << "\n";
     }
+    
+    /* char nomeArquivoBinario[50] = "registros_crescentes.bin";
+    FILE *arquivoBinario = fopen(nomeArquivoBinario,"wb");
+    fwrite(arrayRegistros, sizeof(Registro), QTD_REGISTROS, arquivoBinario); */
 
     if(ORDENACAO == 3)
         free(randomIntArray);

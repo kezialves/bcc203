@@ -33,11 +33,12 @@ bool textoParaBinario(char *nomeArquivoTexto) {
     // Lê os dados do arquivo texto e os escreve no arquivo binário
     while(fscanf(arquivoTexto,"%d", &registro.chave) != EOF) {
 
-        fscanf(arquivoTexto, "%ld %s", &registro.dado1, registro.dado2);
-        fgets(registro.dado3, 5000, arquivoTexto);
+        fscanf(arquivoTexto, "%ld %[A-Z a-z0-9]", &registro.dado1, registro.dado2);
+        fgetc(arquivoTexto);
+        fscanf(arquivoTexto, "%[A-Z a-z0-9]", registro.dado3);
 
+        //cout << registro.chave << " " << registro.dado1 << " " << registro.dado2 << " " << registro.dado3 << "\n";
         fwrite(&registro, sizeof(registro), 1, arquivoBinario);
-        //cout << registro.chave << registro.dado1 << registro.dado2 << registro.dado3 << "\n";
     }
 
     free(nomeArquivoBinario);
@@ -47,7 +48,7 @@ bool textoParaBinario(char *nomeArquivoTexto) {
     return true;
 }
 
-char * trocaExtensao(char *nomeArquivoTexto) {
+char *trocaExtensao(char *nomeArquivoTexto) {
 
     // Aloca uma struct para armazenar o nome do arquivo binário
     int tamanhoNome = strlen(nomeArquivoTexto);
