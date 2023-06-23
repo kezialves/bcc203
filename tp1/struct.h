@@ -22,7 +22,7 @@ typedef struct {
     int quantidadeRegistros; // posição 1
     int tipoOrdenacao; // posição 2
     int chave; // posição 3
-} Argumento;
+} Argumentos;
 
 // Imprime os registros quando solicitado pelo [-P]
 bool imprimeRegistrosBinario(char *nomeArquivoBinario);

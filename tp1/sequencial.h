@@ -4,7 +4,7 @@
 #include "struct.h"
 
 //
-bool pesquisaSequencial(Registro *registro, int *argumentos, char *nomeArquivoBinario);
+bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registro *item);
 
 //
 int *fazTabela(char *nomeArquivoBinario, int numeroRegistros);

@@ -7,11 +7,11 @@
 
 using namespace std;
 
-bool pesquisaSequencial(Registro *registro, Argumento argumentos, char *nomeArquivoBinario, Registro *item) {
+bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registro *item) {
 
+    Pagina pagina;
     int quantidadeItens;
     long deslocamento;
-    Pagina pagina;
     
     int *tabela = fazTabela(nomeArquivoBinario, argumentos.quantidadeRegistros);
     FILE *arquivoBinario = NULL;
@@ -21,38 +21,53 @@ bool pesquisaSequencial(Registro *registro, Argumento argumentos, char *nomeArqu
 
     int indicePagina = 0;
     int tamanhoTabela = argumentos.quantidadeRegistros / ITENS_PAGINA;
+    cout << "tamtabela: " << tamanhoTabela << endl;
 
     while(indicePagina < tamanhoTabela && tabela[indicePagina] <= argumentos.chave)
         indicePagina++;
+
+    cout << "IndicePagina = " << indicePagina << endl;
 
     if(indicePagina == 0)
         return false;
 
     else {
         // A ultima página pode não estar completa
-        if(indicePagina < tamanhoTabela)
+        cout << "Indice Página : " << indicePagina << " < " << tamanhoTabela << "Tamanho Tabela" << endl;
+        if(indicePagina <= tamanhoTabela)
             quantidadeItens = ITENS_PAGINA;
         
         else {
             fseek(arquivoBinario, 0, SEEK_END);
             quantidadeItens = (ftell(arquivoBinario) / sizeof(Registro)) % ITENS_PAGINA;
         }
-        
+
+        cout << "tamanho ftell : " << ftell(arquivoBinario) << "/" << sizeof(Registro) << "%" << ITENS_PAGINA << endl;
+
+        cout << "(1)quantidade itens: " << quantidadeItens << endl;
+
         // Lê a página desejada do arquivo
-        deslocamento = tabela[indicePagina] - 1 * ITENS_PAGINA * sizeof(Registro);
+        deslocamento = (indicePagina - 1) * ITENS_PAGINA * sizeof(Registro);
+        // ((51) - 1) * 50 * Sizeof
+        cout << "tabela[indicePagina - 1] = " << tabela[indicePagina - 1] << endl;
+        cout << "Itens Página :" << ITENS_PAGINA << endl;
+
         fseek(arquivoBinario, deslocamento, SEEK_SET);
         fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
-        // pesquisa sequencial na página lida
         
-        for(int i = 0; i < tamanhoTabela; i++) {
-            if(pagina[i].chave == item->chave){
+        // Pesquisa sequencial na página lida
+        cout << "(2)quantidade itens: " << quantidadeItens << endl;
+        
+        for(int i = 0; i < quantidadeItens; i++) {
+            cout << pagina[i].chave << endl;
+            if(pagina[i].chave == argumentos.chave) {
                 *item = pagina[i];
                 return true;
             }
         }
-    }
 
-    return true;
+        return false;
+    }
 }
 
 int *fazTabela(char *nomeArquivoBinario, int numeroRegistros) {
@@ -62,7 +77,7 @@ int *fazTabela(char *nomeArquivoBinario, int numeroRegistros) {
     // abreArquivo(arquivoBinario, nomeArquivoBinario);
 
     if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) {
-        cout << "Não foi possível abrir o arquivo binário\n";
+        cout << "Não foi possível abrir o arquivo binário.\n";
     }
 
     Registro item;
@@ -86,10 +101,11 @@ int *fazTabela(char *nomeArquivoBinario, int numeroRegistros) {
 
     // printf("---------------\n");
     
-    for(int i = 0; i < tamanhoTabela; i++) {
-        printf("Poiscao %d - Chave: %d\n", i, tabela[i]);
-    }
+    // for(int i = 0; i < tamanhoTabela; i++) {
+    //     printf("Poiscao %d - Chave: %d\n", i, tabela[i]);
+    // }
 
+    cout << "pos: " << posicao << endl;
     fclose(arquivoBinario);
     return tabela;
 }
