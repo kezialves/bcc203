@@ -7,8 +7,6 @@ converteBin.o: converteBin.cpp
 	@g++ -c converteBin.cpp -Wall
 struct.o: struct.cpp
 	@g++ -c struct.cpp -Wall
-#	arquivo.o: arquivo.cpp
-#	@g++ -c arquivo.cpp -Wall
 sequencial.o: sequencial.cpp
 	@g++ -c sequencial.cpp -Wall
 gerarRegistros.o: gerarRegistros.cpp

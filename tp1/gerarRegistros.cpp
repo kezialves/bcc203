@@ -25,7 +25,9 @@ void criaArquivoTexto(string nomeArquivoTexto) {
 
     int *randomIntArray;
 
-    if(ORDENACAO == 3){
+    // Se o arquivo for aleatório,
+    // gera um vetor de inteiros aleatórios para as chaves
+    if(ORDENACAO == 3) {
         randomIntArray = (int*) malloc (QTD_REGISTROS * sizeof(int));
 
         for(int i = 0 ; i < QTD_REGISTROS; i++)
@@ -34,18 +36,23 @@ void criaArquivoTexto(string nomeArquivoTexto) {
         random_shuffle(&randomIntArray[0], &randomIntArray[QTD_REGISTROS]);
     }
 
+    // Preenche o arquivo
     for(int i = 0; i < QTD_REGISTROS; i++) {
 
+        // Coloca as chaves de acordo com o tipo de ordenação
         switch(ORDENACAO) {
 
+            // Ordenação ascendente
             case 1:
                 arrayRegistros[i].chave = i + 1;
                 break;
                 
+            // Ordenação descendente
             case 2:
                 arrayRegistros[i].chave = QTD_REGISTROS - i;
                 break;
             
+            // Aleatório
             case 3:
                 arrayRegistros[i].chave = randomIntArray[i];
                 break;
@@ -54,30 +61,32 @@ void criaArquivoTexto(string nomeArquivoTexto) {
                 break;
         }
 
+        // Gera o dado 1, um inteiro
         arrayRegistros[i].dado1 = rand();
-
-        // int repeticaoDado2 = random() %  (TAM_DADO2 - 1) + 1;
         
+        // Gera o dado 2, uma string
         for(int j = 0; j < TAM_DADO2 - 1 ; j++) {
             arrayRegistros[i].dado2[j] = RandomStr(AlphaNumeric, charArrayLen);
         }
 
+        // Coloca o \0 no final do dado 2
         arrayRegistros[i].dado2[TAM_DADO2 - 1] = '\0';
-
-        // int repeticaoDado3 = random() %  (TAM_DADO3 - 1) + 1;
         
+        // Gera o dado 3, uma string maior do que a anterior
         for(int j = 0; j < TAM_DADO3 - 1; j++) {
             arrayRegistros[i].dado3[j] = RandomStr(AlphaNumeric, charArrayLen);
         }
 
+        // Coloca o \0 no final do dado 3
         arrayRegistros[i].dado3[TAM_DADO3 - 1] = '\0';
     }
 
+    // Insere os registros no arquivo texto,
     for(int i = 0; i < QTD_REGISTROS; i++) {
-        arquivoTexto << arrayRegistros[i].chave << " " << 
-        arrayRegistros[i].dado1 << " " << 
-        arrayRegistros[i].dado2 << "|" <<
-        arrayRegistros[i].dado3 << "\n";
+        arquivoTexto << arrayRegistros[i].chave << " " << // insere a chave e separa com um espaço
+        arrayRegistros[i].dado1 << " " << // insere o dado 1 e separa com um espaço
+        arrayRegistros[i].dado2 << "|" << // insere o dado 2 e separa com um pipeline, já que a string pode conter espaços
+        arrayRegistros[i].dado3 << "\n"; // insere o dado 3 e dá um enter
     }
     
     /* char nomeArquivoBinario[50] = "registros_crescentes.bin";
@@ -94,23 +103,3 @@ void criaArquivoTexto(string nomeArquivoTexto) {
 char RandomStr(const char* array, int arraySize) {
     return array[rand() % arraySize];
 }
-
-/*
-srand(time(0));
-
-    for (int i = 0; i < 1000000; i++) {
-
-        int chave = rand();
-        long int dado1 = rand();
-        string dado2;
-        string dado3;
-
-        for (int j = 0; j < 1000; j++) {
-            dado2 += static_cast<char>(rand() % 26 + 65); // Caracteres aleatórios de A a Z
-        }
-
-        for (int j = 0; j < 5000; j++) {
-            dado3 += static_cast<char>(rand() % 26 + 65); // Caracteres aleatórios de A a Z
-        }
-    }
-*/

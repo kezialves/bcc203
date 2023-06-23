@@ -22,6 +22,7 @@ typedef struct {
     int quantidadeRegistros; // posição 1
     int tipoOrdenacao; // posição 2
     int chave; // posição 3
+    bool p; //
 } Argumentos;
 
 // Imprime os registros quando solicitado pelo [-P]

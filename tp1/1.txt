@@ -1,5 +1,0 @@
-2 20 bruno objetivo deste trabalho prático consiste em um estudo da complexidade de desempenho dos seguintes métodos de pesquisa externa apresentados em sala de aula
-5 500 jess fase deste trabalho corresponde à implementação em C dos métodos mencionados, considerando arquivos binários de registros quaisquer e memória interna disponível para armazenar os índices necessários, quando for o caso
-7 7000 kez fase deste trabalho corresponde à análise experimental da complexidade de desempenho dos métodos mencionados, considerando as etapas de criação dos índices necessários, quando for o caso, e da própria pesquisa, por meio dos seguintes quesitos
-8 80000 vito experimentos devem ser realizados considerando arquivos contendo 100, 1.000, 10.000, 100.000 e 1.000.000 registros quaisquer cujas chaves serão pesquisadas
-9 900000 aaaa Independente dos testes a serem efetuados, o programa deve ser implementado de tal forma que seja possível executá-lo, livremente, a partir da seguinte linha de comando no console

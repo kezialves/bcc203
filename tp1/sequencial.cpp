@@ -3,7 +3,6 @@
 
 #include "sequencial.h"
 #include "struct.h"
-#include "arquivo.h"
 
 using namespace std;
 
@@ -13,99 +12,152 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
     int quantidadeItens;
     long deslocamento;
     
+    // Cria a tabela e um ponteiro para o arquivo
     int *tabela = fazTabela(nomeArquivoBinario, argumentos.quantidadeRegistros);
     FILE *arquivoBinario = NULL;
     
-    if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) 
+    // Se a abertura do arquivo retornar um apontador nulo, libera a tabela e retorna
+    if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) {
+        free(tabela);
         return false;
+    }
 
     int indicePagina = 0;
     int tamanhoTabela = argumentos.quantidadeRegistros / ITENS_PAGINA;
-    cout << "tamtabela: " << tamanhoTabela << endl;
 
-    while(indicePagina < tamanhoTabela && tabela[indicePagina] <= argumentos.chave)
-        indicePagina++;
+    // Descobre o método de ordenação do arquivo
+    switch(argumentos.tipoOrdenacao) {
 
-    cout << "IndicePagina = " << indicePagina << endl;
+        // Ordenado ascendentemente (ordem crescente)
+        case 1:
+            while(indicePagina < tamanhoTabela && tabela[indicePagina] <= argumentos.chave)
+                indicePagina++;
+            break;
 
-    if(indicePagina == 0)
+        // Ordenado descendentemente (ordem decrescente)
+        case 2:
+            while(indicePagina < tamanhoTabela && tabela[indicePagina] >= argumentos.chave)
+                indicePagina++;
+            break;
+
+        // Arquivo aleatório
+        case 3:
+            break;
+    }
+
+    // No arquivo aleatório, não tem como descobrir o índice da página
+    if(indicePagina == 0 && argumentos.tipoOrdenacao != 3) {
+        free(tabela);
+        fclose(arquivoBinario);
         return false;
+    }
 
-    else {
-        // A ultima página pode não estar completa
-        cout << "Indice Página : " << indicePagina << " < " << tamanhoTabela << "Tamanho Tabela" << endl;
-        if(indicePagina <= tamanhoTabela)
+    // Se o arquivo for ordenado, lê a página em que a chave deve estar
+    else if(argumentos.tipoOrdenacao != 3) {
+
+        // Se a página não for a última, ela é completa,
+        // então, a quantidade de itens é igual ao máximo de itens por página
+        if(indicePagina < tamanhoTabela)
             quantidadeItens = ITENS_PAGINA;
         
+        // Se for a última, ela pode não estar completa,
+        // então, calcula a quantidade de itens
         else {
             fseek(arquivoBinario, 0, SEEK_END);
             quantidadeItens = (ftell(arquivoBinario) / sizeof(Registro)) % ITENS_PAGINA;
         }
 
-        cout << "tamanho ftell : " << ftell(arquivoBinario) << "/" << sizeof(Registro) << "%" << ITENS_PAGINA << endl;
-
-        cout << "(1)quantidade itens: " << quantidadeItens << endl;
-
         // Lê a página desejada do arquivo
         deslocamento = (indicePagina - 1) * ITENS_PAGINA * sizeof(Registro);
-        // ((51) - 1) * 50 * Sizeof
-        cout << "tabela[indicePagina - 1] = " << tabela[indicePagina - 1] << endl;
-        cout << "Itens Página :" << ITENS_PAGINA << endl;
-
         fseek(arquivoBinario, deslocamento, SEEK_SET);
         fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
+        fclose(arquivoBinario);
         
         // Pesquisa sequencial na página lida
-        cout << "(2)quantidade itens: " << quantidadeItens << endl;
-        
-        for(int i = 0; i < quantidadeItens; i++) {
-            cout << pagina[i].chave << endl;
+        for(int i = 0; i < quantidadeItens; i++) {            
             if(pagina[i].chave == argumentos.chave) {
                 *item = pagina[i];
+                free(tabela);
                 return true;
             }
         }
 
+        free(tabela);
         return false;
     }
+
+    // Arquivo desordenado
+    else {
+        
+        int numeroPaginas = argumentos.quantidadeRegistros / ITENS_PAGINA;
+        int paginaAtual = 0;
+
+        // Como não tem como saber em que página o registro deveria estar,
+        // pesquisa no arquivo inteiro
+        while(paginaAtual < numeroPaginas) {
+
+            // Se a página não for a última, ela é completa,
+            // então, a quantidade de itens é igual ao máximo de itens por página
+            if(paginaAtual < numeroPaginas)
+                quantidadeItens = ITENS_PAGINA;
+
+            // Se for a última, ela pode não estar completa,
+            // então, calcula a quantidade de itens
+            else {
+                fseek(arquivoBinario, 0, SEEK_END);
+                quantidadeItens = (ftell(arquivoBinario) / sizeof(Registro)) % ITENS_PAGINA;
+                fseek(arquivoBinario, (numeroPaginas - 1) * ITENS_PAGINA * sizeof(Registro), SEEK_SET);
+            }
+            
+            // Lê a página
+            fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
+              
+            // Pesquisa sequencial na página lida
+            for(int i = 0; i < quantidadeItens; i++) {                
+                if(pagina[i].chave == argumentos.chave) {
+                    *item = pagina[i];
+                    free(tabela);
+                    fclose(arquivoBinario);
+                    return true;
+                }
+            }
+            
+            paginaAtual++;
+        }
+
+        fclose(arquivoBinario);
+        free(tabela);
+        return false;
+    }
+
+    free(tabela);
+    return false;
 }
 
 int *fazTabela(char *nomeArquivoBinario, int numeroRegistros) {
 
     FILE *arquivoBinario;
 
-    // abreArquivo(arquivoBinario, nomeArquivoBinario);
-
+    // Tenta abrir o arquivo binário e retorna erro caso não consiga
     if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) {
         cout << "Não foi possível abrir o arquivo binário.\n";
     }
 
     Registro item;
     
+    // Aloca a tabela
     int tamanhoTabela = numeroRegistros / ITENS_PAGINA;
     int *tabela = (int*) malloc(tamanhoTabela * sizeof(int));
     int posicao = 0;
 
-    // if(arquivoBinario == NULL)
-    //     printf("NULO!!!!\n");
-
-    // printf("Nome do arquivo: %s\n", nomeArquivoBinario);
+    // Preenche a tabela
     while(fread(&item, sizeof(Registro), 1, arquivoBinario) == 1) {
-        // printf("-----Entrou no while\n");
         tabela[posicao] = item.chave;
-        // printf("%d\n", tabela[posicao]);
         fseek(arquivoBinario, (ITENS_PAGINA - 1) * sizeof(item), SEEK_CUR);
 
         posicao++;
     }
 
-    // printf("---------------\n");
-    
-    // for(int i = 0; i < tamanhoTabela; i++) {
-    //     printf("Poiscao %d - Chave: %d\n", i, tabela[i]);
-    // }
-
-    cout << "pos: " << posicao << endl;
     fclose(arquivoBinario);
     return tabela;
 }

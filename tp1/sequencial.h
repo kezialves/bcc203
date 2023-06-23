@@ -3,10 +3,10 @@
 
 #include "struct.h"
 
-//
-bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registro *item);
+// Realiza a busca sequencial no arquivo binário
+bool pesquisaSequencial(Argumentos, char*, Registro*);
 
-//
-int *fazTabela(char *nomeArquivoBinario, int numeroRegistros);
+// Cria a tabela para a paginação dos registros
+int *fazTabela(char*, int);
 
 #endif
