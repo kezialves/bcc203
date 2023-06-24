@@ -22,7 +22,7 @@ typedef struct {
     int quantidadeRegistros; // posição 1
     int tipoOrdenacao; // posição 2
     int chave; // posição 3
-    bool p; //
+    bool p; // se ativado, imprime o processo
 } Argumentos;
 
 // Imprime os registros do arquivo binário

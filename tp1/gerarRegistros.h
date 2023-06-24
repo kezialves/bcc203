@@ -1,5 +1,5 @@
-#ifndef GERAR_REGISTROS
-#define GERAR_REGISTROS
+#ifndef GERAR_REGISTROS_H
+#define GERAR_REGISTROS_H
 
 #include <iostream>
 using namespace std;

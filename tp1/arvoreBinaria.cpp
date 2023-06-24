@@ -9,7 +9,7 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
     
     FILE *arquivoArvoreBinaria;
 
-    // Verifica se foi possível abrir o arquivo da árvove binária
+    // Verifica se foi possível abrir o arquivo da Árvore Binária
     // Caso contrário, retorna falso
     if((arquivoArvoreBinaria = fopen(nomeArquivoArvoreBinaria, "rb")) == NULL) {
         cout << "Erro na abertura do arquivo binário.\n";
@@ -17,20 +17,20 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
     }
     
     PaginaNo pagina;
-    int numeroPaginas = quantidadeRegistros / ITENS_PAGINA;
+    int numeroPaginas = quantidadeRegistros / TAM_PAGINA_NO;
     int paginaAtual = 0, quantidadeItens;
 
     // Se a página não for a última, ela é completa,
     // então, a quantidade de itens é igual ao máximo de itens por página
     if(paginaAtual < numeroPaginas)
-        quantidadeItens = ITENS_PAGINA;
+        quantidadeItens = TAM_PAGINA_NO;
 
     // Se for a última, ela pode não estar completa,
     // então, calcula a quantidade de itens
     else {
         fseek(arquivoArvoreBinaria, 0, SEEK_END);
         quantidadeItens = (ftell(arquivoArvoreBinaria) / sizeof(No)) % TAM_PAGINA_NO;
-        fseek(arquivoArvoreBinaria, (numeroPaginas - 1) * ITENS_PAGINA * sizeof(No), SEEK_SET);
+        fseek(arquivoArvoreBinaria, (numeroPaginas - 1) * TAM_PAGINA_NO * sizeof(No), SEEK_SET);
     }
     
     // Lê a página
@@ -44,14 +44,14 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
         // Se a página não for a última, ela é completa,
         // então, a quantidade de itens é igual ao máximo de itens por página
         if(paginaAtual < numeroPaginas)
-            quantidadeItens = ITENS_PAGINA;
+            quantidadeItens = TAM_PAGINA_NO;
 
         // Se for a última, ela pode não estar completa,
         // então, calcula a quantidade de itens
         else {
             fseek(arquivoArvoreBinaria, 0, SEEK_END);
             quantidadeItens = (ftell(arquivoArvoreBinaria) / sizeof(No)) % TAM_PAGINA_NO;
-            fseek(arquivoArvoreBinaria, (numeroPaginas - 1) * ITENS_PAGINA * sizeof(No), SEEK_SET);
+            fseek(arquivoArvoreBinaria, (numeroPaginas - 1) * TAM_PAGINA_NO * sizeof(No), SEEK_SET);
         }
 
         // Se a variável de controle estiver ligada, lê a próxima página e desliga
@@ -60,7 +60,7 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
             ATUALIZA_PAGINA = false;
         }
 
-        // Define o nó atual como a raiz da árvore Binária ou o índice do último nó que a apontou
+        // Define o nó atual como a raiz da Árvore Binária ou o índice do último nó que a apontou
         No noAtual = pagina[indiceNoAtual];
 
         // Se encontra a chave pesquisada, salva o registro e retorna true
@@ -134,10 +134,10 @@ bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, 
         return false;
     }
 
-    // Verifica se foi possível abrir o arquivo árvore binária
+    // Verifica se foi possível abrir o arquivo Árvore Binária
     // Caso contrário, retorna falso
     if((arquivoArvoreBinaria = fopen(nomeArquivoArvoreBinaria, "wb")) == NULL) {
-        cout << "Erro na abertura do arquivo da árvore binária.\n";
+        cout << "Erro na abertura do arquivo da Árvore Binária.\n";
         return false;
     }
 
@@ -163,7 +163,7 @@ bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, 
         // Lê a página
         fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
 
-        // Constrói a árvore binária
+        // Constrói a Árvore Binária
         for(int i = 0; i < quantidadeItens; i++) {     
             insereArvoreBinaria(nomeArquivoArvoreBinaria, pagina[i]);
         }
@@ -180,10 +180,10 @@ bool insereArvoreBinaria(char *nomeArquivoArvoreBinaria, Registro registro) {
 
     FILE *arquivoArvoreBinaria;
 
-    // Verifica se foi possível abrir o arquivo da árvove binária
+    // Verifica se foi possível abrir o arquivo da árvore binária
     // Caso contrário, informa erro
     if((arquivoArvoreBinaria = fopen(nomeArquivoArvoreBinaria, "rb+")) == NULL) {
-        cout << "Erro na abertura do arquivo da árvore binária.\n";
+        cout << "Erro na abertura do arquivo da Árvore Binária.\n";
         return false;
     }
 
@@ -270,7 +270,7 @@ void imprimeArvoreBinaria(char *nomeArquivoArvoreBinaria) {
     FILE * arquivoArvoreBinaria;
     No noAtual;
 
-    // Verifica se foi possível abrir o arquivo da árvove binária
+    // Verifica se foi possível abrir o arquivo da árvore binária
     // Caso contrário, retorna
     if((arquivoArvoreBinaria = fopen(nomeArquivoArvoreBinaria, "rb")) == NULL) {
         cout << "Erro na abertura do arquivo binário.\n";

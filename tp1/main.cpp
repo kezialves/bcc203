@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
     if(argumentos.metodoPesquisa < 1 || argumentos.metodoPesquisa > 4) {
         cout << "Valor inválido. Os métodos são:\n"
             << "1 - Acesso sequencial indexado;\n"
-            << "2 - Árvore binária de pesquisa adequada à memória externa;\n"
+            << "2 - Árvore Binária de pesquisa adequada à memória externa;\n"
             << "3 - Árvore B;\n"
             << "4 - Árvore B*.\n";
         return 0;

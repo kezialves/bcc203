@@ -1,5 +1,5 @@
-all: main.o converteBin.o struct.o sequencial.o gerarRegistros.o arvoreBinaria.o
-	@g++ -o exe main.o converteBin.o struct.o sequencial.o gerarRegistros.o arvoreBinaria.o -Wall -g
+all: main.o converteBin.o struct.o sequencial.o gerarRegistros.o arvoreBinaria.o arvoreB.o
+	@g++ -o exe main.o converteBin.o struct.o sequencial.o gerarRegistros.o arvoreBinaria.o arvoreB.o -Wall -g
 	@rm -r *.o
 main.o: main.cpp
 	@g++ -c main.cpp -Wall -g
@@ -13,5 +13,7 @@ gerarRegistros.o: gerarRegistros.cpp
 	@g++ -c gerarRegistros.cpp -Wall -g
 arvoreBinaria.o: arvoreBinaria.cpp
 	@g++ -c arvoreBinaria.cpp -Wall -g
+arvoreB.o: arvoreB.cpp
+	@g++ -c arvoreB.cpp -Wall -g
 run:
 	@./exe

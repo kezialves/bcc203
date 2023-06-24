@@ -1,5 +1,5 @@
-#ifndef CONVERTE_BIN
-#define CONVERTE_BIN
+#ifndef CONVERTE_BIN_H
+#define CONVERTE_BIN_H
 
 // Converte um arquivo texto para binário
 bool textoParaBinario(char*);

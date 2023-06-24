@@ -1,5 +1,5 @@
-#ifndef ARVORE_BINARIA
-#define ARVORE_BINARIA
+#ifndef ARVORE_BINARIA_H
+#define ARVORE_BINARIA_H
 
 #include "struct.h"
 
@@ -11,22 +11,19 @@ typedef struct {
     int esquerda, direita;
 } No;
 
-//
+// Estrutura de dados das páginas
 typedef No PaginaNo[TAM_PAGINA_NO];
 
-// Direção de caminhamento na árvore binária
-// enum Direcao {Esquerda = 0, Direita = 1};
-
-// Realiza a pesquisa em árvore binária
+// Realiza a pesquisa em Árvore Binária
 bool pesquisaBinaria(char*, int, int, Registro*);
 
-// Cria uma árvore binária em arquivo binário a partir de outro binário sequencial
+// Cria uma Árvore Binária em arquivo binário a partir de outro binário sequencial
 bool fazArvoreBinaria(char*, char*, int);
 
-// Insere um registro em forma de nó no arquivo da árvore binária
+// Insere um registro em forma de nó no arquivo da Árvore Binária
 bool insereArvoreBinaria(char*,  Registro);
 
-// Imprime todos os nós da árvore binária
+// Imprime todos os nós da Árvore Binária
 void imprimeArvoreBinaria(char* nomeArvoreBinaria);
 
 #endif
