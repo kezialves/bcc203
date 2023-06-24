@@ -6,6 +6,7 @@
 #include "gerarRegistros.h"
 #include "converteBin.h"
 #include "sequencial.h"
+#include "arvoreBinaria.h"
 
 using namespace std;
 
@@ -13,9 +14,11 @@ bool converteArquivo();
 
 int main(int argc, char *argv[]) {
 
-    // criaArquivoTexto("registros_aleatorio.txt");
+    // criaArquivoTexto("registros_crescente.txt");
     // converteArquivo();
-    char nome[50] = "registros_aleatorio.bin";
+    char nome[50] = "sequencialAleatorio.bin";
+    char nomeArvoreBinaria[50] = "arvoreBinaria.bin";
+
     // imprimeRegistrosBinario(nome);
 
     // Informa erro quando o número de argumento é inválido
@@ -67,13 +70,28 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    Registro registro;
+
     // Chama o método de pesquisa requerido
     switch(argumentos.metodoPesquisa) {
         
         case 1:
-            Registro pesquisado;
 
-            if(pesquisaSequencial(argumentos, nome, &pesquisado)) {
+            if(pesquisaSequencial(argumentos, nome, &registro)) {
+                cout << "Registro encontrado!" << endl;
+            }
+
+            else {
+                cout << "Registro não encontrado." << endl;
+            }
+
+            break;
+
+        case 2:
+            fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros);
+            // imprimeArvoreBinaria(nomeArvoreBinaria);
+            
+            if(pesquisaBinaria(nomeArvoreBinaria, argumentos.quantidadeRegistros, argumentos.chave, &registro)) {
                 cout << "Registro encontrado!" << endl;
             }
             
@@ -82,10 +100,6 @@ int main(int argc, char *argv[]) {
             }
 
             break;
-
-        // case 2:
-
-        //     break;
 
         // case 3: 
             
@@ -101,8 +115,8 @@ int main(int argc, char *argv[]) {
 
 bool converteArquivo() {
 
-    string nomeArquivoTexto = "registros_aleatorio.txt";
-    string nomeArquivoBinario = "registros_aleatorio.bin";
+    string nomeArquivoTexto = "sequencialAleatorio.txt";
+    string nomeArquivoBinario = "sequencialAleatorio.bin";
 
     char arr[nomeArquivoTexto.length() + 1];
     strcpy(arr, nomeArquivoTexto.c_str()); // c_str converte string para const char * e o strcpy faz a cópia para um char*;

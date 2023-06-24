@@ -25,7 +25,7 @@ typedef struct {
     bool p; //
 } Argumentos;
 
-// Imprime os registros quando solicitado pelo [-P]
+// Imprime os registros do arquivo binário
 bool imprimeRegistrosBinario(char *nomeArquivoBinario);
 
 #endif
