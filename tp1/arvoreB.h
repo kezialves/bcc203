@@ -19,7 +19,7 @@ typedef struct PaginaB {
 bool pesquisaB(int, Registro*, Apontador);
 
 // Cria uma Árvore B em arquivo binário a partir de outro binário sequencial
-bool fazArvoreB(char*, int, Apontador);
+bool fazArvoreB(char*, int, Apontador*);
 
 // Inicia a Árvore B nula
 void iniciaArvoreB (Apontador);
@@ -35,9 +35,5 @@ bool insereNaPagina(Apontador, Registro, Apontador);
 
 // Imprime todos os nós da Árvore B
 void imprimeArvoreB(Apontador);
-
-void testeArvoreB(Apontador arvoreB);
-
-void printTeste(Apontador pagina);
 
 #endif
