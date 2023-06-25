@@ -15,5 +15,6 @@ arvoreBinaria.o: arvoreBinaria.cpp
 	@g++ -c arvoreBinaria.cpp -Wall -g
 arvoreB.o: arvoreB.cpp
 	@g++ -c arvoreB.cpp -Wall -g
+
 run:
 	@./exe

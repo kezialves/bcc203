@@ -1,20 +1,25 @@
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
+#include <chrono>
 
 #include "struct.h"
 #include "gerarRegistros.h"
 #include "converteBin.h"
 #include "sequencial.h"
 #include "arvoreBinaria.h"
+#include "arvoreB.h"
 
 using namespace std;
+using namespace std::chrono;
 
 bool converteArquivo();
 
 int main(int argc, char *argv[]) {
 
-    // criaArquivoTexto("registros_crescente.txt");
+    auto start = high_resolution_clock::now();
+
+    // criaArquivoTexto("sequencialAleatorio.txt");
     // converteArquivo();
     char nome[50] = "sequencialAleatorio.bin";
     char nomeArvoreBinaria[50] = "arvoreBinaria.bin";
@@ -71,6 +76,7 @@ int main(int argc, char *argv[]) {
     }
 
     Registro registro;
+    Apontador arvoreB = NULL;
 
     // Chama o método de pesquisa requerido
     switch(argumentos.metodoPesquisa) {
@@ -89,7 +95,7 @@ int main(int argc, char *argv[]) {
 
         case 2:
             fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros);
-            // imprimeArvoreBinaria(nomeArvoreBinaria);
+            imprimeArvoreBinaria(nomeArvoreBinaria);
             
             if(pesquisaBinaria(nomeArvoreBinaria, argumentos.quantidadeRegistros, argumentos.chave, &registro)) {
                 cout << "Registro encontrado!" << endl;
@@ -99,17 +105,38 @@ int main(int argc, char *argv[]) {
                 cout << "Registro não encontrado." << endl;
             }
 
+            // int encontrados = 0;
+
+            // for(int i = 1; i <= 1000; i++){
+                
+            //     if(pesquisaBinaria(nomeArvoreBinaria, argumentos.quantidadeRegistros, i, &registro))
+            //         encontrados++;
+            //     else
+            //         cout << "Não encontrado: " << i << endl;
+            // }
+
+            //     cout << "Encontrados: " << encontrados << endl;
             break;
 
-        // case 3: 
-            
-        //     break;
+        case 3:
+            if(!fazArvoreB(nome, argumentos.quantidadeRegistros, arvoreB)){
+                cout << "Não foi possível criar Árvore B." << endl;
+                return 0;
+            }
+
+            pesquisaB(argumentos.chave, &registro, arvoreB);
+
+            break;
 
         // case 4:
 
         //     break;
     } 
-    
+
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(stop - start);
+    cout << "Duração em milisegundos: " << duration.count() << endl;
+
     return 0;
 }
 

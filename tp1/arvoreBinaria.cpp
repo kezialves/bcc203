@@ -51,7 +51,7 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
         else {
             fseek(arquivoArvoreBinaria, 0, SEEK_END);
             quantidadeItens = (ftell(arquivoArvoreBinaria) / sizeof(No)) % TAM_PAGINA_NO;
-            fseek(arquivoArvoreBinaria, (numeroPaginas - 1) * TAM_PAGINA_NO * sizeof(No), SEEK_SET);
+            fseek(arquivoArvoreBinaria, paginaAtual * TAM_PAGINA_NO * sizeof(No), SEEK_SET);
         }
 
         // Se a variável de controle estiver ligada, lê a próxima página e desliga
@@ -87,9 +87,15 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
                 indiceNoAtual = noAtual.direita % TAM_PAGINA_NO; // % pois os índices reiniciam a cada página, indo de 0 a 50
                 
                 // Se o novo nó atual não estiver na página atual, aciona a mudança de página
-                if(noAtual.direita > (paginaAtual + 1) * TAM_PAGINA_NO) {
+                if(noAtual.direita >= (paginaAtual + 1) * TAM_PAGINA_NO) {
+
+                    int paginaDesejada = noAtual.direita / TAM_PAGINA_NO;
+
+                    fseek(arquivoArvoreBinaria, paginaDesejada * (TAM_PAGINA_NO * sizeof(No)), SEEK_SET);
+                    
                     ATUALIZA_PAGINA = true;
-                    paginaAtual++;
+                    
+                    paginaAtual = paginaDesejada;
                     continue;
                 }
             }
@@ -112,8 +118,15 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
                 
                 // Se o novo nó atual não estiver na página atual, aciona a mudança de página
                 if(noAtual.esquerda > (paginaAtual + 1)* TAM_PAGINA_NO) {
+
+                    int paginaDesejada = noAtual.esquerda / TAM_PAGINA_NO;
+
+                    fseek(arquivoArvoreBinaria, paginaDesejada * (TAM_PAGINA_NO * sizeof(No)), SEEK_SET);
+                    
                     ATUALIZA_PAGINA = true;
-                    paginaAtual++;
+                    
+                    paginaAtual = paginaDesejada;
+                    
                     continue;
                 }
             }

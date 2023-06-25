@@ -7,7 +7,7 @@
 using namespace std;
 
 // Cria uma Árvore B em arquivo binário a partir de outro binário sequencial
-bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros) {
+bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros, Apontador arvoreB) {
     
     FILE *arquivoBinario;
 
@@ -19,10 +19,42 @@ bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros) {
     }
 
     // Cria a Árvore B
-    Apontador arvoreB;
+    // Apontador arvoreB;
     iniciaArvoreB(arvoreB);
 
-    // lê o arquivo binário base e insere os registros na árvore b
+    // Lê o arquivo binário base e insere os registros na Árvore B
+
+    Pagina pagina;
+    int paginaAtual = 0, quantidadeItens;
+    int numeroPaginas = quantidadeRegistros / ITENS_PAGINA;
+
+    while(paginaAtual < numeroPaginas) {
+
+        // Se a página não for a última, ela é completa,
+        // então, a quantidade de itens é igual ao máximo de itens por página
+        if(paginaAtual < numeroPaginas)
+            quantidadeItens = ITENS_PAGINA;
+
+        // Se for a última, ela pode não estar completa,
+        // então, calcula a quantidade de itens
+        else {
+            fseek(arquivoBinario, 0, SEEK_END);
+            quantidadeItens = (ftell(arquivoBinario) / sizeof(Registro)) % ITENS_PAGINA;
+            fseek(arquivoBinario, (numeroPaginas - 1) * ITENS_PAGINA * sizeof(Registro), SEEK_SET);
+        }
+
+        // Lê a página
+        fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
+
+        // Constrói a Árvore B
+        for(int i = 0; i < quantidadeItens; i++) {     
+            insereArvoreB(pagina[i], &arvoreB);
+        }
+
+        paginaAtual++;
+    }
+
+    return true;
 }
 
 void iniciaArvoreB (Apontador raiz) {
@@ -114,10 +146,62 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
     novaPagina->apontadores[0] = paginaAtual->apontadores[ORDEM + 1];
     *registroRetorno = paginaAtual->registros[ORDEM];
     *apontadorRetorno = novaPagina;
+
+    return true;
 }
 
 bool insereNaPagina(Apontador pagina, Registro registro, Apontador apontadorDireito) {
 
     int quantidadeItens = pagina->itensInseridos;
     short naoAchou = (quantidadeItens > 0);
+
+    while(naoAchou) {
+        
+        if(registro.chave >= pagina->registros[quantidadeItens - 1].chave) {
+            naoAchou = false;
+            break;
+        }
+
+        pagina->registros[quantidadeItens] = pagina->registros[quantidadeItens - 1];
+        pagina->apontadores[quantidadeItens + 1] = pagina->apontadores[quantidadeItens];
+        quantidadeItens--;
+        
+        if(quantidadeItens < 1)
+            naoAchou = false;
+    }
+
+    pagina->registros[quantidadeItens] = registro;
+    pagina->apontadores[quantidadeItens + 1] = apontadorDireito;
+    pagina->itensInseridos++;
+
+    return true;
+}
+
+bool pesquisaB(int chave, Registro *registro, Apontador pagina) {
+    
+    long indice = 1;
+
+    if(pagina == NULL){
+        cout << "Registro não está presente na árvore" << endl;
+        return false;
+    }
+
+    while((indice < pagina->itensInseridos) && (chave > pagina->registros[indice - 1].chave)){
+        indice++;
+    }
+
+    if(chave == pagina->registros[indice - 1].chave){
+        *registro = pagina->registros[indice - 1];
+        cout << "Registro encontrado" << endl;
+        return true;
+    }
+
+    if(chave < pagina->registros[indice - 1].chave){
+        pesquisaB(chave, registro, pagina->apontadores[indice - 1]);
+    }
+    else{
+        pesquisaB(chave, registro, pagina->apontadores[indice]);
+    }
+
+    return false;
 }
