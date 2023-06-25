@@ -8,7 +8,7 @@
 #include "converteBin.h"
 #include "sequencial.h"
 #include "arvoreBinaria.h"
-#include "arvoreB.h"
+#include "arvoreB2.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
     }
 
     Registro registro;
-    Apontador arvoreB = NULL;
+    // Apontador arvoreB = NULL;
 
     // Chama o método de pesquisa requerido
     switch(argumentos.metodoPesquisa) {
@@ -119,13 +119,14 @@ int main(int argc, char *argv[]) {
             break;
 
         case 3:
-            if(!fazArvoreB(nome, argumentos.quantidadeRegistros, arvoreB)){
-                cout << "Não foi possível criar Árvore B." << endl;
-                return 0;
-            }
+            // if(!fazArvoreB(nome, argumentos.quantidadeRegistros, arvoreB)){
+            //     cout << "Não foi possível criar Árvore B." << endl;
+            //     return 0;
+            // }
 
-            pesquisaB(argumentos.chave, &registro, arvoreB);
+            // pesquisaB(argumentos.chave, &registro, arvoreB);
 
+            teste();
             break;
 
         // case 4:

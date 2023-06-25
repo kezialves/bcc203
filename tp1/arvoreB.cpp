@@ -47,7 +47,7 @@ bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros, Apontador arv
         fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
 
         // Constrói a Árvore B
-        for(int i = 0; i < quantidadeItens; i++) {     
+        for(int i = 0; i < quantidadeItens; i++) { 
             insereArvoreB(pagina[i], &arvoreB);
         }
 
@@ -63,6 +63,8 @@ void iniciaArvoreB (Apontador raiz) {
 
 bool insereArvoreB(Registro registro, Apontador *raiz) {
 
+    cout << "registro a ser inserido: " << registro.chave << endl;
+   
     bool CRESCEU; // true informa que a Árvore B cresceu pela raiz
 
     Registro registroRetorno; // registro da nova raiz
@@ -75,6 +77,7 @@ bool insereArvoreB(Registro registro, Apontador *raiz) {
     
     // Cria uma nova raiz quando a Árvore B cresce pela raiz
     if(CRESCEU) {
+        cout << "CRESCEU" << endl;
         // Aloca um apontador auxiliar que recebe as informações da nova raiz
         Apontador novaRaiz = (Apontador) malloc(sizeof(PaginaB));
         novaRaiz->itensInseridos = 1; // atualiza a quantidade de itens inseridos
@@ -104,6 +107,7 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
     
     // Se o registro já foi inserido anteriormente, retorna false e encerra a recursão
     if(registro.chave == paginaAtual->registros[i - 1].chave) {
+        cout << "Registro já presente" << endl;
         *CRESCEU = false;
         return false;
     }
@@ -112,7 +116,7 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
         i--;
 
     insereRecursivo(registro, paginaAtual->apontadores[i], CRESCEU, registroRetorno, apontadorRetorno);
-    
+    //------=-=--=-=-=
     if(!*CRESCEU)
         return true; // false ou true ?????
 
@@ -178,7 +182,7 @@ bool insereNaPagina(Apontador pagina, Registro registro, Apontador apontadorDire
 }
 
 bool pesquisaB(int chave, Registro *registro, Apontador pagina) {
-    
+
     long indice = 1;
 
     if(pagina == NULL){
@@ -204,4 +208,50 @@ bool pesquisaB(int chave, Registro *registro, Apontador pagina) {
     }
 
     return false;
+}
+
+void imprimeArvoreB(Apontador pagina){
+
+    if(pagina == NULL)
+        return;
+
+    for(int i = 0; i < 3; i++){
+        cout << pagina->registros[i].chave << endl;
+    }
+
+}
+
+void testeArvoreB(Apontador arvoreB){
+
+    iniciaArvoreB(arvoreB);
+    Registro registro;
+
+    for(int i = 1; i <= 3; i++){
+        registro.chave = i;
+        insereArvoreB(registro, &arvoreB);
+
+        // if(insereArvoreB(registro, &arvoreB))
+        //     cout << "Inseriu." << endl;
+        // else
+        //     cout << "Não inseriu." << endl;
+    }
+
+    cout << "itens Pagina raiz: " << arvoreB->itensInseridos << endl;
+
+
+    printTeste(arvoreB);
+}
+
+void printTeste(Apontador pagina){
+    
+    if(pagina == NULL)
+        return;
+    
+    for(int i = 0; i < pagina->itensInseridos; i++){
+        cout << pagina->registros[i].chave << endl;
+    }
+
+    for(int i = 0; i < pagina->itensInseridos + 1; i++){
+        printTeste(pagina->apontadores[i]);
+    }
 }

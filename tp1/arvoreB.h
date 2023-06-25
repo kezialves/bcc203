@@ -34,6 +34,10 @@ bool insereRecursivo(Registro, Apontador, bool*, Registro*, Apontador*);
 bool insereNaPagina(Apontador, Registro, Apontador);
 
 // Imprime todos os nós da Árvore B
-void imprimeArvoreB();
+void imprimeArvoreB(Apontador);
+
+void testeArvoreB(Apontador arvoreB);
+
+void printTeste(Apontador pagina);
 
 #endif
