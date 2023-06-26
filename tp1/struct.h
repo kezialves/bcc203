@@ -25,7 +25,16 @@ typedef struct {
     bool p; // se ativado, imprime o processo
 } Argumentos;
 
+// Estrutra de dados das variáveis de controle de performance
+typedef struct {
+    int transferencias;
+    int comparacoes;
+} Performance;
+
 // Imprime os registros do arquivo binário
 bool imprimeRegistrosBinario(char *nomeArquivoBinario);
+
+// Inicialiaza os valores da struct com 0
+void iniciaPerformance(Performance*);
 
 #endif

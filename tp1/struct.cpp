@@ -24,3 +24,8 @@ bool imprimeRegistrosBinario(char *nomeArquivoBinario) {
     fclose(arquivoBinario);
     return true;
 }
+
+void iniciaPerformance(Performance *performance) {
+    performance->comparacoes = 0;
+    performance->transferencias = 0;
+}

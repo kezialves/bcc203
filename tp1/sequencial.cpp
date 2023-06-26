@@ -6,14 +6,14 @@
 
 using namespace std;
 
-bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registro *item) {
+bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registro *item, Performance *performance) {
 
     Pagina pagina;
     int quantidadeItens;
     long deslocamento;
     
     // Cria a tabela e um ponteiro para o arquivo
-    int *tabela = fazTabela(nomeArquivoBinario, argumentos.quantidadeRegistros);
+    int *tabela = fazTabela(nomeArquivoBinario, argumentos.quantidadeRegistros, performance);
     FILE *arquivoBinario = NULL;
     
     // Se a abertura do arquivo retornar um apontador nulo, libera a tabela e retorna
@@ -71,10 +71,13 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
         deslocamento = (indicePagina - 1) * ITENS_PAGINA * sizeof(Registro);
         fseek(arquivoBinario, deslocamento, SEEK_SET);
         fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
+        performance->transferencias += 1;
         fclose(arquivoBinario);
         
         // Pesquisa sequencial na página lida
         for(int i = 0; i < quantidadeItens; i++) { 
+
+            performance->comparacoes += 1;
 
             if(argumentos.p)
                 cout << "Chave pesquisada: " << pagina[i].chave << endl;
@@ -115,9 +118,12 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
             
             // Lê a página
             fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
+            performance->transferencias += 1;
               
             // Pesquisa sequencial na página lida
-            for(int i = 0; i < quantidadeItens; i++) {  
+            for(int i = 0; i < quantidadeItens; i++) {
+
+                performance->comparacoes += 1;
 
                 if(argumentos.p)
                     cout << "Chave pesquisada: " << pagina[i].chave << endl;    
@@ -142,7 +148,7 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
     return false;
 }
 
-int *fazTabela(char *nomeArquivoBinario, int numeroRegistros) {
+int *fazTabela(char *nomeArquivoBinario, int numeroRegistros, Performance *performance) {
 
     FILE *arquivoBinario;
 
@@ -162,6 +168,8 @@ int *fazTabela(char *nomeArquivoBinario, int numeroRegistros) {
     while(fread(&item, sizeof(Registro), 1, arquivoBinario) == 1 && posicao < tamanhoTabela) { 
         tabela[posicao] = item.chave; 
         fseek(arquivoBinario, (ITENS_PAGINA - 1) * sizeof(item), SEEK_CUR);
+
+        performance->transferencias += 1;
 
         posicao++;
     }

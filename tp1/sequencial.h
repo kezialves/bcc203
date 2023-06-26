@@ -4,9 +4,9 @@
 #include "struct.h"
 
 // Realiza a busca sequencial
-bool pesquisaSequencial(Argumentos, char*, Registro*);
+bool pesquisaSequencial(Argumentos, char*, Registro*, Performance*);
 
 // Cria a tabela para a paginação dos registros
-int *fazTabela(char*, int);
+int *fazTabela(char*, int, Performance*);
 
 #endif

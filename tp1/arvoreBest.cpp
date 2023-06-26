@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagina) {
+bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagina, Performance *performance) {
 
     int i;
     
@@ -14,19 +14,24 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
 
         i = 1;
 
-        while(i < (*pagina)->UU.U0.quantidadeChaves && argumentos.chave > (*pagina)->UU.U0.chaves[i-1])
+        while(i < (*pagina)->UU.U0.quantidadeChaves && argumentos.chave > (*pagina)->UU.U0.chaves[i-1]) {
             i++;
+            performance->comparacoes += 1;
+        }
         
         if(argumentos.p == true)
             cout << "Chave pesquisada: " << (*pagina)->UU.U0.chaves[i-1] << endl;
 
+
+        performance->comparacoes += 1;
+
         if(argumentos.chave <= (*pagina)->UU.U0.chaves[i-1]) {
-            if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i-1])))
+            if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i-1]), performance))
                 return true;
         }
 
         else {
-            if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i])))
+            if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i]), performance))
                 return true;
         }
             
@@ -35,11 +40,14 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
 
     i = 1;
     
-    while(i < (*pagina)->UU.U1.quantidadeRegistros && argumentos.chave > (*pagina)->UU.U1.registros[i-1].chave)
+    while(i < (*pagina)->UU.U1.quantidadeRegistros && argumentos.chave > (*pagina)->UU.U1.registros[i-1].chave) {
         i++;
-    
+        performance->comparacoes += 1;
+    }
 
-    cout << "Chave pesquisada: " << (*pagina)->UU.U1.registros[i-1].chave << endl;
+    // cout << "Chave pesquisada: " << (*pagina)->UU.U1.registros[i-1].chave << endl;
+
+    performance->comparacoes += 1;
 
     if(argumentos.chave == (*pagina)->UU.U1.registros[i-1].chave) {
         *registro = (*pagina)->UU.U1.registros[i-1];
@@ -49,7 +57,7 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
     return false;
 }
 
-bool fazArvoreBest(char *nomeArquivoBinario, int quantidadeRegistros, ApontadorBest *arvoreBest) {
+bool fazArvoreBest(char *nomeArquivoBinario, int quantidadeRegistros, ApontadorBest *arvoreBest, Performance *performance) {
     
     FILE *arquivoBinario;
 
@@ -86,10 +94,11 @@ bool fazArvoreBest(char *nomeArquivoBinario, int quantidadeRegistros, ApontadorB
 
         // Lê a página
         fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
+        performance->transferencias += 1;
 
         // Constrói a Árvore B*
         for(int i = 0; i < quantidadeItens; i++) { 
-            insereArvoreBest(pagina[i], arvoreBest);
+            insereArvoreBest(pagina[i], arvoreBest, performance);
         }
 
         paginaAtual++;
@@ -105,7 +114,7 @@ void iniciaArvoreBest(ApontadorBest *raiz) {
     
 }
 
-bool insereArvoreBest(Registro registro, ApontadorBest *raiz) {
+bool insereArvoreBest(Registro registro, ApontadorBest *raiz, Performance *performance) {
 
     bool CRESCEU; // true informa que a Árvore B* cresceu pela raiz
 
@@ -113,7 +122,7 @@ bool insereArvoreBest(Registro registro, ApontadorBest *raiz) {
     ApontadorBest apontadorRetorno; // filho à direita do registroRetorno
 
     // Insere o registro
-    if(!insereRecursivo(registro, *raiz, &CRESCEU, &registroRetorno, &apontadorRetorno)) {
+    if(!insereRecursivo(registro, *raiz, &CRESCEU, &registroRetorno, &apontadorRetorno, performance)) {
         return false; // se a inserção não for bem sucedida, retorna false
     }
     
@@ -132,7 +141,7 @@ bool insereArvoreBest(Registro registro, ApontadorBest *raiz) {
     return true;
 }
 
-bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU, Registro *registroRetorno, ApontadorBest *apontadorRetorno) {
+bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU, Registro *registroRetorno, ApontadorBest *apontadorRetorno, Performance *performance) {
 
     int i = 1, j;
     ApontadorBest novaPagina;
@@ -151,19 +160,19 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
             // Divide a página
             if(i < M + 1){
                 // Joga o último elemento da página atual para a página nova, abrindo espaço
-                insereNaPaginaExterna(novaPagina, paginaAtual->UU.U1.registros[MM2 - 1]);
+                insereNaPaginaExterna(novaPagina, paginaAtual->UU.U1.registros[MM2 - 1], performance);
                 paginaAtual->UU.U1.quantidadeRegistros--; // atualiza a quantidade de registros da página atual
                 // Insere o registro na página atual
-                insereNaPaginaExterna(paginaAtual, registro);
+                insereNaPaginaExterna(paginaAtual, registro, performance);
             }
             
             else
-                insereNaPaginaExterna(novaPagina, registro);        
+                insereNaPaginaExterna(novaPagina, registro, performance);        
 
             // A página nova deve conter os elementos da página atual a partir da posição 2M
             // Joga os elementos da posição 2M até a posição final para a página nova
             for(j = M + 2; j <= MM2; j++) {
-                insereNaPaginaExterna(novaPagina, paginaAtual->UU.U1.registros[j - 1]);
+                insereNaPaginaExterna(novaPagina, paginaAtual->UU.U1.registros[j - 1], performance);
             }
 
             paginaAtual->UU.U1.quantidadeRegistros = M + 1; // atualiza a quantidade de registros da página atual
@@ -179,7 +188,7 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
 
         // Tem espaço na página folha, insere
         else {
-            insereNaPaginaExterna(paginaAtual, registro);
+            insereNaPaginaExterna(paginaAtual, registro, performance);
             *CRESCEU = false;
             return true;
         }
@@ -188,29 +197,35 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
     // Está numa página nó
     else {   
         // Caminha pelas páginas nó até achar uma página com a chave pesquisada
-        while(i < paginaAtual->UU.U0.quantidadeChaves && registro.chave > paginaAtual->UU.U0.chaves[i - 1]) 
+        while(i < paginaAtual->UU.U0.quantidadeChaves && registro.chave > paginaAtual->UU.U0.chaves[i - 1]) {
             i++;
-        
+            performance->comparacoes += 1;
+        }
+
         // Se a chave já está presente e é uma página folha, retorna false e encerra a recursão
         // A chave estar em uma página nó não quer dizer que ela existe como registro em uma página folha
         // Mas, dessa forma, funciona neste caso
+
+        performance->comparacoes += 1;
+
         if(registro.chave == paginaAtual->UU.U0.chaves[i - 1]) {
             *CRESCEU = false;
             return false;
         }
 
+        performance->comparacoes += 1;
+
         //
         if(registro.chave < paginaAtual->UU.U0.chaves[i - 1])
             i--;
 
-        insereRecursivo(registro, paginaAtual->UU.U0.apontadores[i], CRESCEU, registroRetorno, apontadorRetorno);
-
+        insereRecursivo(registro, paginaAtual->UU.U0.apontadores[i], CRESCEU, registroRetorno, apontadorRetorno, performance);
 
         if(!*CRESCEU) 
             return true;
         
         if(paginaAtual->UU.U0.quantidadeChaves < MM) {
-            insereNaPaginaInterna(paginaAtual, registroRetorno->chave, *apontadorRetorno);
+            insereNaPaginaInterna(paginaAtual, registroRetorno->chave, *apontadorRetorno, performance);
             *CRESCEU = false;
             return true;
         }
@@ -221,18 +236,18 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
         novaPagina->UU.U0.apontadores[0] = NULL;
 
     //dsdsdsdsdsdsd
-        if(i < M + 1){
-            insereNaPaginaInterna(novaPagina, paginaAtual->UU.U0.chaves[MM - 1], paginaAtual->UU.U0.apontadores[MM]);
+        if(i < M + 1) {
+            insereNaPaginaInterna(novaPagina, paginaAtual->UU.U0.chaves[MM - 1], paginaAtual->UU.U0.apontadores[MM], performance);
             paginaAtual->UU.U0.quantidadeChaves--;
-            insereNaPaginaInterna(paginaAtual, registroRetorno->chave, *apontadorRetorno);
+            insereNaPaginaInterna(paginaAtual, registroRetorno->chave, *apontadorRetorno, performance);
         }
 
-        else{
-            insereNaPaginaInterna(novaPagina, registroRetorno->chave, *apontadorRetorno);
+        else {
+            insereNaPaginaInterna(novaPagina, registroRetorno->chave, *apontadorRetorno, performance);
         }
 
         for(j = M + 2; j <= MM; j++)
-            insereNaPaginaInterna(novaPagina, paginaAtual->UU.U0.chaves[j-1], paginaAtual->UU.U0.apontadores[j]);
+            insereNaPaginaInterna(novaPagina, paginaAtual->UU.U0.chaves[j-1], paginaAtual->UU.U0.apontadores[j], performance);
 
         paginaAtual->UU.U0.quantidadeChaves = M;
         novaPagina->UU.U0.apontadores[0] = paginaAtual->UU.U0.apontadores[M + 1];
@@ -243,12 +258,14 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
     return true;
 }
 
-bool insereNaPaginaInterna(ApontadorBest pagina, int chave, ApontadorBest apontadorDireito) {
+bool insereNaPaginaInterna(ApontadorBest pagina, int chave, ApontadorBest apontadorDireito, Performance *performance) {
 
     int quantidadeItens = pagina->UU.U0.quantidadeChaves;
     bool naoAchou = (quantidadeItens > 0);
     
     while(naoAchou) {
+
+        performance->comparacoes += 1;
 
         if(chave >= pagina->UU.U0.chaves[quantidadeItens - 1]) {
             naoAchou = false;
@@ -270,12 +287,14 @@ bool insereNaPaginaInterna(ApontadorBest pagina, int chave, ApontadorBest aponta
     return true;
 }
 
-bool insereNaPaginaExterna(ApontadorBest pagina, Registro registro) {
+bool insereNaPaginaExterna(ApontadorBest pagina, Registro registro, Performance *performance) {
 
     int quantidadeItens = pagina->UU.U1.quantidadeRegistros;
     short naoAchou = (quantidadeItens > 0);
 
     while(naoAchou) {
+
+        performance->comparacoes += 1;
 
         if(registro.chave >= pagina->UU.U1.registros[quantidadeItens-1].chave) {
             naoAchou = false;

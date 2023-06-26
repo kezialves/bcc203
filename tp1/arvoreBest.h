@@ -37,25 +37,25 @@ typedef struct PaginaBest {
 } PaginaBest;
 
 // Realiza a pesquisa em Árvore B*
-bool pesquisaBest(Argumentos, Registro*, ApontadorBest*);
+bool pesquisaBest(Argumentos, Registro*, ApontadorBest*, Performance*);
 
 // Cria uma Árvore B* em arquivo binário a partir de outro binário sequencial
-bool fazArvoreBest(char*, int, ApontadorBest*);
+bool fazArvoreBest(char*, int, ApontadorBest*, Performance*);
 
 // Inicia a Árvore B* com uma página folha vazia
 void iniciaArvoreBest(ApontadorBest*);
 
 // 
-bool insereArvoreBest(Registro, ApontadorBest*);
+bool insereArvoreBest(Registro, ApontadorBest*, Performance*);
 
 //
-bool insereRecursivo(Registro, ApontadorBest, bool*, Registro*, ApontadorBest*);
+bool insereRecursivo(Registro, ApontadorBest, bool*, Registro*, ApontadorBest*, Performance*);
 
 //
-bool insereNaPaginaExterna(ApontadorBest, Registro);
+bool insereNaPaginaExterna(ApontadorBest, Registro, Performance*);
 
 //
-bool insereNaPaginaInterna(ApontadorBest, int, ApontadorBest);
+bool insereNaPaginaInterna(ApontadorBest, int, ApontadorBest, Performance*);
 
 // Imprime todas as páginas da Árvore B*
 void imprimeArvoreBest(ApontadorBest);

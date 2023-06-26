@@ -11,7 +11,7 @@
 #include "arvoreB.h"
 #include "arvoreBest.h"
 
-#define ITENS_PESQUISADOS 1000000
+// #define ITENS_PESQUISADOS 1000000
 
 using namespace std;
 using namespace std::chrono;
@@ -19,8 +19,6 @@ using namespace std::chrono;
 bool converteArquivo();
 
 int main(int argc, char *argv[]) {
-
-    auto start = high_resolution_clock::now();
 
     // criaArquivoTexto("registrosDecrescentes.txt");
     // converteArquivo();
@@ -97,12 +95,21 @@ int main(int argc, char *argv[]) {
     Apontador arvoreB = NULL;
     ApontadorBest arvoreBest= NULL;
 
+    // Cria e inicializa as variáveis de controle
+    Performance performance;
+    iniciaPerformance(&performance);
+
+    // Inicia o clock
+    auto start = high_resolution_clock::now();
+
     // Chama o método de pesquisa requerido
     switch(argumentos.metodoPesquisa) {
         
         case 1:
 
-            if(pesquisaSequencial(argumentos, nome, &registro)) {
+            // pesquisaSequencial(argumentos, nome, &registro, &performance);
+
+            if(pesquisaSequencial(argumentos, nome, &registro, &performance)) {
                 cout << "Registro encontrado!" << endl;
             }
 
@@ -114,14 +121,16 @@ int main(int argc, char *argv[]) {
 
         case 2:
 
-            if(!fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros)) {
-                cout << "Não foi possível criar a Árvore Binária." << endl;
+            if(!fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros, &performance)) {
+                // cout << "Não foi possível criar a Árvore Binária." << endl;
                 return 0;
             }
 
             // imprimeArvoreBinaria(nomeArvoreBinaria);
 
-            if(pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos)) {
+            // pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos, &performance);
+
+            if(pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos, &performance)) {
                 cout << "Registro encontrado!" << endl;
             }
 
@@ -158,12 +167,14 @@ int main(int argc, char *argv[]) {
 
         case 3:
             
-            if(!fazArvoreB(nome, argumentos.quantidadeRegistros, &arvoreB)) {
-                cout << "Não foi possível criar a Árvore B." << endl;
+            if(!fazArvoreB(nome, argumentos.quantidadeRegistros, &arvoreB, &performance)) {
+                // cout << "Não foi possível criar a Árvore B." << endl;
                 return 0;
             }
 
-            if(pesquisaB(argumentos, &registro, arvoreB)) {
+            // pesquisaB(argumentos, &registro, arvoreB, &performance);
+
+            if(pesquisaB(argumentos, &registro, arvoreB, &performance)) {
                 cout << "Registro encontrado!" << endl;
             }
 
@@ -175,12 +186,14 @@ int main(int argc, char *argv[]) {
 
         case 4:
 
-            if(!fazArvoreBest(nome, argumentos.quantidadeRegistros, &arvoreBest)) {
-                cout << "Não foi possível criar a Árvore B*." << endl;
+            if(!fazArvoreBest(nome, argumentos.quantidadeRegistros, &arvoreBest, &performance)) {
+                // cout << "Não foi possível criar a Árvore B*." << endl;
                 return 0;
             }
 
-            if(pesquisaBest(argumentos, &registro, &arvoreBest)) {
+            // pesquisaBest(argumentos, &registro, &arvoreBest, &performance);
+
+            if(pesquisaBest(argumentos, &registro, &arvoreBest, &performance)) {
                 cout << "Registro encontrado!" << endl;
             }
             
@@ -194,6 +207,8 @@ int main(int argc, char *argv[]) {
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
     cout << "Duração em milisegundos: " << duration.count() << endl;
+    cout << "Quantidade de comparações: " << performance.comparacoes << endl;
+    cout << "Quantidade de transferências: " << performance.transferencias << endl;
 
     return 0;
 }

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, int chave, Registro *registro){
+bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, int chave, Registro *registro, Performance *performance) {
     
     FILE *arquivoArvoreBinaria;
 
@@ -37,6 +37,7 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
     
     // Lê a página
     fread(&pagina, sizeof(No), quantidadeItens, arquivoArvoreBinaria);
+    performance->transferencias += 1;
 
     int indiceNoAtual = 0;
     bool ATUALIZA_PAGINA = false; // controla quando deve passar de uma página para a outra
@@ -59,11 +60,14 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
         // Se a variável de controle estiver ligada, lê a próxima página e desliga
         if(ATUALIZA_PAGINA) {
             fread(&pagina, sizeof(No), quantidadeItens, arquivoArvoreBinaria);
+            performance->transferencias += 1;
             ATUALIZA_PAGINA = false;
         }
 
         // Define o nó atual como a raiz da Árvore Binária ou o índice do último nó que a apontou
         No noAtual = pagina[indiceNoAtual];
+
+        performance->comparacoes += 1;
 
         // Se encontra a chave pesquisada, salva o registro e retorna true
         if(noAtual.registro.chave == chave) {
@@ -71,6 +75,8 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
             fclose(arquivoArvoreBinaria);
             return true;
         }
+
+        performance->comparacoes += 1;
 
         // Se a chave pesquisada for maior do que a do nó atual,
         // caminha pela direita
@@ -139,7 +145,7 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
 }
 
 // com -p
-bool pesquisaBinariaV2(char *nomeArvoreBinaria, Registro *registro, Argumentos argumentos){
+bool pesquisaBinariaV2(char *nomeArvoreBinaria, Registro *registro, Argumentos argumentos, Performance *performance) {
     
     FILE *arquivoArvoreBinaria;
     
@@ -150,31 +156,37 @@ bool pesquisaBinariaV2(char *nomeArvoreBinaria, Registro *registro, Argumentos a
         return false;
     }
 
-    while(fread(&no, sizeof(No), 1, arquivoArvoreBinaria) == 1){
+    while(fread(&no, sizeof(No), 1, arquivoArvoreBinaria) == 1) {
+
+        performance->transferencias += 1;
 
         if(argumentos.p == true)
             cout << "Chave pesquisada: " << no.registro.chave << endl;
+
+        performance->comparacoes += 1;
 
         if(argumentos.chave == no.registro.chave){
             *registro = no.registro;
             fclose(arquivoArvoreBinaria);
             return true;
         }
-    
+
         else if(argumentos.chave < no.registro.chave){
             fseek(arquivoArvoreBinaria, no.esquerda * sizeof(No), SEEK_SET);
         }
+
         else {
             fseek(arquivoArvoreBinaria, no.direita * sizeof(No), SEEK_SET);
         }
         
+        performance->comparacoes += 1;
     }
 
     fclose(arquivoArvoreBinaria);
     return 0;
 }
 
-bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, int quantidadeRegistros) {
+bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, int quantidadeRegistros, Performance *performance) {
 
     FILE *arquivoBinario, *arquivoArvoreBinaria;
 
@@ -213,11 +225,12 @@ bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, 
 
         // Lê a página
         fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
+        performance->transferencias += 1;
 
         // Constrói a Árvore Binária
         for(int i = 0; i < quantidadeItens; i++) {     
-            cout << "Página " << paginaAtual << " | Registro: " << i << endl;
-            insereArvoreBinaria(nomeArquivoArvoreBinaria, pagina[i]);
+            // cout << "Página " << paginaAtual << " | Registro: " << i << endl;
+            insereArvoreBinaria(nomeArquivoArvoreBinaria, pagina[i], performance);
         }
 
         paginaAtual++;
@@ -228,7 +241,7 @@ bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, 
     return true;
 }
 
-bool insereArvoreBinaria(char *nomeArquivoArvoreBinaria, Registro registro) {
+bool insereArvoreBinaria(char *nomeArquivoArvoreBinaria, Registro registro, Performance *performance) {
 
     FILE *arquivoArvoreBinaria;
 
@@ -259,6 +272,10 @@ bool insereArvoreBinaria(char *nomeArquivoArvoreBinaria, Registro registro) {
     rewind(arquivoArvoreBinaria);
 
     while(fread(&noAtual, sizeof(No), 1, arquivoArvoreBinaria)) { // enquanto o fread ler um valor
+
+        performance->transferencias += 1;
+
+        performance->comparacoes += 1;
 
         // O nó a ser inserido é menor do que o analisado
         // Caminha pela esquerda
@@ -337,7 +354,7 @@ void imprimeArvoreBinaria(char *nomeArquivoArvoreBinaria) {
 
     while(fread(&noAtual, sizeof(No), 1, arquivoArvoreBinaria)) {
         cout << /*"Linha "<< contador << " |" <<*/ noAtual.esquerda << "|" << noAtual.registro.chave << "|" << noAtual.direita << endl;
-        MyFile << noAtual.esquerda << "|" << noAtual.registro.chave << "|" << noAtual.direita << "\n";
+        // MyFile << noAtual.esquerda << "|" << noAtual.registro.chave << "|" << noAtual.direita << "\n";
         
         // contador++;
     }
