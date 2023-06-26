@@ -22,7 +22,7 @@ bool pesquisaB(int, Registro*, Apontador);
 bool fazArvoreB(char*, int, Apontador*);
 
 // Inicia a Árvore B nula
-void iniciaArvoreB (Apontador);
+void iniciaArvoreB(Apontador);
 
 // 
 bool insereArvoreB(Registro, Apontador*);

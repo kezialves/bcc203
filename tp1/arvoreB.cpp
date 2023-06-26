@@ -6,6 +6,34 @@
 
 using namespace std;
 
+bool pesquisaB(int chave, Registro *registro, Apontador pagina) {
+
+    long indice = 1;
+
+    if(pagina == NULL) {
+        return false;
+    }
+
+    while((indice < pagina->itensInseridos) && (chave > pagina->registros[indice - 1].chave)) {
+        indice++;
+    }
+
+    if(chave == pagina->registros[indice - 1].chave) {
+        *registro = pagina->registros[indice - 1];
+        return true;
+    }
+
+    if(chave < pagina->registros[indice - 1].chave) {
+        pesquisaB(chave, registro, pagina->apontadores[indice - 1]);
+    }
+
+    else {
+        pesquisaB(chave, registro, pagina->apontadores[indice]);
+    }
+
+    return true;
+}
+
 // Cria uma Árvore B em arquivo binário a partir de outro binário sequencial
 bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros, Apontador *arvoreB) {
     
@@ -112,7 +140,7 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
         i--;
 
     insereRecursivo(registro, paginaAtual->apontadores[i], CRESCEU, registroRetorno, apontadorRetorno);
-    //------=-=--=-=-=
+
     if(!*CRESCEU)
         return true; 
 
@@ -173,34 +201,6 @@ bool insereNaPagina(Apontador pagina, Registro registro, Apontador apontadorDire
     pagina->registros[quantidadeItens] = registro;
     pagina->apontadores[quantidadeItens + 1] = apontadorDireito;
     pagina->itensInseridos++;
-
-    return true;
-}
-
-bool pesquisaB(int chave, Registro *registro, Apontador pagina) {
-
-    long indice = 1;
-
-    if(pagina == NULL){
-        return false;
-    }
-
-    while((indice < pagina->itensInseridos) && (chave > pagina->registros[indice - 1].chave)){
-        indice++;
-    }
-
-    if(chave == pagina->registros[indice - 1].chave) {
-        *registro = pagina->registros[indice - 1];
-        return true;
-    }
-
-    if(chave < pagina->registros[indice - 1].chave) {
-        pesquisaB(chave, registro, pagina->apontadores[indice - 1]);
-    }
-
-    else {
-        pesquisaB(chave, registro, pagina->apontadores[indice]);
-    }
 
     return true;
 }

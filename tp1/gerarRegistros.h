@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-#define QTD_REGISTROS 1000
+#define QTD_REGISTROS 1000000
 
 #define ORDENACAO 3
 // 1 - CRESCENTE

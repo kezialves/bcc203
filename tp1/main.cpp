@@ -9,6 +9,9 @@
 #include "sequencial.h"
 #include "arvoreBinaria.h"
 #include "arvoreB.h"
+#include "arvoreBest.h"
+
+#define ITENS_PESQUISADOS 1000000
 
 using namespace std;
 using namespace std::chrono;
@@ -19,9 +22,9 @@ int main(int argc, char *argv[]) {
 
     auto start = high_resolution_clock::now();
 
-    // criaArquivoTexto("sequencialAleatorio.txt");
-    // converteArquivo();
-    char nome[50] = "sequencialAleatorio.bin";
+    criaArquivoTexto("registrosAleatorios.txt");
+    converteArquivo();
+    char nome[50] = "registrosAleatorios.bin";
     char nomeArvoreBinaria[50] = "arvoreBinaria.bin";
 
     // imprimeRegistrosBinario(nome);
@@ -77,6 +80,8 @@ int main(int argc, char *argv[]) {
 
     Registro registro;
     Apontador arvoreB = NULL;
+    ApontadorBest arvoreBest= NULL;
+    int registrosEncontrados = 0;
 
     // Chama o método de pesquisa requerido
     switch(argumentos.metodoPesquisa) {
@@ -94,16 +99,23 @@ int main(int argc, char *argv[]) {
             break;
 
         case 2:
-            fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros);
-            imprimeArvoreBinaria(nomeArvoreBinaria);
+
+            if(!fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros)) {
+                cout << "Não foi possível criar a Árvore Binária." << endl;
+                return 0;
+            }
+            // imprimeArvoreBinaria(nomeArvoreBinaria);
             
-            if(pesquisaBinaria(nomeArvoreBinaria, argumentos.quantidadeRegistros, argumentos.chave, &registro)) {
-                cout << "Registro encontrado!" << endl;
+            for(int i = 1; i <= ITENS_PESQUISADOS; i++){
+                if(pesquisaBinaria(nomeArvoreBinaria, argumentos.quantidadeRegistros, i, &registro)) {
+                    // cout << "Registro encontrado!" << endl;
+                    registrosEncontrados++;
+                }
+                
             }
             
-            else {
-                cout << "Registro não encontrado." << endl;
-            }
+            
+            cout << "Registros encontrados: " << registrosEncontrados << endl;
 
             // int encontrados = 0;
 
@@ -119,24 +131,40 @@ int main(int argc, char *argv[]) {
             break;
 
         case 3:
-
             
-            if(!fazArvoreB(nome, argumentos.quantidadeRegistros, &arvoreB)){
-                cout << "Não foi possível criar Árvore B." << endl;
+            if(!fazArvoreB(nome, argumentos.quantidadeRegistros, &arvoreB)) {
+                cout << "Não foi possível criar a Árvore B." << endl;
                 return 0;
             }
 
-            if(pesquisaB(argumentos.chave, &registro, arvoreB))
+            if(pesquisaB(argumentos.chave, &registro, arvoreB)) {
                 cout << "Registro encontrado!" << endl;
-            else 
+            }
+
+            else {
                 cout << "Registro não encontrado." << endl;
-                
+            }
+
+            cout << "Registros encontrados: " << registrosEncontrados << endl;
 
             break;
 
-        // case 4:
+        case 4:
 
-        //     break;
+            if(!fazArvoreBest(nome, argumentos.quantidadeRegistros, &arvoreBest)) {
+                cout << "Não foi possível criar a Árvore B*." << endl;
+                return 0;
+            }
+
+            if(pesquisaBest(argumentos.chave, &registro, &arvoreBest)) {
+                cout << "Registro encontrado!" << endl;
+            }
+            
+            else {
+                cout << "Registro não encontrado." << endl;
+            }
+
+            break;
     } 
 
     auto stop = high_resolution_clock::now();
@@ -148,11 +176,11 @@ int main(int argc, char *argv[]) {
 
 bool converteArquivo() {
 
-    string nomeArquivoTexto = "sequencialAleatorio.txt";
-    string nomeArquivoBinario = "sequencialAleatorio.bin";
+    string nomeArquivoTexto = "registrosAleatorios.txt";
+    string nomeArquivoBinario = "registrosAleatorios.bin";
 
     char arr[nomeArquivoTexto.length() + 1];
-    strcpy(arr, nomeArquivoTexto.c_str()); // c_str converte string para const char * e o strcpy faz a cópia para um char*;
+    strcpy(arr, nomeArquivoTexto.c_str()); // c_str converte string para const char * e o strcpy faz a cópia para um char*
 
     // Tenta converter o arquivo texto para binário e retorna erro caso não consiga
     if(!textoParaBinario(arr)) {
