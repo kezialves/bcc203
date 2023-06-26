@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool pesquisaBest(int chave, Registro *registro, ApontadorBest *pagina) {
+bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagina) {
 
     int i;
     
@@ -14,16 +14,19 @@ bool pesquisaBest(int chave, Registro *registro, ApontadorBest *pagina) {
 
         i = 1;
 
-        while(i < (*pagina)->UU.U0.quantidadeChaves && chave > (*pagina)->UU.U0.chaves[i-1])
+        while(i < (*pagina)->UU.U0.quantidadeChaves && argumentos.chave > (*pagina)->UU.U0.chaves[i-1])
             i++;
         
-        if(chave <= (*pagina)->UU.U0.chaves[i-1]) {
-            if(pesquisaBest(chave, registro, &((*pagina)->UU.U0.apontadores[i-1])))
+        if(argumentos.p == true)
+            cout << "Chave pesquisada: " << (*pagina)->UU.U0.chaves[i-1] << endl;
+
+        if(argumentos.chave <= (*pagina)->UU.U0.chaves[i-1]) {
+            if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i-1])))
                 return true;
         }
 
         else {
-            if(pesquisaBest(chave, registro, &((*pagina)->UU.U0.apontadores[i])))
+            if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i])))
                 return true;
         }
             
@@ -32,10 +35,13 @@ bool pesquisaBest(int chave, Registro *registro, ApontadorBest *pagina) {
 
     i = 1;
     
-    while(i < (*pagina)->UU.U1.quantidadeRegistros && chave > (*pagina)->UU.U1.registros[i-1].chave)
+    while(i < (*pagina)->UU.U1.quantidadeRegistros && argumentos.chave > (*pagina)->UU.U1.registros[i-1].chave)
         i++;
     
-    if(chave == (*pagina)->UU.U1.registros[i-1].chave) {
+
+    cout << "Chave pesquisada: " << (*pagina)->UU.U1.registros[i-1].chave << endl;
+
+    if(argumentos.chave == (*pagina)->UU.U1.registros[i-1].chave) {
         *registro = (*pagina)->UU.U1.registros[i-1];
         return true;
     }

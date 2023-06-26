@@ -37,7 +37,7 @@ typedef struct PaginaBest {
 } PaginaBest;
 
 // Realiza a pesquisa em Árvore B*
-bool pesquisaBest(int, Registro*, ApontadorBest*);
+bool pesquisaBest(Argumentos, Registro*, ApontadorBest*);
 
 // Cria uma Árvore B* em arquivo binário a partir de outro binário sequencial
 bool fazArvoreBest(char*, int, ApontadorBest*);

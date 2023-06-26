@@ -16,7 +16,7 @@ typedef struct PaginaB {
 } PaginaB;
 
 // Realiza a pesquisa em Árvore B
-bool pesquisaB(int, Registro*, Apontador);
+bool pesquisaB(Argumentos, Registro*, Apontador);
 
 // Cria uma Árvore B em arquivo binário a partir de outro binário sequencial
 bool fazArvoreB(char*, int, Apontador*);

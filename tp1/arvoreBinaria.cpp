@@ -1,5 +1,7 @@
 #include <iostream>
 #include <stdio.h>
+#include <fstream>
+
 
 #include "arvoreBinaria.h"
 
@@ -136,6 +138,42 @@ bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, in
     return false;
 }
 
+// com -p
+bool pesquisaBinariaV2(char *nomeArvoreBinaria, Registro *registro, Argumentos argumentos){
+    
+    FILE *arquivoArvoreBinaria;
+    
+    No no;
+    
+    if((arquivoArvoreBinaria = fopen(nomeArvoreBinaria, "rb")) == NULL) {
+        cout << "Erro na abertura do arquivo binário.\n";
+        return false;
+    }
+
+    while(fread(&no, sizeof(No), 1, arquivoArvoreBinaria) == 1){
+
+        if(argumentos.p == true)
+            cout << "Chave pesquisada: " << no.registro.chave << endl;
+
+        if(argumentos.chave == no.registro.chave){
+            *registro = no.registro;
+            fclose(arquivoArvoreBinaria);
+            return true;
+        }
+    
+        else if(argumentos.chave < no.registro.chave){
+            fseek(arquivoArvoreBinaria, no.esquerda * sizeof(No), SEEK_SET);
+        }
+        else {
+            fseek(arquivoArvoreBinaria, no.direita * sizeof(No), SEEK_SET);
+        }
+        
+    }
+
+    fclose(arquivoArvoreBinaria);
+    return 0;
+}
+
 bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, int quantidadeRegistros) {
 
     FILE *arquivoBinario, *arquivoArvoreBinaria;
@@ -178,6 +216,7 @@ bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, 
 
         // Constrói a Árvore Binária
         for(int i = 0; i < quantidadeItens; i++) {     
+            cout << "Página " << paginaAtual << " | Registro: " << i << endl;
             insereArvoreBinaria(nomeArquivoArvoreBinaria, pagina[i]);
         }
 
@@ -283,6 +322,8 @@ void imprimeArvoreBinaria(char *nomeArquivoArvoreBinaria) {
     FILE * arquivoArvoreBinaria;
     No noAtual;
 
+    ofstream MyFile("arvoreBinaria.txt");
+
     // Verifica se foi possível abrir o arquivo da árvore binária
     // Caso contrário, retorna
     if((arquivoArvoreBinaria = fopen(nomeArquivoArvoreBinaria, "rb")) == NULL) {
@@ -293,10 +334,14 @@ void imprimeArvoreBinaria(char *nomeArquivoArvoreBinaria) {
     // int contador = 0;
 
     // Imprime a árvore e seus apontadores da esquerda e da direita
+
     while(fread(&noAtual, sizeof(No), 1, arquivoArvoreBinaria)) {
         cout << /*"Linha "<< contador << " |" <<*/ noAtual.esquerda << "|" << noAtual.registro.chave << "|" << noAtual.direita << endl;
+        MyFile << noAtual.esquerda << "|" << noAtual.registro.chave << "|" << noAtual.direita << "\n";
+        
         // contador++;
     }
 
     fclose(arquivoArvoreBinaria);
 }
+

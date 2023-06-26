@@ -57,7 +57,7 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
 
         // Se a página não for a última, ela é completa,
         // então, a quantidade de itens é igual ao máximo de itens por página
-        if(indicePagina < tamanhoTabela)
+        if(indicePagina <= tamanhoTabela)
             quantidadeItens = ITENS_PAGINA;
         
         // Se for a última, ela pode não estar completa,
@@ -74,7 +74,11 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
         fclose(arquivoBinario);
         
         // Pesquisa sequencial na página lida
-        for(int i = 0; i < quantidadeItens; i++) {            
+        for(int i = 0; i < quantidadeItens; i++) { 
+
+            if(argumentos.p)
+                cout << "Chave pesquisada: " << pagina[i].chave << endl;
+
             if(pagina[i].chave == argumentos.chave) {
                 *item = pagina[i];
                 free(tabela);
@@ -113,7 +117,11 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
             fread(&pagina, sizeof(Registro), quantidadeItens, arquivoBinario);
               
             // Pesquisa sequencial na página lida
-            for(int i = 0; i < quantidadeItens; i++) {                
+            for(int i = 0; i < quantidadeItens; i++) {  
+
+                if(argumentos.p)
+                    cout << "Chave pesquisada: " << pagina[i].chave << endl;    
+
                 if(pagina[i].chave == argumentos.chave) {
                     *item = pagina[i];
                     free(tabela);
@@ -151,8 +159,8 @@ int *fazTabela(char *nomeArquivoBinario, int numeroRegistros) {
     int posicao = 0;
 
     // Preenche a tabela
-    while(fread(&item, sizeof(Registro), 1, arquivoBinario) == 1) {
-        tabela[posicao] = item.chave;
+    while(fread(&item, sizeof(Registro), 1, arquivoBinario) == 1 && posicao < tamanhoTabela) { 
+        tabela[posicao] = item.chave; 
         fseek(arquivoBinario, (ITENS_PAGINA - 1) * sizeof(item), SEEK_CUR);
 
         posicao++;

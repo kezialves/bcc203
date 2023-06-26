@@ -17,6 +17,9 @@ typedef No PaginaNo[TAM_PAGINA_NO];
 // Realiza a pesquisa em Árvore Binária
 bool pesquisaBinaria(char*, int, int, Registro*);
 
+bool pesquisaBinariaV2(char*, Registro*, Argumentos);
+
+
 // Cria uma Árvore Binária em arquivo binário a partir de outro binário sequencial
 bool fazArvoreBinaria(char*, char*, int);
 

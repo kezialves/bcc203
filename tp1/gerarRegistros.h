@@ -6,7 +6,7 @@ using namespace std;
 
 #define QTD_REGISTROS 1000000
 
-#define ORDENACAO 3
+#define ORDENACAO 2
 // 1 - CRESCENTE
 // 2 - DECRESCENTE
 // 3 - ALEATÓRIA

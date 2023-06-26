@@ -6,7 +6,7 @@
 
 using namespace std;
 
-bool pesquisaB(int chave, Registro *registro, Apontador pagina) {
+bool pesquisaB(Argumentos argumentos, Registro *registro, Apontador pagina) {
 
     long indice = 1;
 
@@ -14,21 +14,24 @@ bool pesquisaB(int chave, Registro *registro, Apontador pagina) {
         return false;
     }
 
-    while((indice < pagina->itensInseridos) && (chave > pagina->registros[indice - 1].chave)) {
+    while((indice < pagina->itensInseridos) && (argumentos.chave > pagina->registros[indice - 1].chave)) {
         indice++;
     }
 
-    if(chave == pagina->registros[indice - 1].chave) {
+    if(argumentos.p == true)
+            cout << "Chave pesquisada: " << pagina->registros[indice - 1].chave << endl;
+
+    if(argumentos.chave == pagina->registros[indice - 1].chave) {
         *registro = pagina->registros[indice - 1];
         return true;
     }
 
-    if(chave < pagina->registros[indice - 1].chave) {
-        pesquisaB(chave, registro, pagina->apontadores[indice - 1]);
+    if(argumentos.chave < pagina->registros[indice - 1].chave) {
+        pesquisaB(argumentos, registro, pagina->apontadores[indice - 1]);
     }
 
     else {
-        pesquisaB(chave, registro, pagina->apontadores[indice]);
+        pesquisaB(argumentos, registro, pagina->apontadores[indice]);
     }
 
     return true;

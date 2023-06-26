@@ -22,9 +22,10 @@ int main(int argc, char *argv[]) {
 
     auto start = high_resolution_clock::now();
 
-    criaArquivoTexto("registrosAleatorios.txt");
-    converteArquivo();
-    char nome[50] = "registrosAleatorios.bin";
+    // criaArquivoTexto("registrosDecrescentes.txt");
+    // converteArquivo();
+
+    char nome[50] = "registrosCrescentes.txt";
     char nomeArvoreBinaria[50] = "arvoreBinaria.bin";
 
     // imprimeRegistrosBinario(nome);
@@ -78,10 +79,23 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    switch(argumentos.tipoOrdenacao){
+        case 1:
+            strcpy(nome,"registrosCrescentes.bin");
+            break;
+
+        case 2:
+            strcpy(nome,"registrosDecrescentes.bin");
+            break;
+
+        case 3:
+            strcpy(nome,"registrosAleatorios.bin");
+            break;
+    }
+
     Registro registro;
     Apontador arvoreB = NULL;
     ApontadorBest arvoreBest= NULL;
-    int registrosEncontrados = 0;
 
     // Chama o método de pesquisa requerido
     switch(argumentos.metodoPesquisa) {
@@ -104,18 +118,30 @@ int main(int argc, char *argv[]) {
                 cout << "Não foi possível criar a Árvore Binária." << endl;
                 return 0;
             }
+
             // imprimeArvoreBinaria(nomeArvoreBinaria);
-            
-            for(int i = 1; i <= ITENS_PESQUISADOS; i++){
-                if(pesquisaBinaria(nomeArvoreBinaria, argumentos.quantidadeRegistros, i, &registro)) {
-                    // cout << "Registro encontrado!" << endl;
-                    registrosEncontrados++;
-                }
-                
+
+            if(pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos)) {
+                cout << "Registro encontrado!" << endl;
+            }
+
+            else {
+                cout << "Registro não encontrado." << endl;
             }
             
+            // for(int i = 1; i <= argumentos.quantidadeRegistros; i++){
+            //     // cout << "Pesquisando chave: " << i << endl;
+            //     argumentos.chave = i;
+            //     if(pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos)) {
+            //         // cout << "Registro encontrado!" << endl;
+            //         registrosEncontrados++;
+            //     }
+            //         // cout << "Registro : " << i << " Não encontrado" << endl;
+                
+            // }
             
-            cout << "Registros encontrados: " << registrosEncontrados << endl;
+            
+            // cout << "Registros encontrados: " << registrosEncontrados << endl;
 
             // int encontrados = 0;
 
@@ -137,15 +163,13 @@ int main(int argc, char *argv[]) {
                 return 0;
             }
 
-            if(pesquisaB(argumentos.chave, &registro, arvoreB)) {
+            if(pesquisaB(argumentos, &registro, arvoreB)) {
                 cout << "Registro encontrado!" << endl;
             }
 
             else {
                 cout << "Registro não encontrado." << endl;
             }
-
-            cout << "Registros encontrados: " << registrosEncontrados << endl;
 
             break;
 
@@ -156,7 +180,7 @@ int main(int argc, char *argv[]) {
                 return 0;
             }
 
-            if(pesquisaBest(argumentos.chave, &registro, &arvoreBest)) {
+            if(pesquisaBest(argumentos, &registro, &arvoreBest)) {
                 cout << "Registro encontrado!" << endl;
             }
             
@@ -176,8 +200,8 @@ int main(int argc, char *argv[]) {
 
 bool converteArquivo() {
 
-    string nomeArquivoTexto = "registrosAleatorios.txt";
-    string nomeArquivoBinario = "registrosAleatorios.bin";
+    string nomeArquivoTexto = "registrosDecrescentes.txt";
+    string nomeArquivoBinario = "registrosDecrescentes.bin";
 
     char arr[nomeArquivoTexto.length() + 1];
     strcpy(arr, nomeArquivoTexto.c_str()); // c_str converte string para const char * e o strcpy faz a cópia para um char*
