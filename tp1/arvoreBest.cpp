@@ -8,14 +8,20 @@
 using namespace std;
 using namespace std::chrono;
 
+
 bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagina, Performance *performance) {
 
     int i;
+    
+    // Se a página for interna, não pode ter registros, apenas índices
+    // Por isso, devemos percorrer as páginas nós até achar a
+    // página folha em que o item deve estar inserido
     
     if((*pagina)->tipoPagina == Interna) {
 
         i = 1;
 
+        // Caminha pela página enquanto houver itens e estes forem menores do que a chave pesquisada
         while(i < (*pagina)->UU.U0.quantidadeChaves && argumentos.chave > (*pagina)->UU.U0.chaves[i-1]) {
             i++;
             performance->comparacoes += 1;
@@ -24,6 +30,8 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
         if(argumentos.p == true)
             cout << "Chave pesquisada: " << (*pagina)->UU.U0.chaves[i-1] << endl;
 
+        // Se a chave pesquisada for menor ou igual à chave atual,
+        // chama a pesquisa com a página anterior à da chave atual
 
         performance->comparacoes += 1;
 
@@ -31,6 +39,9 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
             if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i-1]), performance))
                 return true;
         }
+
+        // Se a chave pesquisada for maior do que a chave atual,
+        // chama a pesquisa com a página seguinte à da chave atual
 
         else {
             if(pesquisaBest(argumentos, registro, &((*pagina)->UU.U0.apontadores[i]), performance))
@@ -42,6 +53,7 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
 
     i = 1;
     
+    // Caso a página seja uma folha, página de registros, devemos verificar a posição esperada do registro
     while(i < (*pagina)->UU.U1.quantidadeRegistros && argumentos.chave > (*pagina)->UU.U1.registros[i-1].chave) {
         i++;
         performance->comparacoes += 1;
@@ -51,6 +63,7 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
 
     performance->comparacoes += 1;
 
+    // Se o registro estiver na posição esperada, retornamos a busca e ela foi finalizada
     if(argumentos.chave == (*pagina)->UU.U1.registros[i-1].chave) {
         *registro = (*pagina)->UU.U1.registros[i-1];
         return true;
@@ -58,6 +71,7 @@ bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagi
 
     return false;
 }
+
 
 bool fazArvoreBest(char *nomeArquivoBinario, int quantidadeRegistros, ApontadorBest *arvoreBest, Performance *performance) {
     
@@ -109,17 +123,21 @@ bool fazArvoreBest(char *nomeArquivoBinario, int quantidadeRegistros, ApontadorB
         paginaAtual++;
     }
 
+    // Realiza a medição do tempo necessário para a criação da árvore em memória principal
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(stop - start);
     cout << " - Árvore criada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
+    
     return true;
 }
 
+// Inicialmente, a Árvore B* possui apenas uma página folha, sua raiz é externa
+// A primeira página interna só surge quando há overflow na raiz
+// Por isso, iniciamos a Árvore B* assim
 void iniciaArvoreBest(ApontadorBest *raiz) {
     *raiz = (ApontadorBest) malloc(sizeof(PaginaBest));
     (*raiz)->tipoPagina = Externa;
     (*raiz)->UU.U1.quantidadeRegistros = 0;
-    
 }
 
 bool insereArvoreBest(Registro registro, ApontadorBest *raiz, Performance *performance) {
@@ -166,7 +184,7 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
             novaPagina->UU.U1.quantidadeRegistros = 0;
 
             // Divide a página
-            if(i < M + 1){
+            if(i < M + 1) {
                 // Joga o último elemento da página atual para a página nova, abrindo espaço
                 insereNaPaginaExterna(novaPagina, paginaAtual->UU.U1.registros[MM2 - 1], performance);
                 paginaAtual->UU.U1.quantidadeRegistros--; // atualiza a quantidade de registros da página atual
@@ -221,9 +239,12 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
             return false;
         }
 
+        // Se a chave pesquisada for menor do que a chave atual,
+        // diminui 1 do índice para chamar a página anterior à da chave atual.
+        // Caso contrário, o índice permanece igual para chamar a página seguinte à da chave atual.
+
         performance->comparacoes += 1;
 
-        //
         if(registro.chave < paginaAtual->UU.U0.chaves[i - 1])
             i--;
 
@@ -232,31 +253,38 @@ bool insereRecursivo(Registro registro, ApontadorBest paginaAtual, bool *CRESCEU
         if(!*CRESCEU) 
             return true;
         
+        // Se a página tem espaço para inserir, insere e retorna sucesso
         if(paginaAtual->UU.U0.quantidadeChaves < MM) {
             insereNaPaginaInterna(paginaAtual, registroRetorno->chave, *apontadorRetorno, performance);
             *CRESCEU = false;
             return true;
         }
 
+        // Overflow: Se não tiver espaço, a página precisa ser dividida
         novaPagina = (ApontadorBest) malloc(sizeof(PaginaBest));
         novaPagina->tipoPagina = Interna;
         novaPagina->UU.U0.quantidadeChaves = 0;
         novaPagina->UU.U0.apontadores[0] = NULL;
 
-    //dsdsdsdsdsdsd
+        // Verifica a posição do elemento a ser inserido na página
+        // Caso ele deva ficar à esquerda do índice do meio, deixamos ele na página atual
         if(i < M + 1) {
             insereNaPaginaInterna(novaPagina, paginaAtual->UU.U0.chaves[MM - 1], paginaAtual->UU.U0.apontadores[MM], performance);
             paginaAtual->UU.U0.quantidadeChaves--;
             insereNaPaginaInterna(paginaAtual, registroRetorno->chave, *apontadorRetorno, performance);
         }
-
+        
+        // Caso ele deva ficar à direita, ou seja o índice do meio, ele irá ficar na página nova
         else {
             insereNaPaginaInterna(novaPagina, registroRetorno->chave, *apontadorRetorno, performance);
         }
-
+        
+        // Arrasta a metade final dos elementos da página atual para a página nova
         for(j = M + 2; j <= MM; j++)
             insereNaPaginaInterna(novaPagina, paginaAtual->UU.U0.chaves[j-1], paginaAtual->UU.U0.apontadores[j], performance);
 
+        // Como houve a criação da página nova, pela falta de espaço,
+        // a página atual passa a ter a ordem mínima para existência
         paginaAtual->UU.U0.quantidadeChaves = M;
         novaPagina->UU.U0.apontadores[0] = paginaAtual->UU.U0.apontadores[M + 1];
         registroRetorno->chave = paginaAtual->UU.U0.chaves[M];

@@ -108,9 +108,11 @@ bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros, Apontador *ar
         paginaAtual++;
     }
 
+    // Realiza a medição do tempo necessário para a criação da árvore em memória principal
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<nanoseconds>(stop - start);
     cout << " - Árvore criada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
+    
     return true;
 }
 
@@ -197,25 +199,27 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
     novaPagina = (Apontador) malloc(sizeof(PaginaB));
     novaPagina->itensInseridos = 0;
     novaPagina->apontadores[0] = NULL;
-    
-    // Se o novo elemento deve ficar na página atual,
-    // passa um elemento dessa para a página nova
-    // e insere o novo elemento na página atual
+
+    // Verifica a posição do elemento a ser inserido na página
+    // Caso ele deva ficar à esquerda do índice do meio, deixamos ele na página atual
     if(i < ORDEM + 1) {
         insereNaPagina(novaPagina, paginaAtual->registros[2 * ORDEM - 1], paginaAtual->apontadores[2 * ORDEM], performance);
         paginaAtual->itensInseridos--;
         insereNaPagina(paginaAtual, *registroRetorno, *apontadorRetorno, performance);
     }
 
-    // Se o novo elemento deve ficar na página nova, apenas insere
+    // Caso ele deva ficar à direita, ou seja o índice do meio, ele irá ficar na página nova
     else
         insereNaPagina(novaPagina, *registroRetorno, *apontadorRetorno, performance);
 
-    //
+    // A página nova deve conter os elementos da página atual a partir da posição 2M
+    // Joga os elementos da posição 2M até a posição final para a página nova
     for(j = ORDEM + 2; j <= 2 * ORDEM; j++) {
         insereNaPagina(novaPagina, paginaAtual->registros[j - 1], paginaAtual->apontadores[j], performance);
     }
 
+    // Como houve a criação da página nova, pela falta de espaço,
+    // a página atual passa a ter a ordem mínima para existência
     paginaAtual->itensInseridos = ORDEM;
     novaPagina->apontadores[0] = paginaAtual->apontadores[ORDEM + 1];
     *registroRetorno = paginaAtual->registros[ORDEM];
@@ -229,6 +233,7 @@ bool insereNaPagina(Apontador pagina, Registro registro, Apontador apontadorDire
     int quantidadeItens = pagina->itensInseridos;
     short naoAchou = (quantidadeItens > 0);
 
+    // Percorre a página até encontrar a posição que o item deve ser inserido
     while(naoAchou) {
         
         performance->comparacoes += 1;
