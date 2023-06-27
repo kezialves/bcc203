@@ -1,10 +1,12 @@
 #include <iostream>
 #include <stdlib.h>
+#include <chrono>
 
 #include "arvoreBest.h"
 #include "struct.h"
 
 using namespace std;
+using namespace std::chrono;
 
 bool pesquisaBest(Argumentos argumentos, Registro *registro, ApontadorBest *pagina, Performance *performance) {
 
@@ -68,6 +70,9 @@ bool fazArvoreBest(char *nomeArquivoBinario, int quantidadeRegistros, ApontadorB
         return false;
     }
 
+    cout << "[Criando árvore B*...]";
+    auto start = high_resolution_clock::now();
+
     // Inicia a Árvore B*
     iniciaArvoreBest(arvoreBest);
 
@@ -104,6 +109,9 @@ bool fazArvoreBest(char *nomeArquivoBinario, int quantidadeRegistros, ApontadorB
         paginaAtual++;
     }
 
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cout << " - Árvore criada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
     return true;
 }
 
@@ -312,11 +320,4 @@ bool insereNaPaginaExterna(ApontadorBest pagina, Registro registro, Performance 
     pagina->UU.U1.quantidadeRegistros++;
 
     return true;
-}
-
-void imprimeArvoreBest(ApontadorBest pagina) {
-
-    for(int i = 0; i < 3; i++) {
-        cout << pagina->UU.U0.chaves[i] << endl;
-    }
 }

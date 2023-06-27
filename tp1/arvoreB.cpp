@@ -1,10 +1,12 @@
 #include <iostream>
 #include <stdlib.h>
+#include <chrono>
 
 #include "arvoreB.h"
 #include "struct.h"
 
 using namespace std;
+using namespace std::chrono;
 
 bool pesquisaB(Argumentos argumentos, Registro *registro, Apontador pagina, Performance *performance) {
 
@@ -14,6 +16,7 @@ bool pesquisaB(Argumentos argumentos, Registro *registro, Apontador pagina, Perf
         return false;
     }
 
+    // Caminha pela página enquanto houver itens e estes forem menores do que a chave pesquisada
     while((indice < pagina->itensInseridos) && (argumentos.chave > pagina->registros[indice - 1].chave)) {
         indice++;
         performance->comparacoes += 1;
@@ -22,12 +25,17 @@ bool pesquisaB(Argumentos argumentos, Registro *registro, Apontador pagina, Perf
     if(argumentos.p == true)
         cout << "Chave pesquisada: " << pagina->registros[indice - 1].chave << endl;
 
+    // Se a chave atual for a pesquisada, retorna sucesso
+    
     performance->comparacoes += 1;
 
     if(argumentos.chave == pagina->registros[indice - 1].chave) {
         *registro = pagina->registros[indice - 1];
         return true;
     }
+
+    // Se a chave pesquisada for menor do que a chave atual,
+    // chama a pesquisa com a página anterior à da chave atual
 
     performance->comparacoes += 1;
 
@@ -36,6 +44,9 @@ bool pesquisaB(Argumentos argumentos, Registro *registro, Apontador pagina, Perf
             return true;
         }
     }
+
+    // Se a chave pesquisada for maior do que a chave atual,
+    // chama a pesquisa com a página seguinte à da chave atual
 
     else {
         if(pesquisaB(argumentos, registro, pagina->apontadores[indice], performance)) {
@@ -57,6 +68,9 @@ bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros, Apontador *ar
         cout << "Erro na abertura do arquivo binário.\n";
         return false;
     }
+
+    cout << "[Criando árvore B...]";
+    auto start = high_resolution_clock::now();
 
     // Inicia a Árvore B
     iniciaArvoreB(*arvoreB);
@@ -94,6 +108,9 @@ bool fazArvoreB(char *nomeArquivoBinario, int quantidadeRegistros, Apontador *ar
         paginaAtual++;
     }
 
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cout << " - Árvore criada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
     return true;
 }
 
@@ -138,20 +155,25 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
         return true;
     }
 
-    // Inserção ordem crescente
+    // Caminha pela página enquanto houver itens e estes forem menores do que a chave pesquisada
     while(i < paginaAtual->itensInseridos && registro.chave > paginaAtual->registros[i - 1].chave) {
         i++;
         performance->comparacoes += 1;
     }
 
+    // Se o registro já foi inserido anteriormente, retorna false e encerra a recursão
+
     performance->comparacoes += 1;
     
-    // Se o registro já foi inserido anteriormente, retorna false e encerra a recursão
     if(registro.chave == paginaAtual->registros[i - 1].chave) {
         // cout << "Registro já presente" << endl;
         *CRESCEU = false;
         return false;
     }
+
+    // Se a chave pesquisada for menor do que a chave atual,
+    // diminui 1 do índice para chamar a página anterior à da chave atual.
+    // Caso contrário, o índice permanece igual para chamar a página seguinte à da chave atual.
 
     performance->comparacoes += 1;
 
@@ -161,7 +183,7 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
     insereRecursivo(registro, paginaAtual->apontadores[i], CRESCEU, registroRetorno, apontadorRetorno, performance);
 
     if(!*CRESCEU)
-        return true; 
+        return true;
 
     // Se a página tem espaço para inserir, insere e retorna sucesso
     if(paginaAtual->itensInseridos < 2 * ORDEM) {
@@ -176,15 +198,20 @@ bool insereRecursivo(Registro registro, Apontador paginaAtual, bool *CRESCEU, Re
     novaPagina->itensInseridos = 0;
     novaPagina->apontadores[0] = NULL;
     
+    // Se o novo elemento deve ficar na página atual,
+    // passa um elemento dessa para a página nova
+    // e insere o novo elemento na página atual
     if(i < ORDEM + 1) {
         insereNaPagina(novaPagina, paginaAtual->registros[2 * ORDEM - 1], paginaAtual->apontadores[2 * ORDEM], performance);
         paginaAtual->itensInseridos--;
         insereNaPagina(paginaAtual, *registroRetorno, *apontadorRetorno, performance);
     }
 
+    // Se o novo elemento deve ficar na página nova, apenas insere
     else
         insereNaPagina(novaPagina, *registroRetorno, *apontadorRetorno, performance);
 
+    //
     for(j = ORDEM + 2; j <= 2 * ORDEM; j++) {
         insereNaPagina(novaPagina, paginaAtual->registros[j - 1], paginaAtual->apontadores[j], performance);
     }
@@ -224,14 +251,4 @@ bool insereNaPagina(Apontador pagina, Registro registro, Apontador apontadorDire
     pagina->itensInseridos++;
 
     return true;
-}
-
-void imprimeArvoreB(Apontador pagina) {
-
-    if(pagina == NULL)
-        return;
-
-    for(int i = 0; i < 3; i++) {
-        cout << pagina->registros[i].chave << endl;
-    }
 }

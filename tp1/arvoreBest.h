@@ -8,7 +8,6 @@
 #define MM M*2
 #define MM2 MM
 
-
 // Definição do nível da página
 typedef enum {Interna, Externa} NivelPagina;
 
@@ -45,19 +44,16 @@ bool fazArvoreBest(char*, int, ApontadorBest*, Performance*);
 // Inicia a Árvore B* com uma página folha vazia
 void iniciaArvoreBest(ApontadorBest*);
 
-// 
+// Parte iterativa de inserção em Árvore B*
 bool insereArvoreBest(Registro, ApontadorBest*, Performance*);
 
-//
+// Parte recursiva de inserção em Árvore B*
 bool insereRecursivo(Registro, ApontadorBest, bool*, Registro*, ApontadorBest*, Performance*);
 
-//
-bool insereNaPaginaExterna(ApontadorBest, Registro, Performance*);
-
-//
+// Insere na página interna, uma página nó, da Árvore B*
 bool insereNaPaginaInterna(ApontadorBest, int, ApontadorBest, Performance*);
 
-// Imprime todas as páginas da Árvore B*
-void imprimeArvoreBest(ApontadorBest);
+// Insere na página externa, uma página folha, da Árvore B*
+bool insereNaPaginaExterna(ApontadorBest, Registro, Performance*);
 
 #endif

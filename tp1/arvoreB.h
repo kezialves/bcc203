@@ -24,16 +24,13 @@ bool fazArvoreB(char*, int, Apontador*, Performance*);
 // Inicia a Árvore B nula
 void iniciaArvoreB(Apontador);
 
-// 
+// Parte iterativa de inserção em Árvore B
 bool insereArvoreB(Registro, Apontador*, Performance*);
 
-//
+// Parte recursiva de inserção em Árvore B
 bool insereRecursivo(Registro, Apontador, bool*, Registro*, Apontador*, Performance*);
 
-//
+// Insere na página da Árvore B
 bool insereNaPagina(Apontador, Registro, Apontador, Performance*);
-
-// Imprime todos os nós da Árvore B
-void imprimeArvoreB(Apontador);
 
 #endif

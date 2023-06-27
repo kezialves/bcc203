@@ -1,11 +1,12 @@
 #include <iostream>
 #include <stdio.h>
 #include <fstream>
-
+#include <chrono>
 
 #include "arvoreBinaria.h"
 
 using namespace std;
+using namespace std::chrono;
 
 bool pesquisaBinaria(char* nomeArquivoArvoreBinaria, int quantidadeRegistros, int chave, Registro *registro, Performance *performance) {
     
@@ -156,6 +157,9 @@ bool pesquisaBinariaV2(char *nomeArvoreBinaria, Registro *registro, Argumentos a
         return false;
     }
 
+    cout << "[Iniciando pesquisa binária na árvore...]";
+    auto start = high_resolution_clock::now();
+
     while(fread(&no, sizeof(No), 1, arquivoArvoreBinaria) == 1) {
 
         performance->transferencias += 1;
@@ -168,6 +172,9 @@ bool pesquisaBinariaV2(char *nomeArvoreBinaria, Registro *registro, Argumentos a
         if(argumentos.chave == no.registro.chave){
             *registro = no.registro;
             fclose(arquivoArvoreBinaria);
+            auto stop = high_resolution_clock::now();
+            auto duration = duration_cast<nanoseconds>(stop - start);
+            cout << " - Pesquisa realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
             return true;
         }
 
@@ -183,12 +190,17 @@ bool pesquisaBinariaV2(char *nomeArvoreBinaria, Registro *registro, Argumentos a
     }
 
     fclose(arquivoArvoreBinaria);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cout << " - Pesquisa realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
     return 0;
 }
 
 bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, int quantidadeRegistros, Performance *performance) {
 
     FILE *arquivoBinario, *arquivoArvoreBinaria;
+
+
 
     // Verifica se foi possível abrir o arquivo binário
     // Caso contrário, retorna falso
@@ -203,6 +215,9 @@ bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, 
         cout << "Erro na abertura do arquivo da Árvore Binária.\n";
         return false;
     }
+
+    cout << "[Criando árvore binária em memória externa...]";
+    auto start = high_resolution_clock::now();
 
     Pagina pagina;
     int paginaAtual = 0, quantidadeItens;
@@ -237,7 +252,9 @@ bool fazArvoreBinaria(char *nomeArquivoBinario, char* nomeArquivoArvoreBinaria, 
     }
 
     fclose(arquivoBinario);
-    
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cout << " - Árvore criada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
     return true;
 }
 
@@ -351,7 +368,6 @@ void imprimeArvoreBinaria(char *nomeArquivoArvoreBinaria) {
     // int contador = 0;
 
     // Imprime a árvore e seus apontadores da esquerda e da direita
-
     while(fread(&noAtual, sizeof(No), 1, arquivoArvoreBinaria)) {
         cout << /*"Linha "<< contador << " |" <<*/ noAtual.esquerda << "|" << noAtual.registro.chave << "|" << noAtual.direita << endl;
         // MyFile << noAtual.esquerda << "|" << noAtual.registro.chave << "|" << noAtual.direita << "\n";
@@ -361,4 +377,3 @@ void imprimeArvoreBinaria(char *nomeArquivoArvoreBinaria) {
 
     fclose(arquivoArvoreBinaria);
 }
-

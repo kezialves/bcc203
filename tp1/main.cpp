@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <chrono>
+#include <stdlib.h>
+#include <time.h>
 
 #include "struct.h"
 #include "gerarRegistros.h"
@@ -22,6 +24,9 @@ int main(int argc, char *argv[]) {
 
     // criaArquivoTexto("registrosDecrescentes.txt");
     // converteArquivo();
+
+    srand(time(NULL));
+    int aleatorio;
 
     char nome[50] = "registrosCrescentes.txt";
     char nomeArvoreBinaria[50] = "arvoreBinaria.bin";
@@ -100,7 +105,8 @@ int main(int argc, char *argv[]) {
     iniciaPerformance(&performance);
 
     // Inicia o clock
-    auto start = high_resolution_clock::now();
+
+    // int vetor[] = {926061, 111045, 157642, 553410, 373781, 593676, 907429, 152351, 583569, 246055};
 
     // Chama o método de pesquisa requerido
     switch(argumentos.metodoPesquisa) {
@@ -108,35 +114,72 @@ int main(int argc, char *argv[]) {
         case 1:
 
             // pesquisaSequencial(argumentos, nome, &registro, &performance);
+            /* for(int i = 0; i < 10;i++){
+                
+                aleatorio = rand()%1000000;
 
-            if(pesquisaSequencial(argumentos, nome, &registro, &performance)) {
-                cout << "Registro encontrado!" << endl;
-            }
+                argumentos.chave = aleatorio;
+                cout << "Numero aleatório: " << argumentos.chave << endl; */
 
-            else {
-                cout << "Registro não encontrado." << endl;
-            }
+                if(pesquisaSequencial(argumentos, nome, &registro, &performance)) {
+                    cout << "Registro encontrado!" << endl;
+                }
+
+                else {
+                    cout << "Registro não encontrado." << endl;
+                }
+
+
+                /* cout << "Quantidade de comparações: " << performance.comparacoes << endl;
+                cout << "Quantidade de transferências: " << performance.transferencias << endl; */
+                /* performance.comparacoes = 0;
+                performance.transferencias = 0;
+                cout << "-------------------\n----------------------" << endl; */
+
+            //}
 
             break;
 
         case 2:
 
-            if(!fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros, &performance)) {
-                // cout << "Não foi possível criar a Árvore Binária." << endl;
-                return 0;
-            }
+            //for(int i = 0; i < 10; i++){
+
+                //aleatorio = rand()%1000000;
+
+                //argumentos.chave = aleatorio;
+
+                //cout << "Numero aleatório: " << argumentos.chave << endl; 
+
+                if(fazArvoreBinaria(nome, nomeArvoreBinaria, argumentos.quantidadeRegistros, &performance)) {
+
+
+                    if(pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos, &performance)) {
+                        cout << "Registro encontrado!" << endl;
+                    }
+
+                    else {
+                        cout << "Registro não encontrado." << endl;
+                    }
+                }
+                else{
+                    cout << "Falha na criação da árvore binária em memória externa." << endl;
+                }
+
+
+               // cout << "Quantidade de comparações: " << performance.comparacoes << endl;
+                //cout << "Quantidade de transferências: " << performance.transferencias << endl;
+
+                //performance.comparacoes = 0;
+                //performance.transferencias = 0;
+
+                //cout << "-------------------------\n-------------------------" << endl;
+            //}
+
+
 
             // imprimeArvoreBinaria(nomeArvoreBinaria);
-
             // pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos, &performance);
 
-            if(pesquisaBinariaV2(nomeArvoreBinaria, &registro, argumentos, &performance)) {
-                cout << "Registro encontrado!" << endl;
-            }
-
-            else {
-                cout << "Registro não encontrado." << endl;
-            }
             
             // for(int i = 1; i <= argumentos.quantidadeRegistros; i++){
             //     // cout << "Pesquisando chave: " << i << endl;
@@ -166,49 +209,109 @@ int main(int argc, char *argv[]) {
             break;
 
         case 3:
-            
-            if(!fazArvoreB(nome, argumentos.quantidadeRegistros, &arvoreB, &performance)) {
-                // cout << "Não foi possível criar a Árvore B." << endl;
-                return 0;
+
+            //for(int i = 0; i < 10; i++){
+
+                //aleatorio = rand()%1000000;
+
+                //argumentos.chave = aleatorio;
+
+                //cout << "Numero aleatório: " << argumentos.chave << endl; 
+
+            if(fazArvoreB(nome, argumentos.quantidadeRegistros, &arvoreB, &performance)) {
+
+                cout << "[Iniciando pesquisa na árvore B...]";
+                auto start = high_resolution_clock::now();
+
+                if(pesquisaB(argumentos, &registro, arvoreB, &performance)) {
+                    auto stop = high_resolution_clock::now();
+                    auto duration = duration_cast<nanoseconds>(stop - start);
+                    cout << " - Pesquisa realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
+                    cout << "Registro encontrado!" << endl;
+                }
+
+                else {
+                    auto stop = high_resolution_clock::now();
+                    auto duration = duration_cast<nanoseconds>(stop - start);
+                    cout << " - Pesquisa realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
+                    cout << "Registro não encontrado." << endl;
+                }
+
+            }
+             else{
+                cout << "Falha na criação da árvore B." << endl;
             }
 
             // pesquisaB(argumentos, &registro, arvoreB, &performance);
 
-            if(pesquisaB(argumentos, &registro, arvoreB, &performance)) {
-                cout << "Registro encontrado!" << endl;
-            }
+             //cout << "Quantidade de comparações: " << performance.comparacoes << endl;
+               // cout << "Quantidade de transferências: " << performance.transferencias << endl;
 
-            else {
-                cout << "Registro não encontrado." << endl;
-            }
+                //performance.comparacoes = 0;
+                //performance.transferencias = 0;
+
+                //cout << "-------------------------\n-------------------------" << endl;
+            //}
+
+
 
             break;
 
         case 4:
 
-            if(!fazArvoreBest(nome, argumentos.quantidadeRegistros, &arvoreBest, &performance)) {
-                // cout << "Não foi possível criar a Árvore B*." << endl;
-                return 0;
+            for(int i = 0; i < 10; i++){
+
+                aleatorio = rand()%1000000 + 1;
+
+                argumentos.chave = aleatorio;
+
+                cout << "Numero aleatório: " << argumentos.chave << endl;
+
+            if(fazArvoreBest(nome, argumentos.quantidadeRegistros, &arvoreBest, &performance)) {
+
+                cout << "[Iniciando pesquisa na árvore B*...]";
+                auto start = high_resolution_clock::now();
+
+                if(pesquisaBest(argumentos, &registro, &arvoreBest, &performance)) {
+                    auto stop = high_resolution_clock::now();
+                    auto duration = duration_cast<nanoseconds>(stop - start);
+                    cout << " - Pesquisa realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
+                    cout << "Registro encontrado!" << endl;
+                }
+                
+                else {
+                    auto stop = high_resolution_clock::now();
+                    auto duration = duration_cast<nanoseconds>(stop - start);
+                    cout << " - Pesquisa realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
+                    cout << "Registro não encontrado." << endl;
+                }
+
             }
-
-            // pesquisaBest(argumentos, &registro, &arvoreBest, &performance);
-
-            if(pesquisaBest(argumentos, &registro, &arvoreBest, &performance)) {
-                cout << "Registro encontrado!" << endl;
+            else{
+                cout << "Falha na criação da árvore B*." << endl;
             }
             
-            else {
-                cout << "Registro não encontrado." << endl;
+                
+
+            cout << "Quantidade de comparações: " << performance.comparacoes << endl;
+                cout << "Quantidade de transferências: " << performance.transferencias << endl;
+
+                performance.comparacoes = 0;
+                performance.transferencias = 0;
+
+                cout << "-------------------------\n-------------------------" << endl;
+
+
+
             }
+            // pesquisaBest(argumentos, &registro, &arvoreBest, &performance);
 
             break;
     } 
 
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(stop - start);
-    cout << "Duração em milisegundos: " << duration.count() << endl;
-    cout << "Quantidade de comparações: " << performance.comparacoes << endl;
-    cout << "Quantidade de transferências: " << performance.transferencias << endl;
+ 
+    /* cout << "Quantidade de comparações: " << performance.comparacoes << endl;
+    cout << "Quantidade de transferências: " << performance.transferencias << endl; */
 
     return 0;
 }

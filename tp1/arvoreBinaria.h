@@ -14,9 +14,10 @@ typedef struct {
 // Estrutura de dados das páginas
 typedef No PaginaNo[TAM_PAGINA_NO];
 
-// Realiza a pesquisa em Árvore Binária
+// Realiza a pesquisa paginada em Árvore Binária
 bool pesquisaBinaria(char*, int, int, Registro*, Performance*);
 
+// Realiza a pesquisa não paginada em Árvore Binária
 bool pesquisaBinariaV2(char*, Registro*, Argumentos, Performance*);
 
 // Cria uma Árvore Binária em arquivo binário a partir de outro binário sequencial

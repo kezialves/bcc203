@@ -1,10 +1,12 @@
 #include <iostream>
 #include <stdio.h>
+#include <chrono>
 
 #include "sequencial.h"
 #include "struct.h"
 
 using namespace std;
+using namespace std::chrono;
 
 bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registro *item, Performance *performance) {
 
@@ -13,12 +15,25 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
     long deslocamento;
     
     // Cria a tabela e um ponteiro para o arquivo
+
+    cout << "[Criando tabela de páginas...]";
+    auto start = high_resolution_clock::now();
     int *tabela = fazTabela(nomeArquivoBinario, argumentos.quantidadeRegistros, performance);
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start);
+    cout << " - Tabela criada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
+
+    cout << "[Realizando pesquisa sequencial...]";
+    auto start2 = high_resolution_clock::now();
+
     FILE *arquivoBinario = NULL;
     
     // Se a abertura do arquivo retornar um apontador nulo, libera a tabela e retorna
     if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) {
         free(tabela);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(stop - start2);
+        cout << " - Não foi possível realizar pesquisa sequencial: ( " << duration.count() << " nanosegundos ) " << endl;
         return false;
     }
 
@@ -42,13 +57,16 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
 
         // Arquivo aleatório
         case 3:
+            // No arquivo aleatório, não tem como descobrir o índice da página 
             break;
     }
 
-    // No arquivo aleatório, não tem como descobrir o índice da página
     if(indicePagina == 0 && argumentos.tipoOrdenacao != 3) {
         free(tabela);
         fclose(arquivoBinario);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(stop - start2);
+        cout << " - Pesquisa sequencial realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
         return false;
     }
 
@@ -85,11 +103,17 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
             if(pagina[i].chave == argumentos.chave) {
                 *item = pagina[i];
                 free(tabela);
+                auto stop = high_resolution_clock::now();
+                auto duration = duration_cast<nanoseconds>(stop - start2);
+                cout << " - Pesquisa sequencial realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
                 return true;
             }
         }
 
         free(tabela);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(stop - start2);
+        cout << " - Pesquisa sequencial realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
         return false;
     }
 
@@ -132,6 +156,9 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
                     *item = pagina[i];
                     free(tabela);
                     fclose(arquivoBinario);
+                    auto stop = high_resolution_clock::now();
+                    auto duration = duration_cast<nanoseconds>(stop - start2);
+                    cout << " - Pesquisa sequencial realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
                     return true;
                 }
             }
@@ -141,6 +168,9 @@ bool pesquisaSequencial(Argumentos argumentos, char *nomeArquivoBinario, Registr
 
         fclose(arquivoBinario);
         free(tabela);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(stop - start2);
+        cout << " - Pesquisa sequencial realizada com sucesso: ( " << duration.count() << " nanosegundos ) " << endl;
         return false;
     }
 
