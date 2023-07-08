@@ -1,0 +1,6 @@
+#ifndef _INTERCALACAO_BALANCEADA_H_
+#define _INTERCALACAO_BALANCEADA_H_
+
+
+
+#endif
