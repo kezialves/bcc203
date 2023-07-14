@@ -5,6 +5,7 @@
 
 using namespace std;
 
+
 typedef struct{
     long numeroInscricao;
     double nota;

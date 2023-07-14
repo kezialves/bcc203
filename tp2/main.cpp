@@ -12,6 +12,8 @@
 using namespace std;
 using namespace std::chrono;
 
+void geraBinario();
+
 int main(int argc, char *argv[]) {
 
     Fita fita;
@@ -89,4 +91,11 @@ int main(int argc, char *argv[]) {
     } 
 
     return 0;
+}
+
+
+void geraBinario(Argumentos *argumentos){
+
+    
+
 }
