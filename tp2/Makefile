@@ -1,5 +1,5 @@
-all: main.o merge.o desempenho.o aluno.o
-	@g++ -o exe main.o merge.o desempenho.o aluno.o -Wall -g
+all: main.o merge.o desempenho.o aluno.o converteBin.o
+	@g++ -o exe main.o merge.o desempenho.o aluno.o converteBin.o -Wall -g
 	@rm -r *.o
 	
 main.o: main.cpp
@@ -14,6 +14,8 @@ desempenho.o: desempenho.cpp
 aluno.o: aluno.cpp
 	@g++ -c aluno.cpp -Wall -g
 
+converteBin.o: converteBin.cpp
+	@g++ -c converteBin.cpp -Wall -g
 
 run:
 	@./exe

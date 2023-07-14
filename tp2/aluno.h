@@ -3,15 +3,16 @@
 
 #include <iostream>
 
-using namespace std;
+#define STRING_TAM 100
 
+using namespace std;
 
 typedef struct{
     long numeroInscricao;
     double nota;
-    string estado;
-    string cidade;
-    string curso;
+    char estado[STRING_TAM];
+    char cidade[STRING_TAM];
+    char curso[STRING_TAM];
 } Aluno;
 
 bool comparaAlunos(Aluno*, Aluno*);

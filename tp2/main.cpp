@@ -6,13 +6,16 @@
 #include <chrono>
 
 #include "argumentos.h"
+#include "aluno.h"
+#include "converteBin.h"
 #include "desempenho.h"
 #include "fitas.h"
 
 using namespace std;
 using namespace std::chrono;
 
-void geraBinario();
+void geraBinario(Argumentos*);
+void imprimeRegistrosBinario(char*);
 
 int main(int argc, char *argv[]) {
 
@@ -38,6 +41,8 @@ int main(int argc, char *argv[]) {
     argumentos.metodoOrdenacao = atoi(argv[1]);
     argumentos.quantidadeAlunos = atoi(argv[2]);
     argumentos.tipoOrdenacao = atoi(argv[3]);
+
+    geraBinario(&argumentos);
 
     // Verifica se a impressão dos registros foi requerida
     if(argc == 5 && !strcmp("-P", argv[4]))
@@ -93,9 +98,57 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
+void geraBinario(Argumentos *argumentos) {
 
-void geraBinario(Argumentos *argumentos){
+    char *nomeArquivoTexto = (char*) malloc(50 * sizeof(char));
+    char *nomeArquivoBinario;
 
+    switch(argumentos->tipoOrdenacao) {
+
+        case 1:
+            strcpy(nomeArquivoTexto, "provaoAleatorio.txt");
+            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
+            break;
+    
+        case 2:
+            strcpy(nomeArquivoTexto, "provaoCrescente.txt");
+            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
+            break;
+    
+        case 3:
+            strcpy(nomeArquivoTexto, "provaoDecrescente.txt");
+            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
+            break;
+    }
+
+
+
+    textoParaBinario(nomeArquivoTexto, nomeArquivoBinario);
+    cout << nomeArquivoBinario << endl;
+    imprimeRegistrosBinario(nomeArquivoBinario);
+
+    free(nomeArquivoTexto);
+    free(nomeArquivoBinario);
+}
+
+void imprimeRegistrosBinario(char *nomeArquivoBinario) {
+    
+    FILE *arquivoBinario;
+    Aluno aluno;
     
 
+    // Tenta abrir o arquivo binário e retorna erro caso não consiga
+    if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) {
+        cout << "Erro na abertura do arquivo binário para impressão dos registros.\n";
+        return;
+    }
+
+    // Imprime os registros
+    while(fread(&aluno, sizeof(Aluno), 1, arquivoBinario)) {
+        cout << aluno.numeroInscricao << "|" << aluno.nota << "|" << aluno.estado << "|" << 
+        aluno.cidade << "|" << aluno.curso << "|\n";
+    }
+
+    fclose(arquivoBinario);
+    return;
 }
