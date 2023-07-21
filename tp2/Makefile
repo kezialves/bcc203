@@ -1,5 +1,5 @@
-all: main.o merge.o desempenho.o aluno.o converteBin.o
-	@g++ -o exe main.o merge.o desempenho.o aluno.o converteBin.o -Wall -g
+all: main.o merge.o desempenho.o aluno.o converteBin.o quickSortExterno.o
+	@g++ -o exe main.o merge.o desempenho.o aluno.o converteBin.o quickSortExterno.o -Wall -g
 	@rm -r *.o
 	
 main.o: main.cpp
@@ -16,6 +16,9 @@ aluno.o: aluno.cpp
 
 converteBin.o: converteBin.cpp
 	@g++ -c converteBin.cpp -Wall -g
+
+quickSortExterno.o: quickSortExterno.cpp
+	@g++ -c quickSortExterno.cpp -Wall -g 
 
 run:
 	@./exe

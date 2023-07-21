@@ -3,8 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "converteBin.h"
 #include "aluno.h"
+#include "argumentos.h"
+#include "converteBin.h"
 
 using namespace std;
 
@@ -101,4 +102,37 @@ char *trocaExtensao(char *nomeArquivoTexto) {
     nomeArquivoBinario[tamanhoNome - 1] = 'n';
 
     return nomeArquivoBinario;
+}
+
+
+bool binarioParaTexto(char *nomeArquivoBinario, char *nomeArquivoTexto, Argumentos *argumentos){
+
+    FILE *arquivoTexto, *arquivoBinario;
+    Aluno aluno;
+
+     // Verifica se foi possível abrir o arquivo binario
+    // Caso contrário, retorna falso
+    if((arquivoBinario = fopen(nomeArquivoBinario,"rb")) == NULL) {
+        cout << "Erro na abertura do arquivo Binario.\n";
+        return false;
+    }
+
+    // Verifica se foi possível criar o arquivo texto
+    // Caso contrário, retorna falso
+    if((arquivoTexto = fopen(nomeArquivoTexto, "w")) == NULL) {
+        cout << "Erro na criação do arquivo texto.\n";
+        return false;
+    }
+
+    int contador = 0;
+    while(fread(&aluno, sizeof(Aluno), 1 ,arquivoBinario) && contador < argumentos->quantidadeAlunos){
+        fprintf(arquivoTexto, "%08ld %04.1f %s %-25s %40s\n", aluno.numeroInscricao, aluno.nota, aluno.estado, aluno.cidade, aluno.curso);
+        contador++;
+    }
+
+    fclose(arquivoBinario);
+    fclose(arquivoTexto);
+
+    return true;
+
 }

@@ -10,6 +10,7 @@
 #include "converteBin.h"
 #include "desempenho.h"
 #include "fitas.h"
+#include "quickSortExterno.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -42,7 +43,7 @@ int main(int argc, char *argv[]) {
     argumentos.quantidadeAlunos = atoi(argv[2]);
     argumentos.tipoOrdenacao = atoi(argv[3]);
 
-    geraBinario(&argumentos);
+    
 
     // Verifica se a impressão dos registros foi requerida
     if(argc == 5 && !strcmp("-P", argv[4]))
@@ -75,6 +76,9 @@ int main(int argc, char *argv[]) {
             << "3 - Arquivo desordenado aleatoriamente.\n";
         return 0;
     }
+    
+    geraBinario(&argumentos);
+    char nomeArquivoBinario[50] = "provaoAleatorio.bin";
 
     switch(argumentos.metodoOrdenacao) {
         
@@ -86,13 +90,9 @@ int main(int argc, char *argv[]) {
             break;
 
         case 3:
-
+            ordenaQuickSort(nomeArquivoBinario, &argumentos);
             break;
 
-        case 4:
-
-
-            break;
     } 
 
     return 0;
@@ -106,17 +106,17 @@ void geraBinario(Argumentos *argumentos) {
     switch(argumentos->tipoOrdenacao) {
 
         case 1:
-            strcpy(nomeArquivoTexto, "provaoAleatorio.txt");
-            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
-            break;
-    
-        case 2:
             strcpy(nomeArquivoTexto, "provaoCrescente.txt");
             nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
             break;
     
-        case 3:
+        case 2:
             strcpy(nomeArquivoTexto, "provaoDecrescente.txt");
+            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
+            break;
+    
+        case 3:
+            strcpy(nomeArquivoTexto, "provaoAleatorio.txt");
             nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
             break;
     }
