@@ -6,6 +6,8 @@
 bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinario, Desempenho *desempenho){
 
     Fitas fitas;
+
+    iniciaFitas(&fitas);
     
     // Cria os blocos inicialmente ordenados
     switch(argumentos->metodoOrdenacao){
@@ -17,10 +19,11 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
         
         // Cria os blocos através da seleção por substituição
         case 2:
-            criaBlocosSubstituicao(&fitas, desempenho, nomeArquivoBinario);
+            //criaBlocosSubstituicao(&fitas, desempenho, nomeArquivoBinario);
             break;
     }
 
+    return true;
 }
 
 void criaBlocosOrdenacaoInterna(Fitas *fitas, Desempenho *desempenho, char *nomeArquivoBinario){
@@ -34,6 +37,7 @@ void criaBlocosOrdenacaoInterna(Fitas *fitas, Desempenho *desempenho, char *nome
     
     Bloco blocoLido;
     iniciaBloco(&blocoLido);
+
     int numeroFitaAtual = 0;
 
     do {
@@ -41,10 +45,10 @@ void criaBlocosOrdenacaoInterna(Fitas *fitas, Desempenho *desempenho, char *nome
         blocoLido.numeroAlunos = fread(blocoLido.alunos, sizeof(Aluno), TAMANHO_INICIAL_BLOCO, arquivoBinario);
         mergeSort(blocoLido.alunos, 0, blocoLido.numeroAlunos);
         
-        if(blocoLido.numeroAlunos > 0){
-            adicionaBloco(fitas, &blocoLido);
+        if(blocoLido.numeroAlunos > 0) {
+            adicionaBloco(fitas[numeroFitaAtual % 20], &blocoLido);
+            numeroFitaAtual++;
         }
 
     } while(blocoLido.numeroAlunos != 0);
-
 }

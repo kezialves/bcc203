@@ -11,6 +11,7 @@
 #include "desempenho.h"
 #include "fitas.h"
 #include "quickSortExterno.h"
+#include "intercalacaoBalanceada.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -81,10 +82,11 @@ int main(int argc, char *argv[]) {
     switch(argumentos.metodoOrdenacao) {
         
         case 1:
+            ordenaIntercalacaoBalanceada(&argumentos, nomeArquivoBinario, &desempenho);
             break;
 
         case 2:
-
+            ordenaIntercalacaoBalanceada(&argumentos, nomeArquivoBinario, &desempenho);
             break;
 
         case 3:

@@ -4,7 +4,7 @@
 #include <iostream>
 #include "aluno.h"
 
-#define NOME_FITAS "FITA_01.txt"
+#define NOME_FITAS "FITA_00.bin"
 #define POSICAO_ALGARISMO_1 5
 #define POSICAO_ALGARISMO_2 6
 #define NUMERO_FITAS 20 // f
@@ -19,7 +19,6 @@ typedef struct {
 typedef struct {
     FILE* arquivo;
     int numeroBlocos = 0;
-    Bloco *blocos;
 } Fita;
 
 typedef Fita Fitas[2 * NUMERO_FITAS]; // 2f
@@ -33,8 +32,10 @@ typedef Fita Fitas[2 * NUMERO_FITAS]; // 2f
 //     int fitasSaidaUsadas = 0;
 // } Fitas;
 
+void iniciaFitas(Fitas*);
 
 void iniciaBloco(Bloco*);
 
+void adicionaBloco(Fita *fita, Bloco *bloco);
 
 #endif
