@@ -3,6 +3,7 @@
 
 #include "aluno.h"
 #include "argumentos.h"
+#include "desempenho.h"
 
 #define TAMANHO_AREA 20
 
@@ -11,23 +12,23 @@ typedef struct {
     int numeroAlunos = 0;
 } Area;
 
-void ordenaQuickSort(char*, Argumentos*);
+void ordenaQuickSort(char*, Argumentos *, Desempenho *);
 
-void quickSortExterno(FILE**, FILE**, FILE**, int, int);
+void quickSortExterno(FILE**, FILE**, FILE**, int, int, Desempenho *);
 
-void particao(FILE**, FILE**, FILE**, Area, int, int, int*, int*);
+void particao(FILE**, FILE**, FILE**, Area, int, int, int*, int*, Desempenho *);
 
 void fazAreaVazia(Area*);
 
-void leSuperior(FILE**, Aluno*, int*, bool*);
+void leSuperior(FILE**, Aluno*, int*, bool*, Desempenho *);
 
-void leInferior(FILE**, Aluno*, int*, bool*);
+void leInferior(FILE**, Aluno*, int*, bool*, Desempenho *);
 
-void inserirArea(Area*, Aluno*, int*);
+void inserirArea(Area*, Aluno*, int*, Desempenho *);
 
-void escreveMaximo(FILE**, Aluno, int*);
+void escreveMaximo(FILE**, Aluno, int*, Desempenho *);
 
-void escreveMinimo(FILE**, Aluno, int*);
+void escreveMinimo(FILE**, Aluno, int*, Desempenho *);
 
 void retiraMaximo(Area*, Aluno*, int*);
 
@@ -35,7 +36,7 @@ void retiraMinimo(Area*, Aluno*, int*);
 
 int obterNumCelOcupadas(Area*);
 
-void insereItem(Aluno*, Area*);
+void insereItem(Aluno*, Area*, Desempenho *);
 
 void retiraPrimeiro(Area *, Aluno *);
 

@@ -2,18 +2,39 @@
 #define _FITAS_H_
 
 #include <iostream>
+#include "aluno.h"
 
 #define NOME_FITAS "FITA_01.txt"
 #define POSICAO_ALGARISMO_1 5
 #define POSICAO_ALGARISMO_2 6
-#define NUMERO_FITAS 40
+#define NUMERO_FITAS 20 // f
+#define TAMANHO_INICIAL_BLOCO 20
 
-typedef struct{
+typedef struct {
+    int numeroAlunos;
+    Aluno *alunos;
+} Bloco;
+
+
+typedef struct {
     FILE* arquivo;
     int numeroBlocos = 0;
+    Bloco *blocos;
 } Fita;
 
-typedef Fita Fitas[NUMERO_FITAS];
+typedef Fita Fitas[2 * NUMERO_FITAS]; // 2f
+
+
+// typedef struct {
+//     Fita fitasEntrada[NUMERO_FITAS];
+//     int fitasEntradaUsadas = 0;
+    
+//     Fita fitasSaida[NUMERO_FITAS];
+//     int fitasSaidaUsadas = 0;
+// } Fitas;
+
+
+void iniciaBloco(Bloco*);
+
 
 #endif
-

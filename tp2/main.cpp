@@ -15,7 +15,7 @@
 using namespace std;
 using namespace std::chrono;
 
-void geraBinario(Argumentos*);
+void geraBinario(Argumentos*, char**);
 void imprimeRegistrosBinario(char*);
 
 int main(int argc, char *argv[]) {
@@ -25,8 +25,7 @@ int main(int argc, char *argv[]) {
     srand(time(NULL));
 
     //Cria e inicializa as variáveis de controle
-    Desempenho desempenho;
-    // iniciaDesempenho(&desempenho);
+    Desempenho desempenho;    // iniciaDesempenho(&desempenho);
 
     // Informa erro quando o número de argumentos é inválido
     if(argc < 4 || argc > 5) {
@@ -42,8 +41,6 @@ int main(int argc, char *argv[]) {
     argumentos.metodoOrdenacao = atoi(argv[1]);
     argumentos.quantidadeAlunos = atoi(argv[2]);
     argumentos.tipoOrdenacao = atoi(argv[3]);
-
-    
 
     // Verifica se a impressão dos registros foi requerida
     if(argc == 5 && !strcmp("-P", argv[4]))
@@ -77,8 +74,9 @@ int main(int argc, char *argv[]) {
         return 0;
     }
     
-    geraBinario(&argumentos);
-    char nomeArquivoBinario[50] = "provaoAleatorio.bin";
+    char *nomeArquivoBinario = NULL;
+
+    geraBinario(&argumentos, &nomeArquivoBinario);
 
     switch(argumentos.metodoOrdenacao) {
         
@@ -90,52 +88,51 @@ int main(int argc, char *argv[]) {
             break;
 
         case 3:
-            ordenaQuickSort(nomeArquivoBinario, &argumentos);
+            ordenaQuickSort(nomeArquivoBinario, &argumentos, &desempenho);
+            cout << "Desempenho do quicksort externo:" <<
+            "\n\tComparações: " << desempenho.comparacoes <<
+            "\n\tTransferências leitura: " << desempenho.transferenciasLeitura <<
+            "\n\tTransferências escrita: " << desempenho.transferenciasEscrita <<
+            "\n\tTempo de execução: " << desempenho.tempoExecucao.count() << endl;
             break;
-
-    } 
+    }
 
     return 0;
 }
 
-void geraBinario(Argumentos *argumentos) {
+void geraBinario(Argumentos *argumentos, char **nomeArquivoBinario) {
 
     char *nomeArquivoTexto = (char*) malloc(50 * sizeof(char));
-    char *nomeArquivoBinario;
+    // char *nomeArquivoBinario = NULL;
 
     switch(argumentos->tipoOrdenacao) {
 
         case 1:
             strcpy(nomeArquivoTexto, "provaoCrescente.txt");
-            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
+            *nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
             break;
     
         case 2:
             strcpy(nomeArquivoTexto, "provaoDecrescente.txt");
-            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
+            *nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
             break;
     
         case 3:
             strcpy(nomeArquivoTexto, "provaoAleatorio.txt");
-            nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
+            *nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
             break;
     }
 
-
-
     textoParaBinario(nomeArquivoTexto, nomeArquivoBinario);
-    cout << nomeArquivoBinario << endl;
-    imprimeRegistrosBinario(nomeArquivoBinario);
+    // imprimeRegistrosBinario(nomeArquivoBinario);
 
     free(nomeArquivoTexto);
-    free(nomeArquivoBinario);
 }
 
 void imprimeRegistrosBinario(char *nomeArquivoBinario) {
     
     FILE *arquivoBinario;
     Aluno aluno;
-    
 
     // Tenta abrir o arquivo binário e retorna erro caso não consiga
     if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) {

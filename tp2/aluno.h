@@ -3,16 +3,18 @@
 
 #include <iostream>
 
-#define STRING_TAM 100
+#define MAX_ESTADO 3 // tamanho máximo da sigla do estado contando o \0
+#define MAX_CIDADE 40 // tamanho máximo do nome da cidade
+#define MAX_CURSO 30 // tamanho máximo do nome do curso
 
 using namespace std;
 
 typedef struct{
     long numeroInscricao;
     double nota;
-    char estado[STRING_TAM];
-    char cidade[STRING_TAM];
-    char curso[STRING_TAM];
+    char estado[MAX_ESTADO];
+    char cidade[MAX_CIDADE];
+    char curso[MAX_CURSO];
 } Aluno;
 
 bool comparaAlunos(Aluno*, Aluno*);

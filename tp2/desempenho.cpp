@@ -4,8 +4,6 @@
 
 using namespace std;
 
-void iniciaDesempenho(Desempenho *desempenho) {
-    desempenho->transferenciasLeitura = 0;
-    desempenho->transferenciasEscrita = 0;
-    desempenho->comparacoes = 0;
-}
+    /* auto start = high_resolution_clock::now();
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<nanoseconds>(stop - start); */

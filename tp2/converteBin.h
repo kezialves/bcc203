@@ -4,7 +4,7 @@
 #include "argumentos.h"
 
 // Converte um arquivo texto para binário
-bool textoParaBinario(char*, char *);
+bool textoParaBinario(char*, char **);
 
 bool binarioParaTexto(char *, char *, Argumentos *);
 

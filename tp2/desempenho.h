@@ -13,7 +13,4 @@ typedef struct {
     nanoseconds tempoExecucao;
 } Desempenho;
 
-// Inicializa os valores do TAD de controle
-void iniciaDesempenho(Desempenho *desempenho);
-
 #endif

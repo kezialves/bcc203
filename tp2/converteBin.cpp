@@ -9,7 +9,7 @@
 
 using namespace std;
 
-bool textoParaBinario(char *nomeArquivoTexto, char *nomeArquivoBinario) {
+bool textoParaBinario(char *nomeArquivoTexto, char **nomeArquivoBinario) {
     
     FILE *arquivoTexto, *arquivoBinario;
     Aluno aluno;
@@ -23,7 +23,7 @@ bool textoParaBinario(char *nomeArquivoTexto, char *nomeArquivoBinario) {
 
     // Verifica se foi possível abrir o arquivo binário
     // Caso contrário, retorna falso
-    if((arquivoBinario = fopen(nomeArquivoBinario, "wb")) == NULL) {
+    if((arquivoBinario = fopen(*nomeArquivoBinario, "wb")) == NULL) {
         cout << "Erro na criação do arquivo binário.\n";
         return false;
     }
@@ -61,7 +61,8 @@ bool textoParaBinario(char *nomeArquivoTexto, char *nomeArquivoBinario) {
         //Como há vários espaços entre a cidade e o curso, optamos por um fscanf que consumirá apenas os espaços
         // e assim podemos ler o curso normalmente.
         fscanf(arquivoTexto, "%[ ]", aluno.curso);
-        fgets(aluno.curso, STRING_TAM, arquivoTexto);
+        fgets(aluno.curso, MAX_CURSO, arquivoTexto);
+        
 
         //removendo o \n que vem junto do fgets
         aluno.curso[strlen(aluno.curso) - 2] = '\0';

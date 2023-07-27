@@ -3,10 +3,11 @@
 #include <stdlib.h>
 
 #include "merge.h"
+#include "aluno.h"
 
 using namespace std;
 
-void mergeSort(int *vetor, int l, int r) {
+void mergeSort(Aluno *vetor, int l, int r) {
 
     if(l < r) { // o começo tem que ser menor que o final pra dividir
         int m = (r + l) / 2; // calcula o meio do vetor
@@ -16,15 +17,15 @@ void mergeSort(int *vetor, int l, int r) {
     }
 }
 
-void merge(int *vetor, int l, int m, int r) {
+void merge(Aluno *vetor, int l, int m, int r) {
 
     int tamanhoL, tamanhoR;
 
     tamanhoL = (m - l + 1); // tamanho do vetor da esquerda
     tamanhoR = (r - m); // tamanho do vetor da direita
 
-    int *vetorL = aloca(tamanhoL); // aloca o vetor da esquerda
-    int *vetorR = aloca(tamanhoR); // aloca o vetor da direita
+    Aluno *vetorL = aloca(tamanhoL); // aloca o vetor da esquerda
+    Aluno *vetorR = aloca(tamanhoR); // aloca o vetor da direita
 
     // preenche o vetor da esquerda com a primeira metade do original
     for(int i = 0; i < tamanhoL; i++) {
@@ -50,7 +51,7 @@ void merge(int *vetor, int l, int m, int r) {
         else if(j == tamanhoR) // se j tiver chegado ao tamanho de r, o vetor da direita acabou
             vetor[k] = vetorL[i++]; // então só resta inserir o vetor da esquerda, que já está ordenado
 
-        else if(vetorL[i] <= vetorR[j]) // se o valor de l em i for menor que o valor de r em j
+        else if(comparaAlunos(&(vetorL[i]), &(vetorR[j]))) // se o valor de l em i for menor que o valor de r em j
             vetor[k] = vetorL[i++]; // o vetor em k recebe l em i e incrementa o i
 
         else // se o valor de r em j for menor que o valor de l em i
@@ -61,13 +62,13 @@ void merge(int *vetor, int l, int m, int r) {
     desaloca(vetorR); // desaloca o vetor da direita
 }
 
-int * aloca(int tamanho) {
+Aluno *aloca(int tamanho) {
 
-    int *vetor = (int*) malloc(tamanho * sizeof(int));
+    Aluno *vetor = (Aluno*) malloc(tamanho * sizeof(Aluno));
 
     return vetor;
 }
 
-void desaloca(int *vetor) {
+void desaloca(Aluno *vetor) {
     free(vetor);
 }

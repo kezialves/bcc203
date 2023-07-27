@@ -1,9 +1,11 @@
 #ifndef _MERGE_H_
 #define _MERGE_H_
 
-void mergeSort(int *vetor, int l, int r);
-void merge(int *vetor, int l, int m, int r);
-int * aloca(int tamanho);
-void desaloca(int *vetor);
+#include "aluno.h"
+
+void mergeSort(Aluno *alunos, int l, int r);
+void merge(Aluno *alunos, int l, int m, int r);
+Aluno *aloca(int tamanho);
+void desaloca(Aluno *vetor);
 
 #endif
