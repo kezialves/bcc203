@@ -4,8 +4,8 @@
 #include <iostream>
 
 #define MAX_ESTADO 3 // tamanho máximo da sigla do estado contando o \0
-#define MAX_CIDADE 52 // tamanho máximo do nome da cidade
-#define MAX_CURSO 32 // tamanho máximo do nome do curso
+#define MAX_CIDADE 100 // tamanho máximo do nome da cidade
+#define MAX_CURSO 100 // tamanho máximo do nome do curso
 
 using namespace std;
 

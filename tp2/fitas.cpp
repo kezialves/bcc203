@@ -12,17 +12,19 @@ void iniciaFitas(Fitas *fitas) {
 
     for(int i = 0; i < NUMERO_FITAS; i++) {
 
-        char nomeFita[15];
+        char nomeFita[30];
 
         strcpy(nomeFita, NOME_FITAS);
 
         if(i < 10)
-            nomeFita[7] = i + 48;
+            nomeFita[POSICAO_ALGARISMO_2] = i + 48;
         
         else {
-            nomeFita[6] = 49;
-            nomeFita[7] = i + 48;
+            nomeFita[POSICAO_ALGARISMO_1] = 49;
+            nomeFita[POSICAO_ALGARISMO_2] = (i % 10) + 48;
         }
+
+        cout << "FITA " << nomeFita << "\n";
 
         if((fitas[i]->arquivo = fopen(nomeFita, "wb+")) == NULL)
             cout << "Erro ao abrir o arquivo binário da fita " << nomeFita << ".\n";

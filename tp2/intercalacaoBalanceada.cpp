@@ -5,7 +5,11 @@
 
 bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinario, Desempenho *desempenho){
 
+    cout << "ENTROU NO ORDENA\n";
+
     Fitas fitas;
+
+    cout << "INICIANDO FITAS\n";
 
     iniciaFitas(&fitas);
     
@@ -14,6 +18,7 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
 
         // Cria os blocos por ordenação interna através do mergeSort
         case 1:
+            cout << "CRIANDO BLOCOS\n";
             criaBlocosOrdenacaoInterna(&fitas, desempenho, nomeArquivoBinario);
             break;
         
@@ -22,6 +27,8 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
             //criaBlocosSubstituicao(&fitas, desempenho, nomeArquivoBinario);
             break;
     }
+
+    cout << "SAIU DO ORDENA\n";
 
     return true;
 }

@@ -4,9 +4,9 @@
 #include <iostream>
 #include "aluno.h"
 
-#define NOME_FITAS "FITA_00.bin"
-#define POSICAO_ALGARISMO_1 5
-#define POSICAO_ALGARISMO_2 6
+#define NOME_FITAS "fitas/FITA_00.bin"
+#define POSICAO_ALGARISMO_1 11
+#define POSICAO_ALGARISMO_2 12
 #define NUMERO_FITAS 20 // f
 #define TAMANHO_INICIAL_BLOCO 20
 
