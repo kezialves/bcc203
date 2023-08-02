@@ -7,22 +7,21 @@
 #define NOME_FITAS "fitas/FITA_00.bin"
 #define POSICAO_ALGARISMO_1 11
 #define POSICAO_ALGARISMO_2 12
-#define NUMERO_FITAS 20 // f
+#define NUMERO_FITAS 40 // 2f
 #define TAMANHO_INICIAL_BLOCO 20
 
 typedef struct {
     int numeroAlunos;
-    Aluno *alunos;
+    Aluno alunos[TAMANHO_INICIAL_BLOCO];
 } Bloco;
 
-
 typedef struct {
+    int vezesAcessadas; 
     FILE* arquivo;
     int numeroBlocos = 0;
 } Fita;
 
-typedef Fita Fitas[2 * NUMERO_FITAS]; // 2f
-
+// typedef Fita Fitas[2 * NUMERO_FITAS]; // 2f
 
 // typedef struct {
 //     Fita fitasEntrada[NUMERO_FITAS];
@@ -32,10 +31,14 @@ typedef Fita Fitas[2 * NUMERO_FITAS]; // 2f
 //     int fitasSaidaUsadas = 0;
 // } Fitas;
 
-void iniciaFitas(Fitas*);
+void iniciaFitas(Fita *);
 
-void iniciaBloco(Bloco*);
+// void iniciaBloco(Bloco*);
 
-void adicionaBloco(Fita *fita, Bloco *bloco);
+void adicionaBloco(Fita *, Bloco *);
+
+void imprimeFita(Fita*);
+
+void imprimeFitas(Fita*);
 
 #endif

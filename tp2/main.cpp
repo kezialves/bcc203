@@ -125,7 +125,7 @@ void geraBinario(Argumentos *argumentos, char **nomeArquivoBinario) {
             break;
     }
 
-    textoParaBinario(nomeArquivoTexto, nomeArquivoBinario);
+    textoParaBinario(nomeArquivoTexto, nomeArquivoBinario, argumentos);
     // imprimeRegistrosBinario(nomeArquivoBinario);
 
     free(nomeArquivoTexto);

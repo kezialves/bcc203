@@ -9,7 +9,7 @@
 
 using namespace std;
 
-bool textoParaBinario(char *nomeArquivoTexto, char **nomeArquivoBinario) {
+bool textoParaBinario(char *nomeArquivoTexto, char **nomeArquivoBinario, Argumentos *argumentos) {
     
     FILE *arquivoTexto, *arquivoBinario;
     Aluno aluno;
@@ -27,9 +27,10 @@ bool textoParaBinario(char *nomeArquivoTexto, char **nomeArquivoBinario) {
         cout << "Erro na criação do arquivo binário.\n";
         return false;
     }
-    
+    int numeroAlunos = argumentos->quantidadeAlunos;
+
     // Lê os dados do arquivo texto e os escreve no arquivo binário
-    while(fscanf(arquivoTexto, "%ld", &aluno.numeroInscricao) != EOF) {
+    while(fscanf(arquivoTexto, "%ld", &aluno.numeroInscricao) != EOF && numeroAlunos > 0) {
         
         //Variáveis de controle para saber a posição da string e se chegamos no final, ao ler 2 espaços.
         int contadorEspaco = 0;
@@ -82,6 +83,7 @@ bool textoParaBinario(char *nomeArquivoTexto, char **nomeArquivoBinario) {
         }
 
         fwrite(&aluno, sizeof(Aluno), 1, arquivoBinario);
+        numeroAlunos--;
     }
 
     fclose(arquivoTexto);

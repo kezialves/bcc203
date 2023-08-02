@@ -6,15 +6,20 @@
 #include "argumentos.h"
 #include "merge.h"
 
+#define TAMANHO_MEMORIA_INTERNA 20
+
 bool ordenaIntercalacaoBalanceada(Argumentos*, char*, Desempenho*);
 
-void criaBlocosOrdenacaoInterna(Fitas*, Desempenho*, char*);
+void criaBlocosOrdenacaoInterna(Fita*, Desempenho*, char*);
 
-void criaBlocosSubstituicao(Fitas*, Desempenho*, char*);
+void criaBlocosSubstituicao(Fita*, Desempenho*, char*);
 
 void leBloco(Bloco*, FILE*);
 
-void adicionaBloco(Fitas*, Bloco*);
+void adicionaBloco(Fita*, Bloco*);
 
+bool intercala(Fita*);
+
+int menorElemento(Bloco);
 
 #endif
