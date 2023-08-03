@@ -18,8 +18,20 @@ void leBloco(Bloco*, FILE*);
 
 void adicionaBloco(Fita*, Bloco*);
 
-bool intercala(Fita*);
+bool intercala(Fita*, int, bool fitaIntercalada);
 
-int menorElemento(Bloco);
+int menorElemento(Bloco*, int*);
+
+int maxBlocos(Fita *);
+
+int totalAlunosBlocoAIntercalar(Fita *fitas);
+
+void reiniciaPonteirosFitas(Fita *);
+
+int somaVetorControle(int *);
+
+bool continuaIntercalacao(Fita *);
+
+void fechaFitas (Fita* fitas);
 
 #endif

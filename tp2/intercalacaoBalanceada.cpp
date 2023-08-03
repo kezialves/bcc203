@@ -23,7 +23,28 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
             break;
     }
 
+    bool fitaIntercalada = false;
+
+    while(continuaIntercalacao(fitas)){
+        // cout << "AAAAAAA" << endl; 
+        reiniciaPonteirosFitas(fitas);
+        int numeroBlocos = maxBlocos(fitas);
+        //apagarFitasAqui
+        cout << "Numero de blocos: " << numeroBlocos << endl;
+        
+        for(int i = 0; i < numeroBlocos; i++){
+            intercala(fitas, i + 1, fitaIntercalada);
+        }
+
+        fitaIntercalada = !fitaIntercalada;
+    }
+
+    
+    //
     imprimeFitas(fitas);
+
+    // Fecha todos os arquivos de fitas
+    fechaFitas(fitas);
 
     return true;
 }
@@ -63,23 +84,64 @@ void criaBlocosOrdenacaoInterna(Fita *fitas, Desempenho *desempenho, char *nomeA
         }
 
     } while(blocoLido.numeroAlunos != 0);
-
 }
 
-bool intercala(Fita* fitas){
+bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
 
-    int vetorControle[20];
-    Bloco alunos;
+    int vetorControle[NUMERO_FITAS / 2];
+    Bloco alunos; // Memória principal
 
-    for(int i = 0; i < NUMERO_FITAS; i++){
-        if(fitas[i].numeroBlocos == 0)
-            break;
-        rewind(fitas->arquivo);
+    // Calcula em qual fita a gente deve escrever
+    // BlocoAIntercalar - 1 é pq a gente precisa do contador, mas estamos passando o contador + 1 na função de fora
+    // *Essa conta está explicada mais detalhadamente no PC do Bruno*
+    // FUNCIONA !!! (JÁ FOI TESTADO, SE DEU ERRADO FOI NA HORA DE INVERTER)
+    int fitaEscrita = ((((blocoAIntercalar - 1)  % (NUMERO_FITAS / 2)) + (NUMERO_FITAS / 2)) % (NUMERO_FITAS));
+
+    if(fitaIntercalada)
+        fitaEscrita -= NUMERO_FITAS / 2;
+
+    
+    for(int i = 0; i < NUMERO_FITAS / 2; i++){
+        
+        if(fitas[i].numeroBlocos <= blocoAIntercalar){
+            vetorControle[i] = 0;
+            continue;   
+        }
+        
         fread(&(vetorControle[i]), sizeof(int), 1, fitas[i].arquivo);
     }
 
-    
+    //Apaga o conteúdo da fita
+    fitas[fitaEscrita].arquivo = freopen(NULL,"wb+",fitas[fitaEscrita].arquivo);
 
+    int soma = somaVetorControle(vetorControle);
+
+    fitas[fitaEscrita].numeroBlocos = 1; // APENAS INCREMENTAR! NÃO DEFINIR COMO 1.
+    fwrite(&soma, sizeof(int), 1, fitas[fitaEscrita].arquivo);
+
+
+    for(int i = 0; i < NUMERO_FITAS / 2; i++){
+        if(vetorControle[i] > 0){
+            fread(&alunos.alunos[i], sizeof(Aluno), 1, fitas[i].arquivo);
+            vetorControle[i]--;
+        }
+    }
+
+    while(somaVetorControle(vetorControle)){
+
+        int indiceMenorElemento = menorElemento(&alunos, vetorControle);
+        
+        Aluno aluno = alunos.alunos[indiceMenorElemento];
+
+        fwrite(&aluno, sizeof(Aluno), 1, fitas[fitaEscrita].arquivo);
+        
+        if(vetorControle[indiceMenorElemento]){
+            fread(&alunos.alunos[indiceMenorElemento], sizeof(Aluno), 1, fitas[indiceMenorElemento].arquivo);
+            vetorControle[indiceMenorElemento]--;
+        }   
+    }
+
+    return true;
 }
 
 int menorElemento(Bloco *memoriaPrincipal, int *vetorControle){
@@ -101,5 +163,95 @@ int menorElemento(Bloco *memoriaPrincipal, int *vetorControle){
     }
 
     return indiceMenor;
+}
+
+int maxBlocos(Fita *fitas){
+
+    int maxBlocos = -1;
+    
+    for(int i = 0; i < NUMERO_FITAS; i++){
+        if(fitas[i].numeroBlocos > maxBlocos )
+            maxBlocos = fitas[i].numeroBlocos;
+    }
+
+    return maxBlocos;
+}
+
+// retângulo laranja nos trêses
+int totalAlunosBlocoAIntercalar(Fita *fitas){
+
+    int totalAlunos = 0;  
+    int alunosBloco = 0;  
+
+    // Percorre cada fita e lê quantos alunos tem em cada um dos blocos que estão sendo intercalados no momento
+    // Soma essa quantidade em uma variável que vai ser retornada na função
+    for(int i = 0; i < NUMERO_FITAS; i++){
+
+        // Lê a quantidade de alunos no bloco
+        fread(&alunosBloco, sizeof(int), 1, fitas[i].arquivo);
+
+        // Volta a posição do ponteiro para antes do número lido, para não atrapalhar a outra função
+        fseek(fitas[i].arquivo, (-1 * sizeof(int)), SEEK_CUR);
+
+        // Soma a quantidade de alunos no acumulador
+        totalAlunos += alunosBloco;
+    }
+
+    return totalAlunos;
 
 }
+
+void reiniciaPonteirosFitas(Fita* fitas){
+
+    for(int i = 0; i < NUMERO_FITAS; i++){
+        rewind(fitas[i].arquivo);
+    }
+
+}
+
+int somaVetorControle(int *vetorControle){
+
+    int soma = 0;
+
+    for(int i = 0; i < (NUMERO_FITAS / 2); i++){
+        soma += vetorControle[i];
+    }
+    
+    return soma;
+    
+}
+
+bool continuaIntercalacao(Fita *fitas){
+    int numeroBlocos = 0;
+    for(int i = 0; i < NUMERO_FITAS / 2; i++){
+        numeroBlocos += fitas[i].numeroBlocos;
+
+        if(numeroBlocos > 1)
+            return true;
+    }
+    
+    return false;
+}
+
+void fechaFitas (Fita* fitas){
+
+    for(int i = 0; i < NUMERO_FITAS; i++){
+        fclose(fitas[i].arquivo);
+    }
+
+}
+
+
+
+
+
+
+
+// Qual fita escrever
+// ((contador + 3) % 6) + 1
+// ((contador + numeroFitas) % (2*numeroFitas)) + 1
+
+// int fitaEscrita = ((((blocoAIntercalar % (NUMERO_FITAS / 2)) - 1) + (NUMERO_FITAS / 2)) % (NUMERO_FITAS)) + 1;
+
+
+// 17 é nois
