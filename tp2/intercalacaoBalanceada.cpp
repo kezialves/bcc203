@@ -24,12 +24,14 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
     }
 
     bool fitaIntercalada = false;
+    int lixo;
 
     while(continuaIntercalacao(fitas)){
         // cout << "AAAAAAA" << endl; 
         reiniciaPonteirosFitas(fitas);
         int numeroBlocos = maxBlocos(fitas);
-        //apagarFitasAqui
+        apagaFitasEntrada(fitas, fitaIntercalada);
+
         cout << "Numero de blocos: " << numeroBlocos << endl;
         
         for(int i = 0; i < numeroBlocos; i++){
@@ -37,11 +39,18 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
         }
 
         fitaIntercalada = !fitaIntercalada;
+
+        reiniciaPonteirosFitas(fitas);
+        imprimeFitas(fitas);
+        cin >> lixo;
+
+
     }
 
+    // reiniciaPonteirosFitas(fitas);
     
     //
-    imprimeFitas(fitas);
+    // imprimeFitas(fitas);
 
     // Fecha todos os arquivos de fitas
     fechaFitas(fitas);
@@ -88,6 +97,8 @@ void criaBlocosOrdenacaoInterna(Fita *fitas, Desempenho *desempenho, char *nomeA
 
 bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
 
+    int lixo;
+
     int vetorControle[NUMERO_FITAS / 2];
     Bloco alunos; // Memória principal
 
@@ -103,20 +114,25 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
     
     for(int i = 0; i < NUMERO_FITAS / 2; i++){
         
-        if(fitas[i].numeroBlocos <= blocoAIntercalar){
+        if(fitas[i].numeroBlocos < blocoAIntercalar){
             vetorControle[i] = 0;
             continue;   
         }
-        
         fread(&(vetorControle[i]), sizeof(int), 1, fitas[i].arquivo);
+         //vetorControle[i]++;
     }
 
+    // cout << "-----------VETOR CONTROLE INICIO\n";
+    // for(int i = 0 ; i < NUMERO_FITAS / 2; i++){
+        // cout << vetorControle[i] << "  ";
+    // }
+    // cout << "------------------------\n";
     //Apaga o conteúdo da fita
     fitas[fitaEscrita].arquivo = freopen(NULL,"wb+",fitas[fitaEscrita].arquivo);
 
     int soma = somaVetorControle(vetorControle);
 
-    fitas[fitaEscrita].numeroBlocos = 1; // APENAS INCREMENTAR! NÃO DEFINIR COMO 1.
+    fitas[fitaEscrita].numeroBlocos++; // APENAS INCREMENTAR! NÃO DEFINIR COMO 1.
     fwrite(&soma, sizeof(int), 1, fitas[fitaEscrita].arquivo);
 
 
@@ -127,19 +143,31 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
         }
     }
 
-    while(somaVetorControle(vetorControle)){
+    while(somaVetorControle(vetorControle) > 0){
+
+        cout << "MEMORIA INTERNA \n";
+        for(int i = 0; i < NUMERO_FITAS / 2; i++){
+            cout << i <<". Valor controle: "<< vetorControle[i] << "\t Nota: " << alunos.alunos[i].nota << endl;
+        }
+        cout << "---------------\n";
+
+
 
         int indiceMenorElemento = menorElemento(&alunos, vetorControle);
-        
+        cout << "Menor Elemento:  " << indiceMenorElemento << endl;
+        //cin >> lixo;
+
         Aluno aluno = alunos.alunos[indiceMenorElemento];
 
         fwrite(&aluno, sizeof(Aluno), 1, fitas[fitaEscrita].arquivo);
         
-        if(vetorControle[indiceMenorElemento]){
+        if(vetorControle[indiceMenorElemento] >= 0){
             fread(&alunos.alunos[indiceMenorElemento], sizeof(Aluno), 1, fitas[indiceMenorElemento].arquivo);
             vetorControle[indiceMenorElemento]--;
         }   
     }
+
+
 
     return true;
 }
@@ -149,7 +177,7 @@ int menorElemento(Bloco *memoriaPrincipal, int *vetorControle){
     int indiceMenor;
 
     for(int i = 0; i < NUMERO_FITAS; i++){
-        if(vetorControle[i]){
+        if(vetorControle[i] > 0){
             indiceMenor = i;
             break;
         }
@@ -207,6 +235,21 @@ void reiniciaPonteirosFitas(Fita* fitas){
         rewind(fitas[i].arquivo);
     }
 
+}
+
+void apagaFitasEntrada(Fita* fitas, bool fitasAlternada){
+
+    for(int i = 0;i < NUMERO_FITAS / 2; i++){
+        if(fitasAlternada){
+            fitas[i].arquivo = freopen(NULL,"wb+",fitas[i].arquivo);
+            fitas[i].numeroBlocos = 0;
+        }
+        
+        else {
+            fitas[i + 20].arquivo = freopen(NULL,"wb+",fitas[i + 20].arquivo);
+            fitas[i + 20].numeroBlocos = 0;
+        }
+    }
 }
 
 int somaVetorControle(int *vetorControle){

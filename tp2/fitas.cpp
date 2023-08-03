@@ -62,15 +62,15 @@ void imprimeFita(Fita *fita){
             fread(&aluno, sizeof(Aluno), 1, fita->arquivo);
             cout << "\t\tInscrição: " << aluno.numeroInscricao << "\tNota: " << aluno.nota << endl;
             alunosBloco--;
-
-        } while(alunosBloco != 0);
+            // cout << "Alunos bloco: " << alunosBloco << endl;
+        } while(alunosBloco > 0);
     }
 }
 
 void imprimeFitas(Fita *fitas){
 
     for(int i = 0; i < NUMERO_FITAS; i++){
-        cout << "Fita " << i + 1 << endl; 
+        cout << "Fita " << i << endl; 
         imprimeFita(&fitas[i]);
         cout << "-------------------------------------------\n";
     }
