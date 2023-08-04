@@ -1,0 +1,63 @@
+20
+00337759 42.5 DF BRASILIA                                             ADMINISTRACAO
+00212231 44.8 DF BRASILIA                                             ADMINISTRACAO
+00058361 46.8 DF BRASILIA                                             ADMINISTRACAO
+00384572 47.8 DF BRASILIA                                             ADMINISTRACAO
+00278537 50.0 DF BRASILIA                                             ADMINISTRACAO
+00401505 50.3 DF BRASILIA                                             ADMINISTRACAO
+00130170 50.5 DF BRASILIA                                             ADMINISTRACAO
+00070951 53.8 DF BRASILIA                                             ADMINISTRACAO
+00281116 55.3 DF BRASILIA                                             ADMINISTRACAO
+00067407 55.5 DF BRASILIA                                             ADMINISTRACAO
+00452191 59.5 DF BRASILIA                                             ADMINISTRACAO
+00230931 60.5 DF BRASILIA                                             ADMINISTRACAO
+00164535 61.5 DF BRASILIA                                             ADMINISTRACAO
+00460650 63.0 DF BRASILIA                                             ADMINISTRACAO
+00335967 63.8 DF BRASILIA                                             ADMINISTRACAO
+00025193 66.3 DF BRASILIA                                             ADMINISTRACAO
+00240915 67.3 DF BRASILIA                                             ADMINISTRACAO
+00167165 70.0 DF BRASILIA                                             ADMINISTRACAO
+00114282 72.5 DF BRASILIA                                             ADMINISTRACAO
+00444331 76.8 DF BRASILIA                                             ADMINISTRACAO
+20
+00084990 21.3 PI PARNAIBA                                             ADMINISTRACAO
+00471379 26.0 PI PARNAIBA                                             ADMINISTRACAO
+00323220 27.3 PI PARNAIBA                                             ADMINISTRACAO
+00073822 27.5 PI PARNAIBA                                             ADMINISTRACAO
+00335198 28.5 PI PARNAIBA                                             ADMINISTRACAO
+00025999 29.5 PI PARNAIBA                                             ADMINISTRACAO
+00047472 29.5 PI PARNAIBA                                             ADMINISTRACAO
+00171020 29.8 PI PARNAIBA                                             ADMINISTRACAO
+00455789 32.0 PI PARNAIBA                                             ADMINISTRACAO
+00249107 33.3 PI PARNAIBA                                             ADMINISTRACAO
+00458650 33.5 PI PARNAIBA                                             ADMINISTRACAO
+00248417 37.8 PI PARNAIBA                                             ADMINISTRACAO
+00353811 39.0 PI TERESINA                                             ADMINISTRACAO
+00337846 42.0 PI PARNAIBA                                             ADMINISTRACAO
+00205242 42.3 PI TERESINA                                             ADMINISTRACAO
+00380532 47.0 PI TERESINA                                             ADMINISTRACAO
+00109676 47.5 PI PARNAIBA                                             ADMINISTRACAO
+00467354 47.8 MG VICOSA                                               ADMINISTRACAO
+00327968 48.5 PI PARNAIBA                                             ADMINISTRACAO
+00415432 52.3 PI PARNAIBA                                             ADMINISTRACAO
+20
+00446905 00.0 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00446102 00.0 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00168156 00.0 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00046771 00.0 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00119835 26.3 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00143639 26.3 PR CURITIBA                                             ADMINISTRACAO
+00298783 28.3 PR CURITIBA                                             ADMINISTRACAO
+00214523 29.0 PR CURITIBA                                             ADMINISTRACAO
+00317654 37.0 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00042668 42.8 PR CURITIBA                                             ADMINISTRACAO
+00209858 45.8 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00280259 46.8 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00107535 48.5 PR CURITIBA                                             ADMINISTRACAO
+00162993 51.5 PR CURITIBA                                             ADMINISTRACAO
+00140865 55.8 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00438411 58.3 PR SAO JOSE DOS PINHAIS                                 ADMINISTRACAO
+00349722 66.5 PR CURITIBA                                             ADMINISTRACAO
+00105494 68.0 PR CURITIBA                                             ADMINISTRACAO
+00205218 68.8 PR CURITIBA                                             ADMINISTRACAO
+00444743 71.8 PR CURITIBA                                             ADMINISTRACAO

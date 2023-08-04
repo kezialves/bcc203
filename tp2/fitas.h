@@ -31,14 +31,18 @@ typedef struct {
 //     int fitasSaidaUsadas = 0;
 // } Fitas;
 
-void iniciaFitas(Fita *);
+void iniciaFitas(Fita*);
 
 // void iniciaBloco(Bloco*);
 
-void adicionaBloco(Fita *, Bloco *);
+void adicionaBloco(Fita*, Bloco*);
 
 void imprimeFita(Fita*);
 
 void imprimeFitas(Fita*);
+
+void converteFitaTexto(Fita);
+
+void flushFitas(Fita*);
 
 #endif

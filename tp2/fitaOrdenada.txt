@@ -1,0 +1,400 @@
+00412790 00.0 MT CUIABA                                               ADMINISTRACAO
+00059573 00.0 MT CUIABA                                               ADMINISTRACAO
+00151750 00.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00370724 00.0 MT CUIABA                                               ADMINISTRACAO
+00423855 00.0 MT CUIABA                                               ADMINISTRACAO
+00207334 00.0 MT CUIABA                                               ADMINISTRACAO
+00057202 00.0 MT AGUA BOA                                             ADMINISTRACAO
+00239419 00.0 MT CUIABA                                               ADMINISTRACAO
+00047497 00.0 DF BRASILIA                                             ADMINISTRACAO
+00144473 00.0 DF BRASILIA                                             ADMINISTRACAO
+00072808 00.0 DF BRASILIA                                             ADMINISTRACAO
+00454736 00.0 DF BRASILIA                                             ADMINISTRACAO
+00221890 00.0 DF BRASILIA                                             ADMINISTRACAO
+00161889 00.0 DF BRASILIA                                             ADMINISTRACAO
+00259213 00.0 DF BRASILIA                                             ADMINISTRACAO
+00119390 00.0 DF BRASILIA                                             ADMINISTRACAO
+00084421 00.0 DF BRASILIA                                             ADMINISTRACAO
+00339589 00.0 DF BRASILIA                                             ADMINISTRACAO
+00369658 00.0 DF BRASILIA                                             ADMINISTRACAO
+00034050 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00453078 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00022952 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00283054 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00435753 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00032997 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00367644 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00230537 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00417534 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00461082 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00370976 00.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00078506 00.0 AM MANAUS                                               ADMINISTRACAO
+00136049 00.0 AM MANAUS                                               ADMINISTRACAO
+00159186 00.0 AM MANAUS                                               ADMINISTRACAO
+00021239 00.0 AM MANAUS                                               ADMINISTRACAO
+00030293 00.0 AM MANAUS                                               ADMINISTRACAO
+00213978 10.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00254349 12.5 DF BRASILIA                                             ADMINISTRACAO
+00346592 14.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00065996 16.3 MT AGUA BOA                                             ADMINISTRACAO
+00269932 17.5 MT CUIABA                                               ADMINISTRACAO
+00037379 17.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00080301 18.3 AM MANAUS                                               ADMINISTRACAO
+00027801 18.3 AM MANAUS                                               ADMINISTRACAO
+00121505 18.8 MT CUIABA                                               ADMINISTRACAO
+00402740 18.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00150517 18.8 DF BRASILIA                                             ADMINISTRACAO
+00036392 18.8 AM MANAUS                                               ADMINISTRACAO
+00301802 20.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00040975 20.0 DF BRASILIA                                             ADMINISTRACAO
+00147344 20.0 AM MANAUS                                               ADMINISTRACAO
+00418828 20.0 AM MANAUS                                               ADMINISTRACAO
+00116536 20.0 AM MANAUS                                               ADMINISTRACAO
+00112781 20.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00412481 20.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00338433 21.3 DF BRASILIA                                             ADMINISTRACAO
+00063830 21.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00456679 22.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00300056 22.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00286286 22.5 DF BRASILIA                                             ADMINISTRACAO
+00125100 22.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00274212 22.5 AM MANAUS                                               ADMINISTRACAO
+00367656 22.5 AM MANAUS                                               ADMINISTRACAO
+00339451 23.5 AM MANAUS                                               ADMINISTRACAO
+00163079 23.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00306088 24.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00457807 24.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00210550 24.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00386413 24.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00251361 24.8 AM MANAUS                                               ADMINISTRACAO
+00243219 25.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00005317 25.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00111954 27.5 MT CUIABA                                               ADMINISTRACAO
+00362081 27.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00023133 28.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00293078 28.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00316162 28.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00293831 29.3 AM MANAUS                                               ADMINISTRACAO
+00203779 30.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00268715 30.0 DF BRASILIA                                             ADMINISTRACAO
+00071577 30.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00142590 31.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00088312 31.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00113382 31.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00422511 31.3 AM MANAUS                                               ADMINISTRACAO
+00183699 31.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00123938 31.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00085344 31.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00329608 31.8 DF BRASILIA                                             ADMINISTRACAO
+00010942 32.0 DF BRASILIA                                             ADMINISTRACAO
+00304166 32.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00213434 32.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00462658 32.5 AM MANAUS                                               ADMINISTRACAO
+00445958 32.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00008834 33.0 DF BRASILIA                                             ADMINISTRACAO
+00182746 33.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00101991 33.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00205746 33.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00082340 34.0 AM MANAUS                                               ADMINISTRACAO
+00173550 34.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00325545 34.3 DF BRASILIA                                             ADMINISTRACAO
+00224240 34.3 AM MANAUS                                               ADMINISTRACAO
+00170838 34.8 MT CUIABA                                               ADMINISTRACAO
+00311591 35.0 DF BRASILIA                                             ADMINISTRACAO
+00112564 35.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00170558 35.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00159825 35.5 AM MANAUS                                               ADMINISTRACAO
+00396530 35.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00190351 36.3 DF BRASILIA                                             ADMINISTRACAO
+00162633 36.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00037778 36.5 MT CUIABA                                               ADMINISTRACAO
+00059131 36.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00337091 36.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00024213 36.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00266061 36.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00409928 37.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00255680 37.0 DF BRASILIA                                             ADMINISTRACAO
+00114422 37.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00066354 37.3 DF BRASILIA                                             ADMINISTRACAO
+00113285 37.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00368900 37.3 AM MANAUS                                               ADMINISTRACAO
+00228618 37.3 AM MANAUS                                               ADMINISTRACAO
+00118861 37.3 AM MANAUS                                               ADMINISTRACAO
+00003393 37.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00191878 37.5 DF BRASILIA                                             ADMINISTRACAO
+00238292 38.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00268678 38.0 DF BRASILIA                                             ADMINISTRACAO
+00124494 38.0 DF BRASILIA                                             ADMINISTRACAO
+00095662 38.3 DF BRASILIA                                             ADMINISTRACAO
+00276824 38.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00051080 38.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00036078 38.5 AM MANAUS                                               ADMINISTRACAO
+00202266 38.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00085432 38.8 DF BRASILIA                                             ADMINISTRACAO
+00356030 38.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00314937 38.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00025188 39.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00203084 39.5 DF BRASILIA                                             ADMINISTRACAO
+00278763 39.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00291453 39.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00419670 39.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00107236 40.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00251484 40.3 AM MANAUS                                               ADMINISTRACAO
+00207373 40.3 AM MANAUS                                               ADMINISTRACAO
+00224450 40.5 MT CUIABA                                               ADMINISTRACAO
+00102393 40.5 MT CUIABA                                               ADMINISTRACAO
+00036075 40.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00175921 41.0 DF BRASILIA                                             ADMINISTRACAO
+00065840 41.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00116493 41.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00340424 41.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00400008 42.0 MT CUIABA                                               ADMINISTRACAO
+00003517 42.0 AM MANAUS                                               ADMINISTRACAO
+00364281 42.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00221291 42.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00337759 42.5 DF BRASILIA                                             ADMINISTRACAO
+00394362 42.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00168351 43.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00234756 43.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00047218 43.0 AM MANAUS                                               ADMINISTRACAO
+00061117 43.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00220132 43.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00009997 43.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00184524 43.5 AM MANAUS                                               ADMINISTRACAO
+00354405 43.8 MT CUIABA                                               ADMINISTRACAO
+00346924 43.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00355310 44.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00373477 44.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00216194 44.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00306648 44.3 DF BRASILIA                                             ADMINISTRACAO
+00412715 44.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00212231 44.8 DF BRASILIA                                             ADMINISTRACAO
+00035798 45.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00119830 45.0 DF BRASILIA                                             ADMINISTRACAO
+00304832 45.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00210080 45.3 DF BRASILIA                                             ADMINISTRACAO
+00022147 45.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00366462 45.5 DF BRASILIA                                             ADMINISTRACAO
+00129347 45.5 AM MANAUS                                               ADMINISTRACAO
+00336015 46.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00034535 46.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00254576 46.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00422625 46.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00459126 46.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00220216 46.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00369241 46.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00329668 46.5 DF BRASILIA                                             ADMINISTRACAO
+00193803 46.5 AM MANAUS                                               ADMINISTRACAO
+00142837 46.8 DF BRASILIA                                             ADMINISTRACAO
+00058361 46.8 DF BRASILIA                                             ADMINISTRACAO
+00033559 46.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00109386 46.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00239866 46.8 AM MANAUS                                               ADMINISTRACAO
+00041603 47.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00186581 47.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00463262 47.0 AM MANAUS                                               ADMINISTRACAO
+00317055 47.3 AM MANAUS                                               ADMINISTRACAO
+00406263 47.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00368815 47.5 DF BRASILIA                                             ADMINISTRACAO
+00360165 47.5 DF BRASILIA                                             ADMINISTRACAO
+00066569 47.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00452420 47.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00356952 47.5 AM MANAUS                                               ADMINISTRACAO
+00384572 47.8 DF BRASILIA                                             ADMINISTRACAO
+00034800 47.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00026451 47.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00106233 48.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00213784 48.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00234043 48.0 DF BRASILIA                                             ADMINISTRACAO
+00241228 48.0 DF BRASILIA                                             ADMINISTRACAO
+00253139 48.0 DF BRASILIA                                             ADMINISTRACAO
+00198918 48.3 DF BRASILIA                                             ADMINISTRACAO
+00096183 48.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00002744 48.5 DF BRASILIA                                             ADMINISTRACAO
+00317807 48.5 DF BRASILIA                                             ADMINISTRACAO
+00313201 48.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00010357 48.8 MT CUIABA                                               ADMINISTRACAO
+00331437 49.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00178216 49.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00300790 49.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00295222 49.3 MT CUIABA                                               ADMINISTRACAO
+00337653 49.3 DF BRASILIA                                             ADMINISTRACAO
+00355968 49.5 DF BRASILIA                                             ADMINISTRACAO
+00065744 49.5 DF BRASILIA                                             ADMINISTRACAO
+00446373 49.8 DF BRASILIA                                             ADMINISTRACAO
+00454483 50.0 MT CUIABA                                               ADMINISTRACAO
+00026638 50.0 DF BRASILIA                                             ADMINISTRACAO
+00354122 50.0 DF BRASILIA                                             ADMINISTRACAO
+00278537 50.0 DF BRASILIA                                             ADMINISTRACAO
+00055231 50.3 DF BRASILIA                                             ADMINISTRACAO
+00401505 50.3 DF BRASILIA                                             ADMINISTRACAO
+00130170 50.5 DF BRASILIA                                             ADMINISTRACAO
+00131218 50.5 DF BRASILIA                                             ADMINISTRACAO
+00164685 50.8 DF BRASILIA                                             ADMINISTRACAO
+00071325 50.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00345170 51.0 DF BRASILIA                                             ADMINISTRACAO
+00427785 51.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00072731 51.3 DF BRASILIA                                             ADMINISTRACAO
+00205101 51.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00015294 51.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00336507 51.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00387342 51.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00167833 51.5 AM MANAUS                                               ADMINISTRACAO
+00021887 51.8 MT CUIABA                                               ADMINISTRACAO
+00155589 51.8 DF BRASILIA                                             ADMINISTRACAO
+00119746 51.8 DF BRASILIA                                             ADMINISTRACAO
+00402164 51.8 AM MANAUS                                               ADMINISTRACAO
+00047978 52.0 DF BRASILIA                                             ADMINISTRACAO
+00258469 52.0 DF BRASILIA                                             ADMINISTRACAO
+00285465 52.0 DF BRASILIA                                             ADMINISTRACAO
+00019284 52.3 DF BRASILIA                                             ADMINISTRACAO
+00100312 52.3 DF BRASILIA                                             ADMINISTRACAO
+00135818 52.8 DF BRASILIA                                             ADMINISTRACAO
+00209822 53.0 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00415741 53.0 DF BRASILIA                                             ADMINISTRACAO
+00335581 53.0 AM MANAUS                                               ADMINISTRACAO
+00059542 53.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00324555 53.3 AM MANAUS                                               ADMINISTRACAO
+00301105 53.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00453379 53.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00049975 53.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00115074 53.5 AM MANAUS                                               ADMINISTRACAO
+00123883 53.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00124947 53.8 DF BRASILIA                                             ADMINISTRACAO
+00190369 53.8 DF BRASILIA                                             ADMINISTRACAO
+00070951 53.8 DF BRASILIA                                             ADMINISTRACAO
+00305092 53.8 DF BRASILIA                                             ADMINISTRACAO
+00378110 53.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00392635 54.0 DF BRASILIA                                             ADMINISTRACAO
+00267147 54.5 DF BRASILIA                                             ADMINISTRACAO
+00414861 54.8 DF BRASILIA                                             ADMINISTRACAO
+00005213 54.8 DF BRASILIA                                             ADMINISTRACAO
+00022350 54.8 DF BRASILIA                                             ADMINISTRACAO
+00452861 54.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00369726 55.0 DF BRASILIA                                             ADMINISTRACAO
+00115010 55.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00280714 55.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00281116 55.3 DF BRASILIA                                             ADMINISTRACAO
+00088839 55.5 DF BRASILIA                                             ADMINISTRACAO
+00130673 55.5 DF BRASILIA                                             ADMINISTRACAO
+00067407 55.5 DF BRASILIA                                             ADMINISTRACAO
+00382513 55.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00124597 55.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00280726 55.8 DF BRASILIA                                             ADMINISTRACAO
+00085413 55.8 AM MANAUS                                               ADMINISTRACAO
+00311610 55.8 AM MANAUS                                               ADMINISTRACAO
+00066198 56.0 MT CUIABA                                               ADMINISTRACAO
+00384724 56.3 DF BRASILIA                                             ADMINISTRACAO
+00253930 56.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00265994 56.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00433602 56.8 DF BRASILIA                                             ADMINISTRACAO
+00021798 56.8 DF BRASILIA                                             ADMINISTRACAO
+00105583 56.8 DF BRASILIA                                             ADMINISTRACAO
+00005659 56.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00443742 57.0 DF BRASILIA                                             ADMINISTRACAO
+00310850 57.0 DF BRASILIA                                             ADMINISTRACAO
+00081689 57.0 DF BRASILIA                                             ADMINISTRACAO
+00131227 57.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00068791 57.3 DF BRASILIA                                             ADMINISTRACAO
+00394101 57.5 DF BRASILIA                                             ADMINISTRACAO
+00164090 57.5 DF BRASILIA                                             ADMINISTRACAO
+00228543 57.5 DF BRASILIA                                             ADMINISTRACAO
+00351991 57.8 MT CUIABA                                               ADMINISTRACAO
+00317407 58.0 DF BRASILIA                                             ADMINISTRACAO
+00120699 58.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00212501 58.3 DF BRASILIA                                             ADMINISTRACAO
+00355550 58.5 DF BRASILIA                                             ADMINISTRACAO
+00348074 58.5 DF BRASILIA                                             ADMINISTRACAO
+00425803 58.5 DF BRASILIA                                             ADMINISTRACAO
+00152828 58.5 DF BRASILIA                                             ADMINISTRACAO
+00433353 58.5 DF BRASILIA                                             ADMINISTRACAO
+00261845 58.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00409557 58.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00169350 58.8 DF BRASILIA                                             ADMINISTRACAO
+00401313 58.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00417884 58.8 AM MANAUS                                               ADMINISTRACAO
+00114544 58.8 AM MANAUS                                               ADMINISTRACAO
+00352040 59.3 DF BRASILIA                                             ADMINISTRACAO
+00452191 59.5 DF BRASILIA                                             ADMINISTRACAO
+00395287 59.5 AM MANAUS                                               ADMINISTRACAO
+00162535 59.8 DF BRASILIA                                             ADMINISTRACAO
+00173538 59.8 DF BRASILIA                                             ADMINISTRACAO
+00063641 59.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00319299 60.0 MT CUIABA                                               ADMINISTRACAO
+00441443 60.0 DF BRASILIA                                             ADMINISTRACAO
+00003861 60.0 DF BRASILIA                                             ADMINISTRACAO
+00021433 60.3 DF BRASILIA                                             ADMINISTRACAO
+00315733 60.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00012753 60.3 AM MANAUS                                               ADMINISTRACAO
+00230931 60.5 DF BRASILIA                                             ADMINISTRACAO
+00469266 60.5 DF BRASILIA                                             ADMINISTRACAO
+00228222 60.8 DF BRASILIA                                             ADMINISTRACAO
+00295148 60.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00073527 61.0 AM MANAUS                                               ADMINISTRACAO
+00086358 61.3 DF BRASILIA                                             ADMINISTRACAO
+00266889 61.3 DF BRASILIA                                             ADMINISTRACAO
+00200258 61.3 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00058175 61.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00164535 61.5 DF BRASILIA                                             ADMINISTRACAO
+00116081 62.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00428336 62.3 DF BRASILIA                                             ADMINISTRACAO
+00112212 62.3 DF BRASILIA                                             ADMINISTRACAO
+00386649 62.5 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00278666 62.5 DF BRASILIA                                             ADMINISTRACAO
+00163934 62.5 DF BRASILIA                                             ADMINISTRACAO
+00109120 62.5 DF BRASILIA                                             ADMINISTRACAO
+00346552 62.5 AM MANAUS                                               ADMINISTRACAO
+00150205 62.8 DF BRASILIA                                             ADMINISTRACAO
+00139669 62.8 DF BRASILIA                                             ADMINISTRACAO
+00460650 63.0 DF BRASILIA                                             ADMINISTRACAO
+00169792 63.3 DF BRASILIA                                             ADMINISTRACAO
+00077617 63.5 DF BRASILIA                                             ADMINISTRACAO
+00166187 63.5 DF BRASILIA                                             ADMINISTRACAO
+00052638 63.5 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00335967 63.8 DF BRASILIA                                             ADMINISTRACAO
+00145396 63.8 AM MANAUS                                               ADMINISTRACAO
+00217201 63.8 AM MANAUS                                               ADMINISTRACAO
+00277132 64.3 DF BRASILIA                                             ADMINISTRACAO
+00450981 64.5 DF BRASILIA                                             ADMINISTRACAO
+00309584 64.5 DF BRASILIA                                             ADMINISTRACAO
+00250589 64.5 DF BRASILIA                                             ADMINISTRACAO
+00448374 64.8 DF BRASILIA                                             ADMINISTRACAO
+00456165 65.0 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00301503 65.3 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00382871 65.8 DF BRASILIA                                             ADMINISTRACAO
+00336096 65.8 DF BRASILIA                                             ADMINISTRACAO
+00025193 66.3 DF BRASILIA                                             ADMINISTRACAO
+00346047 66.3 DF BRASILIA                                             ADMINISTRACAO
+00440588 66.8 MT PRIMAVERA DO LESTE                                   ADMINISTRACAO
+00416897 66.8 DF BRASILIA                                             ADMINISTRACAO
+00113812 67.3 MT CUIABA                                               ADMINISTRACAO
+00213829 67.3 DF BRASILIA                                             ADMINISTRACAO
+00240915 67.3 DF BRASILIA                                             ADMINISTRACAO
+00453200 68.0 DF BRASILIA                                             ADMINISTRACAO
+00286772 68.3 DF BRASILIA                                             ADMINISTRACAO
+00424746 69.0 DF BRASILIA                                             ADMINISTRACAO
+00350655 69.3 MT CUIABA                                               ADMINISTRACAO
+00195190 69.3 DF BRASILIA                                             ADMINISTRACAO
+00092076 69.3 DF BRASILIA                                             ADMINISTRACAO
+00017250 69.5 DF BRASILIA                                             ADMINISTRACAO
+00406521 69.5 DF BRASILIA                                             ADMINISTRACAO
+00196197 69.8 DF BRASILIA                                             ADMINISTRACAO
+00216227 69.8 DF BRASILIA                                             ADMINISTRACAO
+00428679 69.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00447253 70.0 DF BRASILIA                                             ADMINISTRACAO
+00324583 70.0 DF BRASILIA                                             ADMINISTRACAO
+00167165 70.0 DF BRASILIA                                             ADMINISTRACAO
+00149018 70.0 DF BRASILIA                                             ADMINISTRACAO
+00397177 70.0 DF BRASILIA                                             ADMINISTRACAO
+00382868 70.3 DF BRASILIA                                             ADMINISTRACAO
+00411299 70.8 SE SAO CRISTOVAO                                        ADMINISTRACAO
+00463527 71.5 DF BRASILIA                                             ADMINISTRACAO
+00149220 72.0 DF BRASILIA                                             ADMINISTRACAO
+00426064 72.3 MT CUIABA                                               ADMINISTRACAO
+00350881 72.3 DF BRASILIA                                             ADMINISTRACAO
+00114282 72.5 DF BRASILIA                                             ADMINISTRACAO
+00223710 72.8 DF BRASILIA                                             ADMINISTRACAO
+00347068 73.3 DF BRASILIA                                             ADMINISTRACAO
+00060648 73.5 DF BRASILIA                                             ADMINISTRACAO
+00444331 76.8 DF BRASILIA                                             ADMINISTRACAO
+00217886 76.8 DF BRASILIA                                             ADMINISTRACAO

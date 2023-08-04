@@ -49,21 +49,16 @@ void imprimeFita(Fita *fita){
 
     rewind(fita->arquivo);
 
-    int alunosBloco = 0;
+    int numeroAlunos = 0;
     Aluno aluno;
 
-    for(int j = 0; j < fita->numeroBlocos; j++){
 
-        fread(&alunosBloco, sizeof(int), 1, fita->arquivo);
-        cout << "\tBloco " << j << endl;
-
-        do {
-               
-            fread(&aluno, sizeof(Aluno), 1, fita->arquivo);
+    while(fread(&numeroAlunos, sizeof(int), 1, fita->arquivo)){
+        for(int i = 0; i < numeroAlunos; i++){
+            
+            fread(&aluno, sizeof(Aluno), 1 ,fita->arquivo);
             cout << "\t\tInscrição: " << aluno.numeroInscricao << "\tNota: " << aluno.nota << endl;
-            alunosBloco--;
-            // cout << "Alunos bloco: " << alunosBloco << endl;
-        } while(alunosBloco > 0);
+        }
     }
 }
 
@@ -73,5 +68,33 @@ void imprimeFitas(Fita *fitas){
         cout << "Fita " << i << endl; 
         imprimeFita(&fitas[i]);
         cout << "-------------------------------------------\n";
+    }
+}
+
+void converteFitaTexto(Fita fita){
+
+
+
+    int numeroAlunos;
+    Aluno aluno;
+    FILE *arqT;
+    arqT = fopen("testeFita0.txt", "w");
+    
+    
+    while(fread(&numeroAlunos, sizeof(int), 1, fita.arquivo)){
+        fprintf(arqT, "%d\n", numeroAlunos);
+        for(int i = 0; i < numeroAlunos; i++){
+            
+            fread(&aluno, sizeof(Aluno), 1 ,fita.arquivo);
+            fprintf(arqT, "%08ld %04.1f %s %-25s %40s\n", aluno.numeroInscricao, aluno.nota, aluno.estado, aluno.cidade, aluno.curso);
+        }
+    }
+    fflush(arqT);
+    fclose(arqT);
+}
+
+void flushFitas(Fita *fitas){
+    for (int i = 0; i < NUMERO_FITAS; i++){
+        fflush(fitas[i].arquivo);
     }
 }
