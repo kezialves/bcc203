@@ -9,13 +9,6 @@
 
 bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinario, Desempenho *desempenhoCriacao, Desempenho *desempenhoIntercalacao) {
 
-    /* auto start = high_resolution_clock::now();
-    quickSortExterno(&arquivoLeituraInferior, &arquivoEscritaInferior, &arquivoLeituraEscritaSuperior, 1, argumentos->quantidadeAlunos, desempenho);
-    auto stop = high_resolution_clock::now();
-    desempenho->tempoExecucao = duration_cast<nanoseconds>(stop - start); */
-
-    int lixo;
-
     Fita fitas[NUMERO_FITAS];
     iniciaFitas(fitas);
     
@@ -30,15 +23,7 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
         // Cria os blocos através da seleção por substituição
         case 2:
             criaBlocosSelecaoSubstituicao(fitas, nomeArquivoBinario, desempenhoCriacao);
-            
-            reiniciaPonteirosFitas(fitas);
-            // fread(&lixo, sizeof(int), 1, fitas[2].arquivo);
-
-            // cout << "Li :   " << lixo << endl;
-
-            imprimeFita(fitas);
-            // cout << "imprime fitas\n\n";
-            cin >> lixo; 
+            // reiniciaPonteirosFitas(fitas);
             break;
     }
 
@@ -61,13 +46,13 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
         }
 
         fitaIntercalada = !fitaIntercalada;
-
         reiniciaPonteirosFitas(fitas);
-        imprimeFitas(fitas);
+        
+        // Caso o -P seja passado em tempo de compilação, imprime o processo
+        if(argumentos->p)
+            imprimeFitas(fitas);
 
         flushFitas(fitas);
-
-        // cin >> lixo;
     }
 
     auto stop = high_resolution_clock::now();
@@ -85,19 +70,19 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
     for(int i = fitaInicial; i < fitaInicial + NUMERO_FITAS / 2; i++) {
 
         if(fitas[i].numeroBlocos > 0) {
-            cout << "Fita de saída: " << i << endl;
-            
             Aluno aluno;
             FILE *arqT;
             arqT = fopen("fitaOrdenada.txt", "w");
-            
             rewind(fitas[i].arquivo);
-            fread(&lixo, sizeof(int), 1, fitas[i].arquivo);
+
+            int numeroAlunos;
+            fread(&numeroAlunos, sizeof(int), 1, fitas[i].arquivo);
             
             while(fread(&aluno, sizeof(Aluno), 1 ,fitas[i].arquivo)) {
                 fprintf(arqT, "%08ld %04.1f %s %-25s %40s\n", aluno.numeroInscricao, aluno.nota, aluno.estado, aluno.cidade, aluno.curso);
             }
             
+            fclose(arqT);
             break;
         }
     }
@@ -109,8 +94,6 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
 }
 
 bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada, Desempenho *desempenhoIntercalacao) {
-
-    // int lixo;
 
     int vetorControle[NUMERO_FITAS / 2];
     int vetorAlunoValido[NUMERO_FITAS / 2];
@@ -130,11 +113,6 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada, Desempen
 
     if(fitaIntercalada)
         fitaEscrita -= (NUMERO_FITAS / 2);
-
-    cout << "Intercala " << blocoAIntercalar << " -----> Fita escrita: " << fitaEscrita << endl;
-
-    // cout << "Tamanho int: " << sizeof(int) << endl;
-    // cout << "Tamanho Aluno: " << sizeof(Aluno) << endl;
  
     int inicioFitasEntrada = 0;
 
@@ -148,35 +126,16 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada, Desempen
             continue;
         }
 
-        // cout << "Posição ponteiro arquivo " << i << ": " << ftell(fitas[i].arquivo) << endl;
         fread(&(vetorControle[i % (NUMERO_FITAS / 2)]), sizeof(int), 1, fitas[i].arquivo);
         desempenhoIntercalacao->transferenciasLeitura += 1;
-
-        // cout << "Número alunos na fita " << i << ": " << vetorControle[i] << endl;
-        // vetorControle[i]++;
     }
-
-    // Printa o vetor de controle
-    cout << "Vetor de controle: [";
-    for(int i = 0; i < (NUMERO_FITAS / 2); i++) {
-        cout << vetorControle[i] << " ";
-    }
-    cout << "]" << endl;
-    
 
     int soma = somaVetorControle(vetorControle);
 
     fitas[fitaEscrita].numeroBlocos++; // APENAS INCREMENTAR! NÃO DEFINIR COMO 1.
 
-    cout << "Soma dos alunos: " << soma << " na fita " << fitaEscrita << endl; 
-
     fwrite(&soma, sizeof(int), 1, fitas[fitaEscrita].arquivo);
     desempenhoIntercalacao->transferenciasEscrita += 1;
-    
-    // ++ no vetor de controle
-    // for(int i = 0; i < (NUMERO_FITAS / 2); i++) {
-    //     vetorControle[i]++;
-    // }
 
     for(int i = inicioFitasEntrada; i < inicioFitasEntrada + (NUMERO_FITAS / 2); i++) {
         if(vetorControle[i % (NUMERO_FITAS / 2)] > 0) {
@@ -232,16 +191,7 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada, Desempen
             vetorAlunoValido[indiceMenorElemento] = 1;
             vetorControle[indiceMenorElemento]--;
         }
-
-        // if(fitaIntercalada)
-        //     cin >> lixo;
     }
-    // if(fitaEscrita == 24) {
-    //     int bytesAtuais = ftell(fitas[fitaEscrita].arquivo);
-    //     fseek(fitas[fitaEscrita].arquivo, 0, SEEK_END);
-    //     cout << "TAMANHO FITA  " << fitaEscrita << ":\t" << ftell(fitas[fitaEscrita].arquivo) << endl;
-    //     fseek(fitas[fitaEscrita].arquivo, bytesAtuais, SEEK_SET);
-    // }
 
     flushFitas(fitas);
     return true;
@@ -285,6 +235,7 @@ int menorElemento(Aluno *alunos, int *vetorAlunoValido, Desempenho *desempenhoIn
 
         desempenhoIntercalacao->comparacoes += 1;
 
+        // mudar de < para > se quiser ordenar descendentemente, mas tem que mudar o merge também 
         if(alunos[i].nota < alunos[indiceMenor].nota && vetorAlunoValido[i] > 0) {
             indiceMenor = i;
         }
@@ -313,9 +264,3 @@ bool temAlunoValido(int *vetorAlunoValido) {
     
     return false;
 }
-
-// Qual fita escrever
-// ((contador + 3) % 6) + 1
-// ((contador + numeroFitas) % (2*numeroFitas)) + 1
-
-// int fitaEscrita = ((((blocoAIntercalar % (NUMERO_FITAS / 2)) - 1) + (NUMERO_FITAS / 2)) % (NUMERO_FITAS)) + 1;

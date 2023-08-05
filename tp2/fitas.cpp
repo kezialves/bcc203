@@ -115,9 +115,18 @@ void fechaFitas(Fita *fitas) {
 
 // Impressão --------------------------------------------------
 
+void imprimeFitas(Fita *fitas) {
+
+    for(int i = 0; i < NUMERO_FITAS; i++) {
+        cout << "Fita " << i << endl;
+        imprimeFita(&fitas[i]);
+        cout << "--------------------------------------------------" << endl << endl;
+    }
+}
+
 void imprimeFita(Fita *fita) {
 
-    cout << "numero de blocos na fita: " << fita->numeroBlocos << endl; 
+    cout << "Número de blocos na fita: " << fita->numeroBlocos << endl; 
 
     if(fita->numeroBlocos == 0)
         return;
@@ -131,24 +140,15 @@ void imprimeFita(Fita *fita) {
 
     while(fread(&numeroAlunos, sizeof(int), 1, fita->arquivo)) {
         
-        cout << "\tBLOCO: " << bloco << endl << endl;
+        cout << "\tBloco: " << bloco << endl;
 
         for(int i = 0; i < numeroAlunos; i++) {
             fread(&aluno, sizeof(Aluno), 1, fita->arquivo);
             cout << "\t\tInscrição: " << aluno.numeroInscricao << "\tNota: " << aluno.nota << endl;
         }
 
-        cout << "----------------------------------------\n";
+        cout << "--------------------------------------------------" << endl;
         bloco++;
-    }
-}
-
-void imprimeFitas(Fita *fitas) {
-
-    for(int i = 0; i < NUMERO_FITAS; i++) {
-        cout << "Fita " << i << endl;
-        imprimeFita(&fitas[i]);
-        cout << "-------------------------------------------\n";
     }
 }
 

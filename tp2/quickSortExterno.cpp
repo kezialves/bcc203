@@ -15,6 +15,8 @@ void ordenaQuickSort(char *nomeArquivoBinario, Argumentos *argumentos, Desempenh
          *arquivoEscritaInferior = NULL,
          *arquivoLeituraEscritaSuperior = NULL;
 
+    // Tenta abrir os arquivos binários e retorna erro caso não consiga
+
     if((arquivoLeituraInferior = fopen(nomeArquivoBinario, "rb+")) == NULL) {
         cout << "Erro na abertura do arquivo binário.\n";
         return;
@@ -40,8 +42,7 @@ void ordenaQuickSort(char *nomeArquivoBinario, Argumentos *argumentos, Desempenh
     fclose(arquivoLeituraEscritaSuperior);
 
     string nomeSaida = "saidaQuickSortExterno.txt";
- 
-    binarioParaTexto(nomeArquivoBinario,nomeSaida.data() , argumentos);
+    binarioParaTexto(nomeArquivoBinario, nomeSaida.data(), argumentos);
 
     return;
 }

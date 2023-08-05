@@ -90,7 +90,7 @@ int main(int argc, char *argv[]) {
                  << "\t\tTempo de execução em nanosegundos: " << desempenhoCriacao.tempoExecucao.count() << endl
                  << "\t\tQuantidade de comparações: " << desempenhoCriacao.comparacoes << endl
                  << "\t\tQuantidade de transferências de leitura: " << desempenhoCriacao.transferenciasLeitura << endl
-                 << "\t\tQuantidade de transferências de escrita: " << desempenhoCriacao.transferenciasEscrita << endl
+                 << "\t\tQuantidade de transferências de escrita: " << desempenhoCriacao.transferenciasEscrita << endl << endl
 
                  << "\tProcesso de intercalação:" << endl
                  << "\t\tTempo de execução em nanosegundos: " << desempenhoIntercalacao.tempoExecucao.count() << endl
@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
                  << "\t\tTempo de execução em nanosegundos: " << desempenhoCriacao.tempoExecucao.count() << endl
                  << "\t\tQuantidade de comparações: " << desempenhoCriacao.comparacoes << endl
                  << "\t\tQuantidade de transferências de leitura: " << desempenhoCriacao.transferenciasLeitura << endl
-                 << "\t\tQuantidade de transferências de escrita: " << desempenhoCriacao.transferenciasEscrita << endl
+                 << "\t\tQuantidade de transferências de escrita: " << desempenhoCriacao.transferenciasEscrita << endl << endl
                  
                  << "\tProcesso de intercalação:" << endl
                  << "\t\tTempo de execução em nanosegundos: " << desempenhoIntercalacao.tempoExecucao.count() << endl
@@ -120,6 +120,9 @@ int main(int argc, char *argv[]) {
         case 3:
             ordenaQuickSort(nomeArquivoBinario, &argumentos, &desempenho);
             
+            if(argumentos.p)
+                imprimeRegistrosBinario(nomeArquivoBinario);
+            
             cout << "QuickSort externo:"
                 << "\n\tTempo de execução em nanosegundos: " << desempenho.tempoExecucao.count() << endl
                 << "\n\tQuantidade de comparações: " << desempenho.comparacoes
@@ -127,6 +130,8 @@ int main(int argc, char *argv[]) {
                 << "\n\tQuantidade de transferências de escrita: " << desempenho.transferenciasEscrita;
             break;
     }
+
+    free(nomeArquivoBinario);
 
     return 0;
 }
@@ -173,9 +178,12 @@ void imprimeRegistrosBinario(char *nomeArquivoBinario) {
 
     // Imprime os registros
     while(fread(&aluno, sizeof(Aluno), 1, arquivoBinario)) {
-        cout << aluno.numeroInscricao << "|" << aluno.nota << "|" << aluno.estado << "|" << 
-        aluno.cidade << "|" << aluno.curso << "|\n";
+        /* cout << aluno.numeroInscricao << "|" << aluno.nota << "|" << aluno.estado << "|" << 
+        aluno.cidade << "|" << aluno.curso << "|\n"; */
+        printf("%08ld %04.1f %s %-25s %40s\n", aluno.numeroInscricao, aluno.nota, aluno.estado, aluno.cidade, aluno.curso);
     }
+
+    cout << endl;
 
     fclose(arquivoBinario);
     return;

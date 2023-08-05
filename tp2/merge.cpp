@@ -56,10 +56,12 @@ void merge(Aluno *vetor, int l, int m, int r, Desempenho *desempenhoCriacao) {
             vetor[k] = vetorL[i++]; // então só resta inserir o vetor da esquerda, que já está ordenado
 
         else if(comparaAlunos(&(vetorL[i]), &(vetorR[j]), desempenhoCriacao)) // se o valor de l em i for menor que o valor de r em j
-            vetor[k] = vetorL[i++]; // o vetor em k recebe l em i e incrementa o i
+            vetor[k] = vetorL[i++];
+             // o vetor em k recebe l em i e incrementa o i
 
         else // se o valor de r em j for menor que o valor de l em i
-            vetor[k] = vetorR[j++]; // o vetor em k recebe r em j e incrementa o j
+            vetor[k] = vetorR[j++];
+             // o vetor em k recebe r em j e incrementa o j
     }
 
     desaloca(vetorL); // desaloca o vetor da esquerda

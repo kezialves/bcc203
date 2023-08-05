@@ -63,11 +63,11 @@ void fechaFitas(Fita*);
 
 // Impressão --------------------------------------------------
 
-// Imprime uma fita
-void imprimeFita(Fita*);
-
 // Imprime todas as fitas
 void imprimeFitas(Fita*);
+
+// Imprime uma fita
+void imprimeFita(Fita*);
 
 // Auxiliar --------------------------------------------------
 
