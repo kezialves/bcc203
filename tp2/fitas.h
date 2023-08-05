@@ -43,6 +43,9 @@ void iniciaFitas(Fita*);
 // Adiciona um bloco em uma fita
 void adicionaBloco(Fita*, Bloco*, Desempenho*);
 
+// Adiciona um aluno em uma fita
+void adicionaAluno(Fita, Aluno*);
+
 // Retorna o maior número de blocos entre as fitas
 int maxBlocos(Fita*, bool);
 

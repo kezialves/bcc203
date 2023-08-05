@@ -13,11 +13,11 @@
 // Nós fazemos uma só leitura para ver quantos alunos tem no bloco
 // Ou seja, 50 blocos = 50 leituras, o do-while executa pelo menos uma vez, então +1 = 51
 
-void criaBlocosOrdenacaoInterna(Fita *fitas, Desempenho *desempenhoCriacao, char *nomeArquivoBinario) {
+void criaBlocosOrdenacaoInterna(Fita *fitas, char *nomeArquivoBinario, Desempenho *desempenhoCriacao) {
 
     FILE *arquivoBinario;
 
-    // Verifica se foi possível abrir o arquivo binario
+    // Verifica se foi possível abrir o arquivo binário
     // Caso contrário, retorna
     if((arquivoBinario = fopen(nomeArquivoBinario, "rb+")) == NULL) {
         cout << "Erro na abertura do arquivo binário.\n";

@@ -26,7 +26,7 @@ void iniciaFitas(Fita *fitas) {
 
         // cout << "FITA " << nomeFita << "\n";
 
-        // Verifica se foi possível abrir o arquivo binaário da fita
+        // Verifica se foi possível abrir o arquivo binário da fita
         if((fitas[i].arquivo = fopen(nomeFita, "wb+")) == NULL)
             cout << "Erro ao abrir o arquivo binário da fita " << nomeFita << ".\n";
     }
@@ -53,6 +53,10 @@ void adicionaBloco(Fita *fita, Bloco *bloco, Desempenho *desempenhoCriacao){
     
     // Aumenta o número de blocos na fita
     fita->numeroBlocos = fita->numeroBlocos + 1;
+}
+
+void adicionaAluno(Fita fita, Aluno *aluno) {
+    fwrite(aluno, sizeof(Aluno), 1, fita.arquivo);
 }
 
 int maxBlocos(Fita *fitas, bool fitaIntercalada) {
@@ -112,6 +116,8 @@ void fechaFitas(Fita *fitas) {
 // Impressão --------------------------------------------------
 
 void imprimeFita(Fita *fita) {
+
+    cout << "numero de blocos na fita: " << fita->numeroBlocos << endl; 
 
     if(fita->numeroBlocos == 0)
         return;

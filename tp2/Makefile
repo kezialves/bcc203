@@ -1,5 +1,5 @@
-all: main.o merge.o aluno.o converteBin.o quickSortExterno.o fitas.o intercalacaoBalanceada.o ordenacaoInterna.o selecaoSubstituicao.o
-	@g++ -o exe main.o merge.o aluno.o converteBin.o quickSortExterno.o fitas.o intercalacaoBalanceada.o ordenacaoInterna.o selecaoSubstituicao.o -Wall -g
+all: main.o merge.o aluno.o converteBin.o quickSortExterno.o fitas.o intercalacaoBalanceada.o ordenacaoInterna.o selecaoSubstituicao.o heap.o
+	@g++ -o exe main.o merge.o aluno.o converteBin.o quickSortExterno.o fitas.o intercalacaoBalanceada.o ordenacaoInterna.o selecaoSubstituicao.o heap.o -Wall -g
 	@rm -r *.o
 	
 main.o: main.cpp
@@ -28,6 +28,9 @@ ordenacaoInterna.o: ordenacaoInterna.cpp
 
 selecaoSubstituicao.o: selecaoSubstituicao.cpp
 	@g++ -c selecaoSubstituicao.cpp -Wall -g 
+
+heap.o: heap.cpp
+	@g++ -c heap.cpp -Wall -g 
 
 run:
 	@./exe

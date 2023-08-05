@@ -111,7 +111,7 @@ bool binarioParaTexto(char *nomeArquivoBinario, char *nomeArquivoTexto, Argument
     FILE *arquivoTexto, *arquivoBinario;
     Aluno aluno;
 
-    // Verifica se foi possível abrir o arquivo binario
+    // Verifica se foi possível abrir o arquivo binário
     // Caso contrário, retorna falso
     if((arquivoBinario = fopen(nomeArquivoBinario,"rb")) == NULL) {
         cout << "Erro na abertura do arquivo Binario.\n";

@@ -7,6 +7,6 @@
 #include "merge.h"
 
 // Cria os blocos em fitas pelo método de ordenação interna
-void criaBlocosOrdenacaoInterna(Fita*, Desempenho*, char*);
+void criaBlocosOrdenacaoInterna(Fita*, char*, Desempenho*);
 
 #endif

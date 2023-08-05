@@ -5,6 +5,7 @@
 #include "merge.h"
 #include "converteBin.h"
 #include "ordenacaoInterna.h"
+#include "selecaoSubstituicao.h"
 
 bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinario, Desempenho *desempenhoCriacao, Desempenho *desempenhoIntercalacao) {
 
@@ -23,12 +24,21 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
 
         // Cria os blocos por ordenação interna através do mergeSort
         case 1:
-            criaBlocosOrdenacaoInterna(fitas, desempenhoCriacao, nomeArquivoBinario);
+            criaBlocosOrdenacaoInterna(fitas, nomeArquivoBinario, desempenhoCriacao);
             break;
         
         // Cria os blocos através da seleção por substituição
         case 2:
-            //criaBlocosSubstituicao(&fitas, desempenho, nomeArquivoBinario);
+            criaBlocosSelecaoSubstituicao(fitas, nomeArquivoBinario, desempenhoCriacao);
+            
+            reiniciaPonteirosFitas(fitas);
+            // fread(&lixo, sizeof(int), 1, fitas[2].arquivo);
+
+            // cout << "Li :   " << lixo << endl;
+
+            imprimeFita(fitas);
+            // cout << "imprime fitas\n\n";
+            cin >> lixo; 
             break;
     }
 
