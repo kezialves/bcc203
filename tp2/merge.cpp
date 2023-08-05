@@ -7,17 +7,21 @@
 
 using namespace std;
 
-void mergeSort(Aluno *vetor, int l, int r) {
+// l = left, representa o subvetor da esquerda
+// m = middle, representa o meio do vetor
+// r = right, representa o subvetor da direita
+
+void mergeSort(Aluno *vetor, int l, int r, Desempenho *desempenhoCriacao) {
 
     if(l < r) { // o começo tem que ser menor que o final pra dividir
         int m = (r + l) / 2; // calcula o meio do vetor
-        mergeSort(vetor, l, m); // passa a primeira metade do vetor
-        mergeSort(vetor, m + 1, r); // passa a segunda metade do vetor
-        merge(vetor, l, m, r); // conquista o bichinho
+        mergeSort(vetor, l, m, desempenhoCriacao); // passa a primeira metade do vetor
+        mergeSort(vetor, m + 1, r, desempenhoCriacao); // passa a segunda metade do vetor
+        merge(vetor, l, m, r, desempenhoCriacao); // conquista o bichinho
     }
 }
 
-void merge(Aluno *vetor, int l, int m, int r) {
+void merge(Aluno *vetor, int l, int m, int r, Desempenho *desempenhoCriacao) {
 
     int tamanhoL, tamanhoR;
 
@@ -51,7 +55,7 @@ void merge(Aluno *vetor, int l, int m, int r) {
         else if(j == tamanhoR) // se j tiver chegado ao tamanho de r, o vetor da direita acabou
             vetor[k] = vetorL[i++]; // então só resta inserir o vetor da esquerda, que já está ordenado
 
-        else if(comparaAlunos(&(vetorL[i]), &(vetorR[j]))) // se o valor de l em i for menor que o valor de r em j
+        else if(comparaAlunos(&(vetorL[i]), &(vetorR[j]), desempenhoCriacao)) // se o valor de l em i for menor que o valor de r em j
             vetor[k] = vetorL[i++]; // o vetor em k recebe l em i e incrementa o i
 
         else // se o valor de r em j for menor que o valor de l em i

@@ -6,7 +6,6 @@
 #include "converteBin.h"
 #include "desempenho.h"
 
-
 using namespace std;
 using namespace std::chrono;
 

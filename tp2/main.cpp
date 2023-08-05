@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
 
     srand(time(NULL));
 
-    //Cria e inicializa as variáveis de controle
-    Desempenho desempenho;    // iniciaDesempenho(&desempenho);
+    // Cria e inicializa as variáveis de controle
+    Desempenho desempenho, desempenhoCriacao, desempenhoIntercalacao; // iniciaDesempenho(&desempenho);
 
     // Informa erro quando o número de argumentos é inválido
     if(argc < 4 || argc > 5) {
@@ -82,20 +82,49 @@ int main(int argc, char *argv[]) {
     switch(argumentos.metodoOrdenacao) {
         
         case 1:
-            ordenaIntercalacaoBalanceada(&argumentos, nomeArquivoBinario, &desempenho);
+            ordenaIntercalacaoBalanceada(&argumentos, nomeArquivoBinario, &desempenhoCriacao, &desempenhoIntercalacao);
+            
+            cout << "Intercalação Balanceada de vários caminhos - Ordenação interna:\n" << endl
+
+                 << "\tProcesso de criação dos blocos ordenados:" << endl
+                 << "\t\tTempo de execução em nanosegundos: " << desempenhoCriacao.tempoExecucao.count() << endl
+                 << "\t\tQuantidade de comparações: " << desempenhoCriacao.comparacoes << endl
+                 << "\t\tQuantidade de transferências de leitura: " << desempenhoCriacao.transferenciasLeitura << endl
+                 << "\t\tQuantidade de transferências de escrita: " << desempenhoCriacao.transferenciasEscrita << endl
+
+                 << "\tProcesso de intercalação:" << endl
+                 << "\t\tTempo de execução em nanosegundos: " << desempenhoIntercalacao.tempoExecucao.count() << endl
+                 << "\t\tQuantidade de comparações: " << desempenhoIntercalacao.comparacoes << endl
+                 << "\t\tQuantidade de transferências de leitura: " << desempenhoIntercalacao.transferenciasLeitura << endl
+                 << "\t\tQuantidade de transferências de escrita: " << desempenhoIntercalacao.transferenciasEscrita << endl;
             break;
 
         case 2:
-            ordenaIntercalacaoBalanceada(&argumentos, nomeArquivoBinario, &desempenho);
+            ordenaIntercalacaoBalanceada(&argumentos, nomeArquivoBinario, &desempenhoCriacao, &desempenhoIntercalacao);
+            
+            cout << "Intercalação Balanceada de vários caminhos - Substituição por seleção:\n" << endl 
+                 
+                 << "\tProcesso de substituição por seleção:" << endl
+                 << "\t\tTempo de execução em nanosegundos: " << desempenhoCriacao.tempoExecucao.count() << endl
+                 << "\t\tQuantidade de comparações: " << desempenhoCriacao.comparacoes << endl
+                 << "\t\tQuantidade de transferências de leitura: " << desempenhoCriacao.transferenciasLeitura << endl
+                 << "\t\tQuantidade de transferências de escrita: " << desempenhoCriacao.transferenciasEscrita << endl
+                 
+                 << "\tProcesso de intercalação:" << endl
+                 << "\t\tTempo de execução em nanosegundos: " << desempenhoIntercalacao.tempoExecucao.count() << endl
+                 << "\t\tQuantidade de comparações: " << desempenhoIntercalacao.comparacoes << endl
+                 << "\t\tQuantidade de transferências de leitura: " << desempenhoIntercalacao.transferenciasLeitura << endl
+                 << "\t\tQuantidade de transferências de escrita: " << desempenhoIntercalacao.transferenciasEscrita << endl;
             break;
 
         case 3:
             ordenaQuickSort(nomeArquivoBinario, &argumentos, &desempenho);
-            cout << "Desempenho do quicksort externo:" <<
-            "\n\tComparações: " << desempenho.comparacoes <<
-            "\n\tTransferências leitura: " << desempenho.transferenciasLeitura <<
-            "\n\tTransferências escrita: " << desempenho.transferenciasEscrita <<
-            "\n\tTempo de execução: " << desempenho.tempoExecucao.count() << endl;
+            
+            cout << "QuickSort externo:"
+                << "\n\tTempo de execução em nanosegundos: " << desempenho.tempoExecucao.count() << endl
+                << "\n\tQuantidade de comparações: " << desempenho.comparacoes
+                << "\n\tQuantidade de transferências de leitura: " << desempenho.transferenciasLeitura
+                << "\n\tQuantidade de transferências de escrita: " << desempenho.transferenciasEscrita;
             break;
     }
 

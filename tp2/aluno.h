@@ -3,12 +3,15 @@
 
 #include <iostream>
 
+#include "desempenho.h"
+
 #define MAX_ESTADO 3 // tamanho máximo da sigla do estado contando o \0
 #define MAX_CIDADE 100 // tamanho máximo do nome da cidade
 #define MAX_CURSO 100 // tamanho máximo do nome do curso
 
 using namespace std;
 
+// Estrutura de dados dos alunos
 typedef struct{
     long numeroInscricao;
     double nota;
@@ -17,6 +20,7 @@ typedef struct{
     char curso[MAX_CURSO];
 } Aluno;
 
-bool comparaAlunos(Aluno*, Aluno*);
+// Compara dois alunos de acordo com a nota
+bool comparaAlunos(Aluno*, Aluno*, Desempenho*);
 
 #endif

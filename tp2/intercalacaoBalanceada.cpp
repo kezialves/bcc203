@@ -4,8 +4,14 @@
 #include "intercalacaoBalanceada.h"
 #include "merge.h"
 #include "converteBin.h"
+#include "ordenacaoInterna.h"
 
-bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinario, Desempenho *desempenho){
+bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinario, Desempenho *desempenhoCriacao, Desempenho *desempenhoIntercalacao) {
+
+    /* auto start = high_resolution_clock::now();
+    quickSortExterno(&arquivoLeituraInferior, &arquivoEscritaInferior, &arquivoLeituraEscritaSuperior, 1, argumentos->quantidadeAlunos, desempenho);
+    auto stop = high_resolution_clock::now();
+    desempenho->tempoExecucao = duration_cast<nanoseconds>(stop - start); */
 
     int lixo;
 
@@ -17,7 +23,7 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
 
         // Cria os blocos por ordenação interna através do mergeSort
         case 1:
-            criaBlocosOrdenacaoInterna(fitas, desempenho, nomeArquivoBinario);
+            criaBlocosOrdenacaoInterna(fitas, desempenhoCriacao, nomeArquivoBinario);
             break;
         
         // Cria os blocos através da seleção por substituição
@@ -28,6 +34,8 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
 
     bool fitaIntercalada = false;
     
+    auto start = high_resolution_clock::now();
+    
     while(continuaIntercalacao(fitas, fitaIntercalada)) {
 
         flushFitas(fitas);
@@ -35,10 +43,10 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
 
         apagaFitasSaida(fitas, fitaIntercalada);
         
-        int numeroBlocos = maxBlocos(fitas);
+        int numeroBlocos = maxBlocos(fitas, fitaIntercalada);
 
         for(int i = 0; i < numeroBlocos; i++) {
-            intercala(fitas, i + 1, fitaIntercalada);
+            intercala(fitas, i + 1, fitaIntercalada, desempenhoIntercalacao);
             flushFitas(fitas);
         }
 
@@ -49,19 +57,22 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
 
         flushFitas(fitas);
 
-        cin >> lixo;
+        // cin >> lixo;
     }
+
+    auto stop = high_resolution_clock::now();
+    desempenhoIntercalacao->tempoExecucao = duration_cast<nanoseconds>(stop - start);
 
     int fitaInicial = 0;
 
-    if(!fitaIntercalada)
-        fitaInicial += 20;
+    if(fitaIntercalada)
+        fitaInicial += NUMERO_FITAS / 2;
     
     reiniciaPonteirosFitas(fitas);
 
     // Acha a fita final ordenada e converte para txt
 
-    for(int i = fitaInicial; i < NUMERO_FITAS; i++) {
+    for(int i = fitaInicial; i < fitaInicial + NUMERO_FITAS / 2; i++) {
 
         if(fitas[i].numeroBlocos > 0) {
             cout << "Fita de saída: " << i << endl;
@@ -87,9 +98,9 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
     return true;
 }
 
-bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
+bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada, Desempenho *desempenhoIntercalacao) {
 
-    int lixo;
+    // int lixo;
 
     int vetorControle[NUMERO_FITAS / 2];
     int vetorAlunoValido[NUMERO_FITAS / 2];
@@ -128,8 +139,8 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
         }
 
         // cout << "Posição ponteiro arquivo " << i << ": " << ftell(fitas[i].arquivo) << endl;
-
         fread(&(vetorControle[i % (NUMERO_FITAS / 2)]), sizeof(int), 1, fitas[i].arquivo);
+        desempenhoIntercalacao->transferenciasLeitura += 1;
 
         // cout << "Número alunos na fita " << i << ": " << vetorControle[i] << endl;
         // vetorControle[i]++;
@@ -142,8 +153,6 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
     }
     cout << "]" << endl;
     
-    // Apaga o conteúdo da fita
-    fitas[fitaEscrita].arquivo = freopen(NULL,"wb+",fitas[fitaEscrita].arquivo);
 
     int soma = somaVetorControle(vetorControle);
 
@@ -152,13 +161,8 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
     cout << "Soma dos alunos: " << soma << " na fita " << fitaEscrita << endl; 
 
     fwrite(&soma, sizeof(int), 1, fitas[fitaEscrita].arquivo);
+    desempenhoIntercalacao->transferenciasEscrita += 1;
     
-    if(fitaIntercalada == true && blocoAIntercalar == 1) {
-        fseek(fitas[0].arquivo, 0, SEEK_END);
-        cout << "TAMANHO FITAS" << ftell(fitas[0].arquivo) << endl;
-        cout << "FRWITE, ERA PRA ESCREVER NA 0 COM O FWRUTE_____________" << endl;
-    }
-
     // ++ no vetor de controle
     // for(int i = 0; i < (NUMERO_FITAS / 2); i++) {
     //     vetorControle[i]++;
@@ -167,6 +171,7 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
     for(int i = inicioFitasEntrada; i < inicioFitasEntrada + (NUMERO_FITAS / 2); i++) {
         if(vetorControle[i % (NUMERO_FITAS / 2)] > 0) {
             fread(&alunos[i % (NUMERO_FITAS / 2)], sizeof(Aluno), 1, fitas[i].arquivo);
+            desempenhoIntercalacao->transferenciasLeitura += 1;
             vetorAlunoValido[i % (NUMERO_FITAS / 2)] = 1;
             vetorControle[i % (NUMERO_FITAS / 2)]--;
         }
@@ -179,12 +184,11 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
         int offsetLeituraAlteranada = 0;
 
         if(fitaIntercalada)
-            offsetLeituraAlteranada = 20;
-
+            offsetLeituraAlteranada = NUMERO_FITAS / 2;
 
         contadorarbitrario++;
 
-        int indiceMenorElemento = menorElemento(alunos, vetorAlunoValido);
+        int indiceMenorElemento = menorElemento(alunos, vetorAlunoValido, desempenhoIntercalacao);
 
         // cout << "Menor Elemento: " << indiceMenorElemento << endl;
 
@@ -209,10 +213,12 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
         Aluno aluno = alunos[indiceMenorElemento];
 
         fwrite(&aluno, sizeof(Aluno), 1, fitas[fitaEscrita].arquivo);
-        vetorAlunoValido[indiceMenorElemento] = 0; 
+        desempenhoIntercalacao->transferenciasEscrita += 1;
+        vetorAlunoValido[indiceMenorElemento] = 0;
         
         if(vetorControle[indiceMenorElemento] > 0) {
             fread(&alunos[indiceMenorElemento], sizeof(Aluno), 1, fitas[indiceMenorElemento + offsetLeituraAlteranada].arquivo);
+            desempenhoIntercalacao->transferenciasLeitura += 1;
             vetorAlunoValido[indiceMenorElemento] = 1;
             vetorControle[indiceMenorElemento]--;
         }
@@ -220,12 +226,12 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada){
         // if(fitaIntercalada)
         //     cin >> lixo;
     }
-
-    if(fitaIntercalada == true && blocoAIntercalar == 1) {
-        fseek(fitas[0].arquivo, 0, SEEK_END);
-        cout << "TAMANHO FITA 21: " << ftell(fitas[21].arquivo) << endl;
-        cout << "FRWITE, ERA PRA ESCREVER NA 0 COM O FWRUTE_____________" << endl;
-    }
+    // if(fitaEscrita == 24) {
+    //     int bytesAtuais = ftell(fitas[fitaEscrita].arquivo);
+    //     fseek(fitas[fitaEscrita].arquivo, 0, SEEK_END);
+    //     cout << "TAMANHO FITA  " << fitaEscrita << ":\t" << ftell(fitas[fitaEscrita].arquivo) << endl;
+    //     fseek(fitas[fitaEscrita].arquivo, bytesAtuais, SEEK_SET);
+    // }
 
     flushFitas(fitas);
     return true;
@@ -254,7 +260,7 @@ bool continuaIntercalacao(Fita *fitas, bool fitaIntercalada) {
     return false;
 }
 
-int menorElemento(Aluno *alunos, int *vetorAlunoValido) {
+int menorElemento(Aluno *alunos, int *vetorAlunoValido, Desempenho *desempenhoIntercalacao) {
 
     int indiceMenor;
 
@@ -266,6 +272,9 @@ int menorElemento(Aluno *alunos, int *vetorAlunoValido) {
     }
 
     for(int i = indiceMenor + 1; i < TAMANHO_MEMORIA_INTERNA; i++) {
+
+        desempenhoIntercalacao->comparacoes += 1;
+
         if(alunos[i].nota < alunos[indiceMenor].nota && vetorAlunoValido[i] > 0) {
             indiceMenor = i;
         }
@@ -293,93 +302,6 @@ bool temAlunoValido(int *vetorAlunoValido) {
     }
     
     return false;
-}
-
-// Blocos --------------------------------------------------
-
-void criaBlocosOrdenacaoInterna(Fita *fitas, Desempenho *desempenho, char *nomeArquivoBinario) {
-
-    FILE *arquivoBinario;
-
-    // Retorna caso não seja possível abrir o arquivo binário
-    if((arquivoBinario = fopen(nomeArquivoBinario, "rb+")) == NULL) {
-        cout << "Erro na abertura do arquivo binário.\n";
-        return;
-    }
-    
-    Bloco blocoLido;
-    int numeroFitaAtual = 0;
-
-    // Lê os alunos enquanto a quantidade de alunos é válida
-    do {
-        blocoLido.numeroAlunos = fread(blocoLido.alunos, sizeof(Aluno), TAMANHO_INICIAL_BLOCO, arquivoBinario);
-        // cout << "Número de alunos: " << blocoLido.numeroAlunos << endl;
-
-        // Ordena o bloco lido internamente
-        mergeSort(blocoLido.alunos, 0, blocoLido.numeroAlunos - 1);
-
-        // cout << "--------------------\n";
-
-        // for(int i = 0; i < blocoLido.numeroAlunos; i++) {
-        //     cout << blocoLido.alunos[i].nota << endl;
-        // }
-
-        // cout << "--------------------\n";
-
-        // cout << "Número da fita atual: " << numeroFitaAtual << endl;
-
-        // Se o bloco é válido, adiciona-o na fita
-        if(blocoLido.numeroAlunos > 0) {
-            adicionaBloco(&fitas[numeroFitaAtual % 20], &blocoLido);
-            numeroFitaAtual++;
-        }
-    } while(blocoLido.numeroAlunos != 0);
-}
-
-int maxBlocos(Fita *fitas) {
-
-    int maxBlocos = -1;
-    
-    for(int i = 0; i < NUMERO_FITAS; i++) {
-        if(fitas[i].numeroBlocos > maxBlocos)
-            maxBlocos = fitas[i].numeroBlocos;
-    }
-
-    return maxBlocos;
-}
-
-// Fitas --------------------------------------------------
-
-void reiniciaPonteirosFitas(Fita *fitas) {
-
-    for(int i = 0; i < NUMERO_FITAS; i++) {
-        rewind(fitas[i].arquivo);
-    }
-}
-
-void apagaFitasSaida(Fita *fitas, bool fitasAlternada) {
-
-    for(int i = 0; i < NUMERO_FITAS / 2; i++) {
-
-        // Se as fitas foram alternadas, as de saída são as f primeiras
-        if(fitasAlternada) {
-            fitas[i].arquivo = freopen(NULL, "wb+", fitas[i].arquivo);
-            fitas[i].numeroBlocos = 0;
-        }
-        
-        // Senão, são as f últimas
-        else {
-            fitas[i + 20].arquivo = freopen(NULL, "wb+", fitas[i + 20].arquivo);
-            fitas[i + 20].numeroBlocos = 0;
-        }
-    }
-}
-
-void fechaFitas(Fita *fitas) {
-
-    for(int i = 0; i < NUMERO_FITAS; i++) {
-        fclose(fitas[i].arquivo);
-    }
 }
 
 // Qual fita escrever

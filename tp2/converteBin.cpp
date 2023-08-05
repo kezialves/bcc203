@@ -63,7 +63,6 @@ bool textoParaBinario(char *nomeArquivoTexto, char **nomeArquivoBinario, Argumen
         // e assim podemos ler o curso normalmente.
         fscanf(arquivoTexto, "%[ ]", aluno.curso);
         fgets(aluno.curso, MAX_CURSO, arquivoTexto);
-        
 
         //removendo o \n que vem junto do fgets
         aluno.curso[strlen(aluno.curso) - 2] = '\0';
@@ -107,13 +106,12 @@ char *trocaExtensao(char *nomeArquivoTexto) {
     return nomeArquivoBinario;
 }
 
-
 bool binarioParaTexto(char *nomeArquivoBinario, char *nomeArquivoTexto, Argumentos *argumentos){
 
     FILE *arquivoTexto, *arquivoBinario;
     Aluno aluno;
 
-     // Verifica se foi possível abrir o arquivo binario
+    // Verifica se foi possível abrir o arquivo binario
     // Caso contrário, retorna falso
     if((arquivoBinario = fopen(nomeArquivoBinario,"rb")) == NULL) {
         cout << "Erro na abertura do arquivo Binario.\n";
