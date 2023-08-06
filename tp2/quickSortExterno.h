@@ -7,40 +7,49 @@
 
 #define TAMANHO_AREA 20
 
+// Estrutura de dados da área do QuickSort
 typedef struct {
     Aluno alunos[TAMANHO_AREA];
     int numeroAlunos = 0;
 } Area;
 
-void ordenaQuickSort(char*, Argumentos *, Desempenho *);
+// Parte iterativa do QuickSort externo
+void ordenaQuickSort(char*, Argumentos*, Desempenho*);
 
-void quickSortExterno(FILE**, FILE**, FILE**, int, int, Desempenho *);
+// Parte recursiva do QuickSort externo
+void quickSortExterno(FILE**, FILE**, FILE**, int, int, Desempenho*);
 
-void particao(FILE**, FILE**, FILE**, Area, int, int, int*, int*, Desempenho *);
+// Faz uma partição
+void particao(FILE**, FILE**, FILE**, Area, int, int, int*, int*, Desempenho*);
 
+// Cria uma área vazia
 void fazAreaVazia(Area*);
 
-void leSuperior(FILE**, Aluno*, int*, bool*, Desempenho *);
-
-void leInferior(FILE**, Aluno*, int*, bool*, Desempenho *);
-
-void inserirArea(Area*, Aluno*, int*, Desempenho *);
-
-void escreveMaximo(FILE**, Aluno, int*, Desempenho *);
-
-void escreveMinimo(FILE**, Aluno, int*, Desempenho *);
-
-void retiraMaximo(Area*, Aluno*, int*);
-
-void retiraMinimo(Area*, Aluno*, int*);
-
+// Retorna a quantidade de células ocupadas na área
 int obterNumCelOcupadas(Area*);
 
-void insereItem(Aluno*, Area*, Desempenho *);
+// Realiza uma leitura inferior
+void leInferior(FILE**, Aluno*, int*, bool*, Desempenho*);
 
-void retiraPrimeiro(Area *, Aluno *);
+// Realiza uma leitura superior
+void leSuperior(FILE**, Aluno*, int*, bool*, Desempenho*);
 
-void retiraUltimo(Area *, Aluno *);
+// Insere o último aluno lido na área
+void inserirArea(Area*, Aluno*, int*, Desempenho*);
+void insereItem(Aluno*, Area*, Desempenho*);
 
+// Realiza uma escrita inferior
+void escreveMinimo(FILE**, Aluno, int*, Desempenho*);
+
+// Realiza uma escrita superior
+void escreveMaximo(FILE**, Aluno, int*, Desempenho*);
+
+// Retira o menor aluno da área
+void retiraMinimo(Area*, Aluno*, int*);
+void retiraUltimo(Area*, Aluno*);
+
+// Retira o maior aluno da área
+void retiraMaximo(Area*, Aluno*, int*);
+void retiraPrimeiro(Area*, Aluno*);
 
 #endif

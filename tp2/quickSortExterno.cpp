@@ -1,9 +1,11 @@
+// Esse arquivo tem como objetivo definir as funções do quicksort externo
+
 #include <iostream>
 #include <limits>
 #include <chrono>
 
 #include "quickSortExterno.h"
-#include "converteBin.h"
+#include "binarios.h"
 #include "desempenho.h"
 
 using namespace std;
@@ -233,7 +235,6 @@ void inserirArea(Area *area, Aluno *ultimoAlunoLido, int *numeroAlunosArea, Dese
     *numeroAlunosArea = obterNumCelOcupadas(area);
 }
 
-
 void insereItem(Aluno *ultimoAlunoLido, Area *area, Desempenho *desempenho){
 
     if(area->numeroAlunos >= TAMANHO_AREA)
@@ -277,13 +278,8 @@ void escreveMaximo(FILE **arquivoLeituraEscritaSuperior, Aluno aluno, int *escri
     (*escritaSuperior)--;
 }
 
-void retiraMinimo(Area* area, Aluno* aluno, int* numeroAlunosArea){
+void retiraMinimo(Area *area, Aluno *aluno, int *numeroAlunosArea){
     retiraPrimeiro(area, aluno);
-    *numeroAlunosArea = obterNumCelOcupadas(area);
-}
-
-void retiraMaximo(Area* area, Aluno* aluno, int *numeroAlunosArea){
-    retiraUltimo(area, aluno);
     *numeroAlunosArea = obterNumCelOcupadas(area);
 }
 
@@ -296,6 +292,11 @@ void retiraPrimeiro(Area *area, Aluno *aluno){
     }
 
     (area->numeroAlunos)--;
+}
+
+void retiraMaximo(Area *area, Aluno *aluno, int *numeroAlunosArea){
+    retiraUltimo(area, aluno);
+    *numeroAlunosArea = obterNumCelOcupadas(area);
 }
 
 void retiraUltimo(Area *area, Aluno *aluno){

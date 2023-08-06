@@ -1,3 +1,6 @@
+// Esse arquivo é responsável por definir as funções utilizadas no processo de ciração dos blocos inicialmente
+// ordenados
+
 #include <stdio.h>
 
 #include "ordenacaoInterna.h"
@@ -29,30 +32,23 @@ void criaBlocosOrdenacaoInterna(Fita *fitas, char *nomeArquivoBinario, Desempenh
     Bloco blocoLido;
     int numeroFitaAtual = 0;
 
-    // Lê os alunos enquanto a quantidade de alunos é válida
+    // Lê um bloco de alunos, ordena e os adicionam na fita.
+    // O processo se repete enquanto houverem alunos no arquivo original (enquanto conseguir ler alunos)
     do {
+
+        // Lê o bloco do arquivo original e armazena a quantidade de alunos lidos em uma variável
         blocoLido.numeroAlunos = fread(blocoLido.alunos, sizeof(Aluno), TAMANHO_INICIAL_BLOCO, arquivoBinario);
         desempenhoCriacao->transferenciasLeitura += 1;
-        // cout << "Número de alunos: " << blocoLido.numeroAlunos << endl;
 
         // Ordena o bloco lido internamente
         mergeSort(blocoLido.alunos, 0, blocoLido.numeroAlunos - 1, desempenhoCriacao);
 
-        // cout << "--------------------\n";
-
-        // for(int i = 0; i < blocoLido.numeroAlunos; i++) {
-        //     cout << blocoLido.alunos[i].nota << endl;
-        // }
-
-        // cout << "--------------------\n";
-
-        // cout << "Número da fita atual: " << numeroFitaAtual << endl;
-
-        // Se o bloco é válido, adiciona-o na fita
+        // Se o bloco é válido (tem alunos no bloco), adiciona-o na fita e passa para a próxima
         if(blocoLido.numeroAlunos > 0) {
             adicionaBloco(&fitas[numeroFitaAtual % 20], &blocoLido, desempenhoCriacao);
             numeroFitaAtual++;
         }
+
     } while(blocoLido.numeroAlunos != 0);
 
     auto stop = high_resolution_clock::now();

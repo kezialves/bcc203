@@ -1,9 +1,11 @@
+// Esse arquivo é responsável por definir as funções utilizada nos processo de intercalação da ordenação externa
+
 #include <stdio.h>
 
 #include "aluno.h"
 #include "intercalacaoBalanceada.h"
 #include "merge.h"
-#include "converteBin.h"
+#include "binarios.h"
 #include "ordenacaoInterna.h"
 #include "selecaoSubstituicao.h"
 
@@ -31,15 +33,22 @@ bool ordenaIntercalacaoBalanceada(Argumentos *argumentos, char *nomeArquivoBinar
     
     auto start = high_resolution_clock::now();
     
+    // Equanto ainda existirem blocos a serem intercalados, continua o processo de intercalação
+    // (cada iteração desse loop realiza a intercalação de todos os blocos das fitas de entrada)
     while(continuaIntercalacao(fitas, fitaIntercalada)) {
 
         flushFitas(fitas);
         reiniciaPonteirosFitas(fitas);
 
+        // Apaga o conteúdo das fitas de saída, já que elas não serão mais usadas nesse processo, só as de entrada
         apagaFitasSaida(fitas, fitaIntercalada);
         
+        // Pega o número de blocos da fita que tem mais blocos
         int numeroBlocos = maxBlocos(fitas, fitaIntercalada);
 
+        // Realiza a intercalação dos blocos, cada iteração desse loop realiza a intercalação completa de blocos
+        // que estão no mesmo índice da fita. Ex: na primeira iteração intercala o primeiro bloco de todas as fitas de entrada,
+        // na segunda, os segundos, e assim por diante...
         for(int i = 0; i < numeroBlocos; i++) {
             intercala(fitas, i + 1, fitaIntercalada, desempenhoIntercalacao);
             flushFitas(fitas);
@@ -105,49 +114,68 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada, Desempen
     Aluno alunos[20]; // Memória principal
 
     // Calcula em qual fita a gente deve escrever
-    // ((contador + f fitas) % (2f fitas)) + 1
+    // (((contador % f fitas) + f fitas) % (2f fitas))
     // BlocoAIntercalar - 1 é pq a gente precisa do contador, mas estamos passando o contador + 1 na função de fora
     // *Essa conta está explicada mais detalhadamente no PC do Bruno*
-    // FUNCIONA!!! (JÁ FOI TESTADO, SE DEU ERRADO FOI NA HORA DE INVERTER)
     int fitaEscrita = ((((blocoAIntercalar - 1) % (NUMERO_FITAS / 2)) + (NUMERO_FITAS / 2)) % (NUMERO_FITAS));
 
+    // Recalcula qual fita deve ser escrita se as fitas de entrada virarem as fitas de saída e vice-versa.
     if(fitaIntercalada)
         fitaEscrita -= (NUMERO_FITAS / 2);
  
+    // Calcula de onde começam as fitas de entrada, caso haja a intercalação, as fitas de saída viram as de entrada
     int inicioFitasEntrada = 0;
-
     if(fitaIntercalada)
         inicioFitasEntrada = 20;
 
+    // Percorre as fitas de entrada
     for(int i = inicioFitasEntrada; i < inicioFitasEntrada + (NUMERO_FITAS / 2); i++) {
         
+        // Verifica se a fita possui o bloco que está sendo ordenado no momento,
+        // caso ela não possua, a fita não é usada nessa iteração da intercalação,
+        // recebendo 0 no vetor de controle que indica isso.
         if(fitas[i].numeroBlocos < blocoAIntercalar) {
             vetorControle[i] = 0;
             continue;
         }
 
+        // Caso a fita possua o bloco a ser ordenado nessa etapa, lê a quantidade de alunos
+        // que a fita tem nesse bloco, e quarda no vetor de controle
         fread(&(vetorControle[i % (NUMERO_FITAS / 2)]), sizeof(int), 1, fitas[i].arquivo);
         desempenhoIntercalacao->transferenciasLeitura += 1;
     }
 
+    // Pega a soma do vetor de controle, que vai ser a quantidade de alunos totais a serem
+    // intercalados na presente etapa de intercalação do bloco. Com essa soma, é possível
+    // escrever a quantidade de alunos no bloco resultante da intercalação na fita de saída mais facilmente
     int soma = somaVetorControle(vetorControle);
 
-    fitas[fitaEscrita].numeroBlocos++; // APENAS INCREMENTAR! NÃO DEFINIR COMO 1.
+    // Incremente a quantidade de blocos na fita de saída, já que estamos prestes a escrever um bloco
+    fitas[fitaEscrita].numeroBlocos++; 
 
+    // Escreve a quantidade de alunos no bloco da fita de saída (soma explicada anteriormente)
     fwrite(&soma, sizeof(int), 1, fitas[fitaEscrita].arquivo);
     desempenhoIntercalacao->transferenciasEscrita += 1;
 
+    // Percorre as fitas de entrada
     for(int i = inicioFitasEntrada; i < inicioFitasEntrada + (NUMERO_FITAS / 2); i++) {
+
+        // Se ainda houverem alunos para ler no bloco da fita de entrada, lê o aluno,
+        // seta o aluno como válido e decrementa o número de alunos que precisam ler lido do bloco da fita de entrada
         if(vetorControle[i % (NUMERO_FITAS / 2)] > 0) {
+
             fread(&alunos[i % (NUMERO_FITAS / 2)], sizeof(Aluno), 1, fitas[i].arquivo);
             desempenhoIntercalacao->transferenciasLeitura += 1;
+
             vetorAlunoValido[i % (NUMERO_FITAS / 2)] = 1;
+        
             vetorControle[i % (NUMERO_FITAS / 2)]--;
+
         }
+
     }
 
-    int contadorarbitrario = 0;
-    
+    // Equanto houverem alunos válidos no vetor de alunos válidos
     while(temAlunoValido(vetorAlunoValido)) {
 
         int offsetLeituraAlteranada = 0;
@@ -155,42 +183,29 @@ bool intercala(Fita* fitas, int blocoAIntercalar, bool fitaIntercalada, Desempen
         if(fitaIntercalada)
             offsetLeituraAlteranada = NUMERO_FITAS / 2;
 
-        contadorarbitrario++;
-
+        // Descobre qual é o índice do menor aluno em memória principal
         int indiceMenorElemento = menorElemento(alunos, vetorAlunoValido, desempenhoIntercalacao);
 
-        // cout << "Menor Elemento: " << indiceMenorElemento << endl;
-
-        // cout << "Vetor controle: [";
-        // for(int i = 0; i < 5; i++) {
-        //     cout << vetorControle[i] << " ";
-        // }
-        // cout << "]" << endl;
-
-        // cout << "Vetor alunosValidos: [";
-        // for(int i = 0; i < 5; i++) {
-        //     cout << vetorAlunoValido[i] << " ";
-        // }
-        // cout << "]" << endl;
-
-        // cout << "Vetor de alunos: [";
-        // for(int i = 0; i < 5; i++) {
-        //     cout << alunos[i].nota << " ";
-        // }
-        // cout << "]" << endl;
-       
+        // Pega o menor aluno
         Aluno aluno = alunos[indiceMenorElemento];
 
+        // Escreve o aluno na fita de saída e invalida a posição no vetor, por enquanto
         fwrite(&aluno, sizeof(Aluno), 1, fitas[fitaEscrita].arquivo);
         desempenhoIntercalacao->transferenciasEscrita += 1;
         vetorAlunoValido[indiceMenorElemento] = 0;
         
+        // Se ainda houverem mais alunos para serem lidos na fita de entrada do aluno que acabamos de escrever,
+        // lemos mais um aluno, setamos a posição do vetor como válida novamente, e decrementamos a quantidade de alunos
+        // que precisam ser lidos desse bloco dessa fita de entrada
         if(vetorControle[indiceMenorElemento] > 0) {
+
             fread(&alunos[indiceMenorElemento], sizeof(Aluno), 1, fitas[indiceMenorElemento + offsetLeituraAlteranada].arquivo);
             desempenhoIntercalacao->transferenciasLeitura += 1;
             vetorAlunoValido[indiceMenorElemento] = 1;
             vetorControle[indiceMenorElemento]--;
+
         }
+
     }
 
     flushFitas(fitas);
@@ -224,6 +239,7 @@ int menorElemento(Aluno *alunos, int *vetorAlunoValido, Desempenho *desempenhoIn
 
     int indiceMenor;
 
+    // começa o menor aluno como sendo o primeiro aluno válido do vetor
     for(int i = 0; i < NUMERO_FITAS; i++) {
         if(vetorAlunoValido[i] > 0) {
             indiceMenor = i;
@@ -231,6 +247,8 @@ int menorElemento(Aluno *alunos, int *vetorAlunoValido, Desempenho *desempenhoIn
         }
     }
 
+    // Percorre a memória interna, a partir do menor aluno definido anteriormente,
+    // e descobre qual é o menor aluno, retornando o índice dele no final
     for(int i = indiceMenor + 1; i < TAMANHO_MEMORIA_INTERNA; i++) {
 
         desempenhoIntercalacao->comparacoes += 1;

@@ -7,7 +7,7 @@
 
 #include "argumentos.h"
 #include "aluno.h"
-#include "converteBin.h"
+#include "binarios.h"
 #include "desempenho.h"
 #include "fitas.h"
 #include "quickSortExterno.h"
@@ -15,9 +15,6 @@
 
 using namespace std;
 using namespace std::chrono;
-
-void geraBinario(Argumentos*, char**);
-void imprimeRegistrosBinario(char*);
 
 int main(int argc, char *argv[]) {
 
@@ -53,7 +50,7 @@ int main(int argc, char *argv[]) {
     // Informa erro quando o número do método é inválido
     if(argumentos.metodoOrdenacao < 1 || argumentos.metodoOrdenacao > 3) {
         cout << "Valor inválido. Os métodos são:\n"
-            << "1 - Intercalação balanceada de vários caminhos (2f fitas), utilizando o mergesort para ordenação;\n"
+            << "1 - Intercalação balanceada de vários caminhos (2f fitas), utilizando o MergeSort para ordenação;\n"
             << "2 - Intercalação balanceada de vários caminhos (2f fitas), utilizando seleção por substituição.\n"
             << "3 - Quicksort externo;\n";
         return 0;
@@ -97,6 +94,9 @@ int main(int argc, char *argv[]) {
                  << "\t\tQuantidade de comparações: " << desempenhoIntercalacao.comparacoes << endl
                  << "\t\tQuantidade de transferências de leitura: " << desempenhoIntercalacao.transferenciasLeitura << endl
                  << "\t\tQuantidade de transferências de escrita: " << desempenhoIntercalacao.transferenciasEscrita << endl;
+
+                // cout << endl << "-------------TABELA LATEX-------------\n\n";
+                // printTabelaLatex(&argumentos, &desempenhoCriacao, &desempenhoIntercalacao);
             break;
 
         case 2:
@@ -115,6 +115,9 @@ int main(int argc, char *argv[]) {
                  << "\t\tQuantidade de comparações: " << desempenhoIntercalacao.comparacoes << endl
                  << "\t\tQuantidade de transferências de leitura: " << desempenhoIntercalacao.transferenciasLeitura << endl
                  << "\t\tQuantidade de transferências de escrita: " << desempenhoIntercalacao.transferenciasEscrita << endl;
+
+                // cout << endl << "-------------TABELA LATEX-------------\n\n";
+                // printTabelaLatex(&argumentos, &desempenhoCriacao, &desempenhoIntercalacao);
             break;
 
         case 3:
@@ -128,63 +131,13 @@ int main(int argc, char *argv[]) {
                 << "\n\tQuantidade de comparações: " << desempenho.comparacoes
                 << "\n\tQuantidade de transferências de leitura: " << desempenho.transferenciasLeitura
                 << "\n\tQuantidade de transferências de escrita: " << desempenho.transferenciasEscrita;
+
+                // cout << endl << "-------------TABELA LATEX-------------\n\n";
+                // printTabelaLatex(&argumentos, &desempenho, &desempenho);
             break;
     }
 
     free(nomeArquivoBinario);
 
     return 0;
-}
-
-void geraBinario(Argumentos *argumentos, char **nomeArquivoBinario) {
-
-    char *nomeArquivoTexto = (char*) malloc(50 * sizeof(char));
-    // char *nomeArquivoBinario = NULL;
-
-    switch(argumentos->tipoOrdenacao) {
-
-        case 1:
-            strcpy(nomeArquivoTexto, "provaoCrescente.txt");
-            *nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
-            break;
-    
-        case 2:
-            strcpy(nomeArquivoTexto, "provaoDecrescente.txt");
-            *nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
-            break;
-    
-        case 3:
-            strcpy(nomeArquivoTexto, "provaoAleatorio.txt");
-            *nomeArquivoBinario = trocaExtensao(nomeArquivoTexto);
-            break;
-    }
-
-    textoParaBinario(nomeArquivoTexto, nomeArquivoBinario, argumentos);
-    // imprimeRegistrosBinario(nomeArquivoBinario);
-
-    free(nomeArquivoTexto);
-}
-
-void imprimeRegistrosBinario(char *nomeArquivoBinario) {
-    
-    FILE *arquivoBinario;
-    Aluno aluno;
-
-    // Tenta abrir o arquivo binário e retorna erro caso não consiga
-    if((arquivoBinario = fopen(nomeArquivoBinario, "rb")) == NULL) {
-        cout << "Erro na abertura do arquivo binário para impressão dos registros.\n";
-        return;
-    }
-
-    // Imprime os registros
-    while(fread(&aluno, sizeof(Aluno), 1, arquivoBinario)) {
-        /* cout << aluno.numeroInscricao << "|" << aluno.nota << "|" << aluno.estado << "|" << 
-        aluno.cidade << "|" << aluno.curso << "|\n"; */
-        printf("%08ld %04.1f %s %-25s %40s\n", aluno.numeroInscricao, aluno.nota, aluno.estado, aluno.cidade, aluno.curso);
-    }
-
-    cout << endl;
-
-    fclose(arquivoBinario);
-    return;
 }

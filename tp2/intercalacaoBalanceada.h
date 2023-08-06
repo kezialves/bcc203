@@ -8,8 +8,12 @@
 
 #define TAMANHO_MEMORIA_INTERNA 20
 
+// 
 bool ordenaIntercalacaoBalanceada(Argumentos*, char*, Desempenho*, Desempenho*);
 
+// Realiza a intercalação dos blocos, cada chamada dessa função realiza a intercalação completa de blocos
+// que estão no mesmo índice da fita. Ex: na primeira iteração intercala o primeiro bloco de todas as fitas de entrada,
+// na segunda, os segundos, e assim por diante...
 bool intercala(Fita*, int, bool, Desempenho*);
 
 // Retorna se a intercalação deve continuar ou não

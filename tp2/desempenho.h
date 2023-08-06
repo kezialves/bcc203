@@ -3,6 +3,8 @@
 
 #include <chrono>
 
+#include "argumentos.h"
+
 using namespace std::chrono;
 
 // Estrutra de dados das variáveis de controle de performance
@@ -12,5 +14,7 @@ typedef struct {
     int comparacoes = 0;
     nanoseconds tempoExecucao;
 } Desempenho;
+
+void printTabelaLatex(Argumentos*, Desempenho*, Desempenho*);
 
 #endif
